@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaga Express</title>
+    <link rel="icon" href="assets/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header id="cabeçalho">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="Logo do site" height="50px">
+        </div>
+        <div class="text-container">
+            <h1>Vaga Express</h1>
+            <p>Reserva de vagas rápida e fácil</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Reservas</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="actions">
+            <button>Login</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="hero">
+                <h1>Bem-Vindo ao Vaga Express!</h1>
+                <p>Sua solução rápida e fácil para reservas de vagas em hotéis. Encontre o hotel perfeito com preços acessíveis e confirme sua reserva em minutos.</p>
+                <button class="cta-button">Reservar Agora</button>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <h3>Rápido</h3>
+                    <p>Reserve em poucos cliques.</p>
+                </div>
+                <div class="feature">
+                    <h3>Fácil</h3>
+                    <p>Interface intuitiva para todos.</p>
+                </div>
+                <div class="feature">
+                    <h3>Confiável</h3>
+                    <p>Hotéis verificados e seguros.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="reservas">
+            <h2>Reservas de Hotéis no Paraná</h2>
+            <div class="filtros">
+                <form id="filtro-form">
+                    <label for="cidade">Cidade:</label>
+                    <select id="cidade" name="cidade">
+                        <option value="">Todas</option>
+                        <option value="apucarana">Apucarana</option>
+                        <option value="curitiba">Curitiba</option>
+                        <option value="londrina">Londrina</option>
+                        <option value="maringa">Maringá</option>
+                        <option value="foz-do-iguacu">Foz do Iguaçu</option>
+                        <option value="cascavel">Cascavel</option>
+                        <option value="paranavai">Paranavaí</option>
+                        <option value="ponta-grossa">Ponta Grossa</option>
+                    </select>
+                    
+                    <label for="ordenar">Ordenar por:</label>
+                    <select id="ordenar" name="ordenar">
+                        <option value="relevancia">Relevância</option>
+                        <option value="avaliacao">Melhor Avaliado</option>
+                        <option value="preco">Mais Barato</option>
+                        <option value="distancia">Mais Próximo</option>
+                    </select>
+                    
+                    <label for="checkin">Check-in:</label>
+                    <input type="date" id="checkin" name="checkin">
+                    
+                    <label for="checkout">Check-out:</label>
+                    <input type="date" id="checkout" name="checkout">
+                    
+                    <label for="quartos">Quartos:</label>
+                    <input type="number" id="quartos" name="quartos" min="1" value="1">
+                    
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div class="resultados">
+                <div class="hotel-card">
+                    <img src="assets/hotel1.jpg" alt="Hotel Centro Curitiba">
+                    <h3>Hotel Centro Curitiba</h3>
+                    <p>Curitiba - 4.5 estrelas</p>
+                    <p>A partir de R$ 150/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel2.jpg" alt="Pousada Londrina">
+                    <h3>Pousada Londrina</h3>
+                    <p>Londrina - 4.0 estrelas</p>
+                    <p>A partir de R$ 120/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel3.jpg" alt="Hotel Maringá Plaza">
+                    <h3>Hotel Maringá Plaza</h3>
+                    <p>Maringá - 4.2 estrelas</p>
+                    <p>A partir de R$ 140/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel4.jpg" alt="Resort Foz do Iguaçu">
+                    <h3>Resort Foz do Iguaçu</h3>
+                    <p>Foz do Iguaçu - 5.0 estrelas</p>
+                    <p>A partir de R$ 250/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel5.jpg" alt="Hotel Cascavel">
+                    <h3>Hotel Cascavel</h3>
+                    <p>Cascavel - 3.8 estrelas</p>
+                    <p>A partir de R$ 110/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel6.jpg" alt="Pousada Ponta Grossa">
+                    <h3>Pousada Ponta Grossa</h3>
+                    <p>Ponta Grossa - 4.1 estrelas</p>
+                    <p>A partir de R$ 130/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel7.jpg" alt="Hotel Apucarana">
+                    <h3>Hotel Apucarana</h3>
+                    <p>Apucarana - 3.5 estrelas</p>
+                    <p>A partir de R$ 100/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel8.jpg" alt="Hotel Paranavaí">
+                    <h3>Hotel Paranavaí</h3>
+                    <p>Paranavaí - 4.3 estrelas</p>
+                    <p>A partir de R$ 160/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel9.jpg" alt="Centro Hotel Curitiba 2">
+                    <h3>Centro Hotel Curitiba 2</h3>
+                    <p>Curitiba - 4.7 estrelas</p>
+                    <p>A partir de R$ 180/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel10.jpg" alt="Pousada Londrina Norte">
+                    <h3>Pousada Londrina Norte</h3>
+                    <p>Londrina - 3.9 estrelas</p>
+                    <p>A partir de R$ 115/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel11.jpg" alt="Hotel Maringá Central">
+                    <h3>Hotel Maringá Central</h3>
+                    <p>Maringá - 4.4 estrelas</p>
+                    <p>A partir de R$ 155/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel12.jpg" alt="Eco Resort Foz">
+                    <h3>Eco Resort Foz</h3>
+                    <p>Foz do Iguaçu - 4.8 estrelas</p>
+                    <p>A partir de R$ 220/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel13.jpg" alt="Hotel Cascavel Sul">
+                    <h3>Hotel Cascavel Sul</h3>
+                    <p>Cascavel - 4.0 estrelas</p>
+                    <p>A partir de R$ 125/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel14.jpg" alt="Pousada Ponta Grossa Verde">
+                    <h3>Pousada Ponta Grossa Verde</h3>
+                    <p>Ponta Grossa - 3.7 estrelas</p>
+                    <p>A partir de R$ 105/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel15.jpg" alt="Hotel Apucarana Plaza">
+                    <h3>Hotel Apucarana Plaza</h3>
+                    <p>Apucarana - 4.6 estrelas</p>
+                    <p>A partir de R$ 170/noite</p>
+                    <button>Reservar</button>
+                </div>
+                <div class="hotel-card">
+                    <img src="assets/hotel16.jpg" alt="Hotel Paranavaí Lago">
+                    <h3>Hotel Paranavaí Lago</h3>
+                    <p>Paranavaí - 4.2 estrelas</p>
+                    <p>A partir de R$ 145/noite</p>
+                    <button>Reservar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

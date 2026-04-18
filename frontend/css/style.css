@@ -1,0 +1,250 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Header */
+#cabeçalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo-container img {
+    height: 50px;
+}
+
+.text-container {
+    flex: 1;
+    margin-left: 20px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin: 0 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.actions button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.actions button:hover {
+    background-color: #0056b3;
+}
+
+/* Section Home */
+#home {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.hero {
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    background-color: #218838;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.feature {
+    flex: 1;
+    min-width: 200px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.feature h3 {
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #cabeçalho {
+        flex-direction: column;
+        text-align: center;
+    }
+    .text-container {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    nav ul {
+        margin-top: 10px;
+    }
+    .features {
+        flex-direction: column;
+    }
+}
+
+/* Section Reservas */
+#reservas {
+    padding: 50px 20px;
+    background-color: #f8f9fa;
+}
+
+#reservas h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.filtros {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+#filtro-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+#filtro-form label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+#filtro-form select,
+#filtro-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+#filtro-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#filtro-form button:hover {
+    background-color: #0056b3;
+}
+
+.resultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.hotel-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+}
+
+.hotel-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.hotel-card h3 {
+    margin: 15px 0 10px;
+    color: #333;
+}
+
+.hotel-card p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.hotel-card button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.hotel-card button:hover {
+    background-color: #218838;
+}
+
+/* Responsividade para reservas */
+@media (max-width: 768px) {
+    #filtro-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .resultados {
+        grid-template-columns: 1fr;
+    }
+}
