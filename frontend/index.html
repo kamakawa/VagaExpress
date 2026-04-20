@@ -20,6 +20,7 @@
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#minhas-reservas">Minhas Reservas</a></li>
                 <li><a href="#sobre">Sobre Nós</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>
@@ -61,28 +62,28 @@
                         <h3>Resort Foz do Iguaçu</h3>
                         <p>Foz do Iguaçu - 5.0 estrelas</p>
                         <p>A partir de R$ 250/noite</p>
-                        <button class="carrossel-reservar">Reservar</button>
+                        <button class="carrossel-reservar" type="button" data-hotel-id="4">Reservar</button>
                     </div>
                     <div class="carrossel-item">
                         <img src="assets/hotel9.jpg" alt="Centro Hotel Curitiba 2">
                         <h3>Centro Hotel Curitiba 2</h3>
                         <p>Curitiba - 4.7 estrelas</p>
                         <p>A partir de R$ 180/noite</p>
-                        <button class="carrossel-reservar">Reservar</button>
+                        <button class="carrossel-reservar" type="button" data-hotel-id="9">Reservar</button>
                     </div>
                     <div class="carrossel-item">
                         <img src="assets/hotel12.jpg" alt="Eco Resort Foz">
                         <h3>Eco Resort Foz</h3>
                         <p>Foz do Iguaçu - 4.8 estrelas</p>
                         <p>A partir de R$ 220/noite</p>
-                        <button class="carrossel-reservar">Reservar</button>
+                        <button class="carrossel-reservar" type="button" data-hotel-id="12">Reservar</button>
                     </div>
                     <div class="carrossel-item">
                         <img src="assets/hotel15.jpg" alt="Hotel Apucarana Plaza">
                         <h3>Hotel Apucarana Plaza</h3>
                         <p>Apucarana - 4.6 estrelas</p>
                         <p>A partir de R$ 170/noite</p>
-                        <button class="carrossel-reservar">Reservar</button>
+                        <button class="carrossel-reservar" type="button" data-hotel-id="15">Reservar</button>
                     </div>
                 </div>
             </div>
@@ -95,14 +96,14 @@
                     <label for="cidade">Cidade:</label>
                     <select id="cidade" name="cidade">
                         <option value="">Todas</option>
-                        <option value="apucarana">Apucarana</option>
-                        <option value="curitiba">Curitiba</option>
-                        <option value="londrina">Londrina</option>
-                        <option value="maringa">Maringá</option>
-                        <option value="foz-do-iguacu">Foz do Iguaçu</option>
-                        <option value="cascavel">Cascavel</option>
-                        <option value="paranavai">Paranavaí</option>
-                        <option value="ponta-grossa">Ponta Grossa</option>
+                        <option value="Apucarana">Apucarana</option>
+                        <option value="Curitiba">Curitiba</option>
+                        <option value="Londrina">Londrina</option>
+                        <option value="Maringá">Maringá</option>
+                        <option value="Foz do Iguaçu">Foz do Iguaçu</option>
+                        <option value="Cascavel">Cascavel</option>
+                        <option value="Paranavaí">Paranavaí</option>
+                        <option value="Ponta Grossa">Ponta Grossa</option>
                     </select>
                     
                     <label for="ordenar">Ordenar por:</label>
@@ -131,112 +132,112 @@
                     <h3>Hotel Centro Curitiba</h3>
                     <p>Curitiba - 4.5 estrelas</p>
                     <p>A partir de R$ 150/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="1">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel2.jpg" alt="Pousada Londrina">
                     <h3>Pousada Londrina</h3>
                     <p>Londrina - 4.0 estrelas</p>
                     <p>A partir de R$ 120/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="2">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel3.jpg" alt="Hotel Maringá Plaza">
                     <h3>Hotel Maringá Plaza</h3>
                     <p>Maringá - 4.2 estrelas</p>
                     <p>A partir de R$ 140/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="3">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel4.jpg" alt="Resort Foz do Iguaçu">
                     <h3>Resort Foz do Iguaçu</h3>
                     <p>Foz do Iguaçu - 5.0 estrelas</p>
                     <p>A partir de R$ 250/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="4">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel5.jpg" alt="Hotel Cascavel">
                     <h3>Hotel Cascavel</h3>
                     <p>Cascavel - 3.8 estrelas</p>
                     <p>A partir de R$ 110/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="5">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel6.jpg" alt="Pousada Ponta Grossa">
                     <h3>Pousada Ponta Grossa</h3>
                     <p>Ponta Grossa - 4.1 estrelas</p>
                     <p>A partir de R$ 130/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="6">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel7.jpg" alt="Hotel Apucarana">
                     <h3>Hotel Apucarana</h3>
                     <p>Apucarana - 3.5 estrelas</p>
                     <p>A partir de R$ 100/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="7">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel8.jpg" alt="Hotel Paranavaí">
                     <h3>Hotel Paranavaí</h3>
                     <p>Paranavaí - 4.3 estrelas</p>
                     <p>A partir de R$ 160/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="8">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel9.jpg" alt="Centro Hotel Curitiba 2">
                     <h3>Centro Hotel Curitiba 2</h3>
                     <p>Curitiba - 4.7 estrelas</p>
                     <p>A partir de R$ 180/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="9">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel10.jpg" alt="Pousada Londrina Norte">
                     <h3>Pousada Londrina Norte</h3>
                     <p>Londrina - 3.9 estrelas</p>
                     <p>A partir de R$ 115/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="10">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel11.jpg" alt="Hotel Maringá Central">
                     <h3>Hotel Maringá Central</h3>
                     <p>Maringá - 4.4 estrelas</p>
                     <p>A partir de R$ 155/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="11">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel12.jpg" alt="Eco Resort Foz">
                     <h3>Eco Resort Foz</h3>
                     <p>Foz do Iguaçu - 4.8 estrelas</p>
                     <p>A partir de R$ 220/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="12">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel13.jpg" alt="Hotel Cascavel Sul">
                     <h3>Hotel Cascavel Sul</h3>
                     <p>Cascavel - 4.0 estrelas</p>
                     <p>A partir de R$ 125/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="13">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel14.jpg" alt="Pousada Ponta Grossa Verde">
                     <h3>Pousada Ponta Grossa Verde</h3>
                     <p>Ponta Grossa - 3.7 estrelas</p>
                     <p>A partir de R$ 105/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="14">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel15.jpg" alt="Hotel Apucarana Plaza">
                     <h3>Hotel Apucarana Plaza</h3>
                     <p>Apucarana - 4.6 estrelas</p>
                     <p>A partir de R$ 170/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="15">Reservar</button>
                 </div>
                 <div class="hotel-card">
                     <img src="assets/hotel16.jpg" alt="Hotel Paranavaí Lago">
                     <h3>Hotel Paranavaí Lago</h3>
                     <p>Paranavaí - 4.2 estrelas</p>
                     <p>A partir de R$ 145/noite</p>
-                    <button>Reservar</button>
+                    <button type="button" data-hotel-id="16">Reservar</button>
                 </div>
             </div>
         </section>
@@ -258,6 +259,26 @@
                     <div class="numero">3</div>
                     <h3>Reserve</h3>
                     <p>Escolha o hotel perfeito e finalize a reserva em poucos cliques. Confirmação por email!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="minhas-reservas">
+            <h2>Minhas Reservas</h2>
+            <div id="reservas-container">
+                <div id="login-required" class="reservas-message">
+                    <p>Faça login para ver suas reservas.</p>
+                    <button onclick="document.getElementById('auth-modal').style.display='block'; document.body.style.overflow='hidden';">Fazer Login</button>
+                </div>
+                <div id="reservas-list" class="reservas-list hidden">
+                    <div id="loading-reservas" class="loading">Carregando suas reservas...</div>
+                    <div id="no-reservas" class="no-reservas hidden">
+                        <p>Você ainda não fez nenhuma reserva.</p>
+                        <button onclick="document.querySelector('a[href=\'#reservas\']').click()">Fazer uma Reserva</button>
+                    </div>
+                    <div id="reservas-content" class="reservas-content hidden">
+                        <!-- Reservas serão inseridas aqui dinamicamente -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -422,6 +443,31 @@
         </div>
     </div>
 
+    <!-- Modal de Reserva -->
+    <div id="reservation-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Reservar Hotel</h2>
+            <p id="reservation-hotel-name" class="reservation-hotel-name"></p>
+            <form id="reservation-form" class="auth-form">
+                <div class="form-group">
+                    <label for="reservation-checkin">Check-in</label>
+                    <input type="date" id="reservation-checkin" required>
+                </div>
+                <div class="form-group">
+                    <label for="reservation-checkout">Check-out</label>
+                    <input type="date" id="reservation-checkout" required>
+                </div>
+                <div class="form-group">
+                    <label for="reservation-quartos">Quartos</label>
+                    <input type="number" id="reservation-quartos" min="1" value="1" required>
+                </div>
+                <button type="submit" class="auth-submit">Confirmar Reserva</button>
+                <div id="reservation-message" class="message"></div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Carrossel infinito com clonagem
         const carrossel = document.getElementById('carrossel');
@@ -480,33 +526,96 @@
 
         // Sistema de Autenticação
         const API_BASE = 'http://localhost:3000/api';
-        
-        // Elementos do modal
-        const modal = document.getElementById('auth-modal');
+        const filtroForm = document.getElementById('filtro-form');
+        const resultadosContainer = document.querySelector('.resultados');
+
+        async function fetchHotels(params = {}) {
+            const query = new URLSearchParams(params);
+            const response = await fetch(`${API_BASE}/hoteis?${query.toString()}`);
+            if (!response.ok) {
+                throw new Error('Erro ao buscar hotéis');
+            }
+            return response.json();
+        }
+
+        function renderHotels(hotels) {
+            const hotelsHtml = hotels.map(hotel => {
+                const stars = '★'.repeat(hotel.estrelas || 4);
+                const imageSrc = hotel.imagem || 'assets/hotel1.jpg';
+                return `
+                    <div class="hotel-card">
+                        <img src="${imageSrc}" alt="${hotel.nome}">
+                        <h3>${hotel.nome}</h3>
+                        <p>${hotel.cidade} - ${stars}</p>
+                        <p>A partir de R$ ${hotel.preco.toFixed(2)}/noite</p>
+                        <button type="button" data-hotel-id="${hotel.id}">Reservar</button>
+                    </div>
+                `;
+            }).join('');
+
+            if (hotels.length === 0) {
+                resultadosContainer.innerHTML = '<div class="no-results"><p>Nenhum hotel encontrado para os critérios selecionados.</p></div>';
+            } else {
+                resultadosContainer.innerHTML = hotelsHtml;
+            }
+        }
+
+        async function searchHotels() {
+            const cidade = document.getElementById('cidade').value;
+            const ordenar = document.getElementById('ordenar').value;
+
+            const params = {};
+            if (cidade) params.cidade = cidade;
+
+            try {
+                let hotels = await fetchHotels(params);
+
+                if (ordenar === 'preco') {
+                    hotels.sort((a, b) => a.preco - b.preco);
+                } else if (ordenar === 'avaliacao') {
+                    hotels.sort((a, b) => (b.estrelas || 0) - (a.estrelas || 0));
+                } else if (ordenar === 'distancia') {
+                    hotels.sort((a, b) => a.nome.localeCompare(b.nome));
+                }
+
+                renderHotels(hotels);
+            } catch (error) {
+                console.error(error);
+                resultadosContainer.innerHTML = '<div class="no-results"><p>Erro ao buscar hotéis. Tente novamente.</p></div>';
+            }
+        }
+
+        filtroForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await searchHotels();
+        });
+
+        // Elementos do modal de autenticação
+        const authModal = document.getElementById('auth-modal');
         const loginTab = document.getElementById('login-tab');
         const registerTab = document.getElementById('register-tab');
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
-        const closeBtn = document.querySelector('.close');
+        const authCloseBtn = authModal.querySelector('.close');
         const loginBtn = document.querySelector('.actions button');
         
-        // Abrir modal
+        // Abrir modal de autenticação
         loginBtn.addEventListener('click', () => {
-            modal.style.display = 'block';
+            authModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         });
         
-        // Fechar modal
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
+        // Fechar modal de autenticação
+        authCloseBtn.addEventListener('click', () => {
+            authModal.style.display = 'none';
             document.body.style.overflow = 'auto';
             resetForms();
         });
         
-        // Fechar modal clicando fora
+        // Fechar modal de autenticação clicando fora
         window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
+            if (e.target === authModal) {
+                authModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 resetForms();
             }
@@ -556,7 +665,7 @@
                     
                     // Fechar modal após 2 segundos
                     setTimeout(() => {
-                        modal.style.display = 'none';
+                        authModal.style.display = 'none';
                         document.body.style.overflow = 'auto';
                         resetForms();
                         updateUIAfterLogin(data.user);
@@ -634,6 +743,11 @@
                 <span>Bem-vindo, ${user.nome}!</span>
                 <button onclick="logout()">Sair</button>
             `;
+
+            // Carregar reservas se estiver na seção minhas-reservas
+            if (window.location.hash === '#minhas-reservas') {
+                loadUserReservations();
+            }
         }
         
         // Função de logout
@@ -642,16 +756,235 @@
             localStorage.removeItem('user');
             location.reload();
         }
-        
+
+        // Carregar reservas do usuário
+        async function loadUserReservations() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+            const loginRequired = document.getElementById('login-required');
+            const reservasList = document.getElementById('reservas-list');
+            const loadingReservas = document.getElementById('loading-reservas');
+            const noReservas = document.getElementById('no-reservas');
+            const reservasContent = document.getElementById('reservas-content');
+
+            if (!token || !user) {
+                loginRequired.classList.remove('hidden');
+                reservasList.classList.add('hidden');
+                return;
+            }
+
+            loginRequired.classList.add('hidden');
+            reservasList.classList.remove('hidden');
+            loadingReservas.classList.remove('hidden');
+            noReservas.classList.add('hidden');
+            reservasContent.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE}/reservas`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const reservas = await response.json();
+
+                loadingReservas.classList.add('hidden');
+
+                if (!response.ok || !reservas || reservas.length === 0) {
+                    noReservas.classList.remove('hidden');
+                    return;
+                }
+
+                // Mostrar reservas
+                reservasContent.innerHTML = '';
+                reservas.forEach(reserva => {
+                    const reservaCard = document.createElement('div');
+                    reservaCard.className = 'reserva-card';
+                    reservaCard.innerHTML = `
+                        <div class="reserva-header">
+                            <h3>${reserva.hotel_nome}</h3>
+                            <span class="reserva-status status-${reserva.status}">${reserva.status}</span>
+                        </div>
+                        <div class="reserva-details">
+                            <p><strong>Cidade:</strong> ${reserva.hotel_cidade}</p>
+                            <p><strong>Check-in:</strong> ${new Date(reserva.checkin).toLocaleDateString('pt-BR')}</p>
+                            <p><strong>Check-out:</strong> ${new Date(reserva.checkout).toLocaleDateString('pt-BR')}</p>
+                            <p><strong>Quartos:</strong> ${reserva.quartos}</p>
+                            <p><strong>Preço por noite:</strong> R$ ${reserva.hotel_preco.toFixed(2)}</p>
+                        </div>
+                    `;
+                    reservasContent.appendChild(reservaCard);
+                });
+
+                reservasContent.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Erro ao carregar reservas:', error);
+                loadingReservas.classList.add('hidden');
+                noReservas.classList.remove('hidden');
+            }
+        }
+
+        // Reserva
+        const reservationModal = document.getElementById('reservation-modal');
+        const reservationCloseBtn = reservationModal.querySelector('.close');
+        const reservationForm = document.getElementById('reservation-form');
+        const reservationHotelName = document.getElementById('reservation-hotel-name');
+        const reservationMessage = document.getElementById('reservation-message');
+        let currentHotelId = null;
+
+        const hotelNameToId = {
+            'Hotel Centro Curitiba': 1,
+            'Pousada Londrina': 2,
+            'Hotel Maringá Plaza': 3,
+            'Resort Foz do Iguaçu': 4,
+            'Hotel Cascavel': 5,
+            'Pousada Ponta Grossa': 6,
+            'Hotel Apucarana': 7,
+            'Hotel Paranavaí': 8,
+            'Centro Hotel Curitiba 2': 9,
+            'Pousada Londrina Norte': 10,
+            'Hotel Maringá Central': 11,
+            'Eco Resort Foz': 12,
+            'Hotel Cascavel Sul': 13,
+            'Pousada Ponta Grossa Verde': 14,
+            'Hotel Apucarana Plaza': 15,
+            'Hotel Paranavaí Lago': 16
+        };
+
+        function openReservationModal(hotelId, hotelName) {
+            currentHotelId = hotelId;
+            reservationHotelName.textContent = hotelName;
+            reservationMessage.textContent = '';
+            reservationMessage.className = 'message';
+            reservationModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReservationModal() {
+            reservationModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            reservationForm.reset();
+            currentHotelId = null;
+            reservationMessage.textContent = '';
+        }
+
+        function showReservationMessage(message, type) {
+            reservationMessage.textContent = message;
+            reservationMessage.className = `message ${type}`;
+        }
+
+        document.body.addEventListener('click', (event) => {
+            if (event.target.matches('.carrossel-reservar, .hotel-card button')) {
+                const card = event.target.closest('.carrossel-item, .hotel-card');
+                if (!card) return;
+
+                const hotelNameElement = card.querySelector('h3');
+                const hotelName = hotelNameElement ? hotelNameElement.textContent.trim() : 'Hotel';
+                const hotelId = event.target.dataset.hotelId || hotelNameToId[hotelName] || null;
+
+                if (!hotelId) {
+                    alert('Este hotel ainda não está disponível para reserva. Use um dos hotéis de exemplo no topo.');
+                    return;
+                }
+
+                openReservationModal(hotelId, hotelName);
+            }
+        });
+
+        reservationCloseBtn.addEventListener('click', closeReservationModal);
+        window.addEventListener('click', (event) => {
+            if (event.target === reservationModal) {
+                closeReservationModal();
+            }
+        });
+
+        reservationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+            if (!token || !user) {
+                closeReservationModal();
+                authModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                loginTab.click();
+                showMessage('login-message', 'Faça login para reservar.', 'error');
+                return;
+            }
+
+            if (!currentHotelId) {
+                showReservationMessage('Selecione um hotel válido para reserva.', 'error');
+                return;
+            }
+
+            const checkin = document.getElementById('reservation-checkin').value;
+            const checkout = document.getElementById('reservation-checkout').value;
+            const quartos = document.getElementById('reservation-quartos').value;
+
+            if (!checkin || !checkout || !quartos) {
+                showReservationMessage('Preencha todas as informações de reserva.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/reservas`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ hotel_id: currentHotelId, checkin, checkout, quartos })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    showReservationMessage(data.message || 'Reserva realizada com sucesso!', 'success');
+                    setTimeout(() => {
+                        closeReservationModal();
+                    }, 1800);
+                } else {
+                    showReservationMessage(data.message || 'Erro ao fazer reserva.', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao reservar:', error);
+                showReservationMessage('Erro de conexão. Tente novamente.', 'error');
+            }
+        });
+
         // Verificar se usuário já está logado ao carregar página
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             const token = localStorage.getItem('token');
             const user = JSON.parse(localStorage.getItem('user') || 'null');
             
             if (token && user) {
                 updateUIAfterLogin(user);
             }
+
+            // Carregar reservas se estiver na seção minhas-reservas
+            if (window.location.hash === '#minhas-reservas') {
+                loadUserReservations();
+            }
+            await searchHotels();
         });
+
+        // Observer para carregar reservas quando a seção fica visível
+        const reservasObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.target.id === 'minhas-reservas') {
+                    loadUserReservations();
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observar a seção minhas-reservas
+        const minhasReservasSection = document.getElementById('minhas-reservas');
+        if (minhasReservasSection) {
+            reservasObserver.observe(minhasReservasSection);
+        }
     </script>
 </body>
 </html>

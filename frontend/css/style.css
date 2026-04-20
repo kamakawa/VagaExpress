@@ -1044,3 +1044,187 @@ section {
         padding: 20px;
     }
 }
+
+/* Seção Minhas Reservas */
+#minhas-reservas {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#minhas-reservas h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+#reservas-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.reservas-message {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.reservas-message p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.reservas-message button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.reservas-message button:hover {
+    background: #0056b3;
+}
+
+.reservas-list {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.loading {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+    font-size: 1.1em;
+}
+
+.no-reservas {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.no-reservas p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.no-reservas button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.no-reservas button:hover {
+    background: #218838;
+}
+
+.reservas-content {
+    padding: 20px;
+}
+
+.reserva-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s;
+}
+
+.reserva-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reserva-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.reserva-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.3em;
+}
+
+.reserva-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.status-pendente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-confirmada {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-cancelada {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.reserva-details {
+    text-align: left;
+}
+
+.reserva-details p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 1em;
+}
+
+.reserva-details strong {
+    color: #333;
+}
+
+/* Responsividade para minhas reservas */
+@media (max-width: 768px) {
+    #minhas-reservas {
+        padding: 40px 15px;
+    }
+    
+    #minhas-reservas h2 {
+        font-size: 2em;
+    }
+    
+    .reserva-card {
+        padding: 15px;
+    }
+    
+    .reserva-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .reservas-message,
+    .loading,
+    .no-reservas {
+        padding: 30px 20px;
+    }
+}
