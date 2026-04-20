@@ -809,88 +809,133 @@
         }
 
         // Carregar reservas do usuário
-        async function loadUserReservations() {
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
+async function loadUserReservations() {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
 
-            const loginRequired = document.getElementById('login-required');
-            const reservasList = document.getElementById('reservas-list');
-            const loadingReservas = document.getElementById('loading-reservas');
-            const noReservas = document.getElementById('no-reservas');
-            const reservasContent = document.getElementById('reservas-content');
+    const loginRequired = document.getElementById('login-required');
+    const reservasList = document.getElementById('reservas-list');
+    const loadingReservas = document.getElementById('loading-reservas');
+    const noReservas = document.getElementById('no-reservas');
+    const reservasContent = document.getElementById('reservas-content');
 
-            if (!token || !user) {
-                loginRequired.classList.remove('hidden');
-                reservasList.classList.add('hidden');
-                return;
+    if (!token || !user) {
+        loginRequired.classList.remove('hidden');
+        reservasList.classList.add('hidden');
+        return;
+    }
+
+    loginRequired.classList.add('hidden');
+    reservasList.classList.remove('hidden');
+    loadingReservas.classList.remove('hidden');
+    noReservas.classList.add('hidden');
+    reservasContent.classList.add('hidden');
+
+    try {
+        const response = await fetch(`${API_BASE}/reservas`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
+        });
 
-            loginRequired.classList.add('hidden');
-            reservasList.classList.remove('hidden');
-            loadingReservas.classList.remove('hidden');
-            noReservas.classList.add('hidden');
-            reservasContent.classList.add('hidden');
+        const reservas = await response.json();
 
-            try {
-                const response = await fetch(`${API_BASE}/reservas`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+        loadingReservas.classList.add('hidden');
 
-                const reservas = await response.json();
-
-                loadingReservas.classList.add('hidden');
-
-                if (!response.ok || !reservas || reservas.length === 0) {
-                    noReservas.classList.remove('hidden');
-                    return;
-                }
-
-                // Mostrar reservas
-                reservasContent.innerHTML = '';
-                    reservas.forEach(reserva => {
-                        const reservaCard = document.createElement('div');
-                        reservaCard.className = 'reserva-card';
-                        
-                        // Força o fuso horário UTC para evitar que datas como "2026-04-20" virem "19/04/2026"
-                        const dataCheckin = new Date(reserva.checkin).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-                        const dataCheckout = new Date(reserva.checkout).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-                        
-                        // Caminho da imagem vindo do banco ou um fallback genérico
-                        const imagemSrc = reserva.hotel_imagem || 'assets/hotel1.jpg';
-
-                        reservaCard.innerHTML = `
-                            <div class="reserva-card-content">
-                                <div class="reserva-image-container">
-                                    <img src="${imagemSrc}" alt="${reserva.hotel_nome}">
-                                </div>
-                                <div class="reserva-info">
-                                    <div class="reserva-header">
-                                        <h3>${reserva.hotel_nome}</h3>
-                                        <span class="reserva-status status-${reserva.status}">${reserva.status}</span>
-                                    </div>
-                                    <div class="reserva-details">
-                                        <p><strong>Cidade:</strong> ${reserva.hotel_cidade}</p>
-                                        <p><strong>Check-in:</strong> ${dataCheckin}</p>
-                                        <p><strong>Check-out:</strong> ${dataCheckout}</p>
-                                        <p><strong>Quartos:</strong> ${reserva.quartos}</p>
-                                        <p><strong>Preço por noite:</strong> R$ ${Number(reserva.hotel_preco).toFixed(2)}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        reservasContent.appendChild(reservaCard);
-                    });
-                    reservasContent.classList.remove('hidden');
-
-            } catch (error) {
-                console.error('Erro ao carregar reservas:', error);
-                loadingReservas.classList.add('hidden');
-                noReservas.classList.remove('hidden');
-            }
+        if (!response.ok || !reservas || reservas.length === 0) {
+            noReservas.classList.remove('hidden');
+            return;
         }
+
+        // Função para mapear hotel ID para imagem correta
+        function getHotelImage(hotelId, hotelNome) {
+            // Mapeamento direto dos IDs para as imagens corretas
+            const imageMap = {
+                1: 'assets/hotel1.jpg',
+                2: 'assets/hotel2.jpg',
+                3: 'assets/hotel3.jpg',
+                4: 'assets/hotel4.jpg',
+                5: 'assets/hotel5.jpg',
+                6: 'assets/hotel6.jpg',
+                7: 'assets/hotel7.jpg',
+                8: 'assets/hotel8.jpg',
+                9: 'assets/hotel9.jpg',
+                10: 'assets/hotel10.jpg',
+                11: 'assets/hotel11.jpg',
+                12: 'assets/hotel12.jpg',
+                13: 'assets/hotel13.jpg',
+                14: 'assets/hotel14.jpg',
+                15: 'assets/hotel15.jpg',
+                16: 'assets/hotel16.jpg'
+            };
+            
+            // Se tiver o ID e existir no mapa, usa a imagem correspondente
+            if (hotelId && imageMap[hotelId]) {
+                return imageMap[hotelId];
+            }
+            
+            // Fallback: tenta encontrar pela cidade no nome do hotel
+            if (hotelNome) {
+                const nomeLower = hotelNome.toLowerCase();
+                if (nomeLower.includes('foz') || nomeLower.includes('iguacu')) return 'assets/hotel4.jpg';
+                if (nomeLower.includes('curitiba')) return 'assets/hotel1.jpg';
+                if (nomeLower.includes('londrina')) return 'assets/hotel2.jpg';
+                if (nomeLower.includes('maringa')) return 'assets/hotel3.jpg';
+                if (nomeLower.includes('cascavel')) return 'assets/hotel5.jpg';
+                if (nomeLower.includes('ponta grossa')) return 'assets/hotel6.jpg';
+                if (nomeLower.includes('apucarana')) return 'assets/hotel7.jpg';
+                if (nomeLower.includes('paranavai')) return 'assets/hotel8.jpg';
+            }
+            
+            // Imagem padrão
+            return 'assets/hotel1.jpg';
+        }
+
+        // Mostrar reservas
+        reservasContent.innerHTML = '';
+        
+        reservas.forEach(reserva => {
+            const reservaCard = document.createElement('div');
+            reservaCard.className = 'reserva-card';
+            
+            // Força o fuso horário UTC para evitar que datas como "2026-04-20" virem "19/04/2026"
+            const dataCheckin = new Date(reserva.checkin).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+            const dataCheckout = new Date(reserva.checkout).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+            
+            // Obtém a imagem correta baseada no ID ou nome do hotel
+            const imagemSrc = getHotelImage(reserva.hotel_id, reserva.hotel_nome);
+
+            reservaCard.innerHTML = `
+                <div class="reserva-card-content">
+                    <div class="reserva-image-container">
+                        <img src="${imagemSrc}" alt="${reserva.hotel_nome}" onerror="this.src='assets/hotel1.jpg'">
+                    </div>
+                    <div class="reserva-info">
+                        <div class="reserva-header">
+                            <h3>${reserva.hotel_nome}</h3>
+                            <span class="reserva-status status-${reserva.status}">${reserva.status}</span>
+                        </div>
+                        <div class="reserva-details">
+                            <p><strong>Cidade:</strong> ${reserva.hotel_cidade}</p>
+                            <p><strong>Check-in:</strong> ${dataCheckin}</p>
+                            <p><strong>Check-out:</strong> ${dataCheckout}</p>
+                            <p><strong>Quartos:</strong> ${reserva.quartos}</p>
+                            <p><strong>Preço por noite:</strong> R$ ${Number(reserva.hotel_preco).toFixed(2)}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            reservasContent.appendChild(reservaCard);
+        });
+        reservasContent.classList.remove('hidden');
+
+    } catch (error) {
+        console.error('Erro ao carregar reservas:', error);
+        loadingReservas.classList.add('hidden');
+        noReservas.classList.remove('hidden');
+    }
+}
 
         // Reserva
         const reservationModal = document.getElementById('reservation-modal');
