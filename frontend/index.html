@@ -450,34 +450,48 @@
 
             <div id="reservation-step-1">
                 <h2>Reservar Hotel</h2>
-                <p id="reservation-hotel-name" class="reservation-hotel-name"></p>
-                <div id="reservation-hotel-data" class="reservation-hotel-data"></div>
-                <form id="reservation-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="reservation-checkin">Check-in</label>
+
+                <div class="reservation-card">
+                    <h3 id="reservation-hotel-name"></h3>
+                    <div id="reservation-hotel-data"></div>
+                </div>
+
+                <form id="reservation-form" class="reservation-grid">
+
+                    <!-- COLUNA 1 -->
+                    <div class="reservation-col">
+                        <h4>Datas</h4>
+
+                        <label>Check-in</label>
                         <input type="date" id="reservation-checkin">
-                    </div>
-                    <div class="form-group">
-                        <label for="reservation-checkout">Check-out</label>
+
+                        <label>Check-out</label>
                         <input type="date" id="reservation-checkout">
-                    </div>
-                    <div class="form-group">
-                        <label for="reservation-quartos">Quartos</label>
+
+                        <label>Quartos</label>
                         <input type="number" id="reservation-quartos" min="1" value="1">
                     </div>
-                    <div class="form-group">
-                        <label for="reservation-name">Nome</label>
-                        <input type="text" id="reservation-name" placeholder="Seu nome">
+
+                    <!-- COLUNA 2 -->
+                    <div class="reservation-col">
+                        <h4>Seus Dados</h4>
+
+                        <label>Nome</label>
+                        <input type="text" id="reservation-name">
+
+                        <label>Email</label>
+                        <input type="email" id="reservation-email">
+
+                        <label>Telefone</label>
+                        <input type="tel" id="reservation-phone">
                     </div>
-                    <div class="form-group">
-                        <label for="reservation-email">Email</label>
-                        <input type="email" id="reservation-email" placeholder="seu@email.com">
+
+                    <div class="reservation-footer">
+                        <button type="submit" class="btn-primary">
+                            Verificar Reserva
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="reservation-phone">Telefone</label>
-                        <input type="tel" id="reservation-phone" placeholder="(41) 99999-9999">
-                    </div>
-                    <button type="submit" class="auth-submit">Verificar Reserva</button>
+
                     <div id="reservation-message" class="message"></div>
                 </form>
             </div>
