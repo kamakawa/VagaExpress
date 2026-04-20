@@ -18,10 +18,10 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Reservas</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Contato</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
         <div class="actions">
@@ -48,6 +48,42 @@
                 <div class="feature">
                     <h3>Confiável</h3>
                     <p>Hotéis verificados e seguros.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="carrossel-destaque">
+            <h2>Hotéis em Destaque</h2>
+            <div class="carrossel-wrapper">
+                <div class="carrossel" id="carrossel">
+                    <div class="carrossel-item">
+                        <img src="assets/hotel4.jpg" alt="Resort Foz do Iguaçu">
+                        <h3>Resort Foz do Iguaçu</h3>
+                        <p>Foz do Iguaçu - 5.0 estrelas</p>
+                        <p>A partir de R$ 250/noite</p>
+                        <button class="carrossel-reservar">Reservar</button>
+                    </div>
+                    <div class="carrossel-item">
+                        <img src="assets/hotel9.jpg" alt="Centro Hotel Curitiba 2">
+                        <h3>Centro Hotel Curitiba 2</h3>
+                        <p>Curitiba - 4.7 estrelas</p>
+                        <p>A partir de R$ 180/noite</p>
+                        <button class="carrossel-reservar">Reservar</button>
+                    </div>
+                    <div class="carrossel-item">
+                        <img src="assets/hotel12.jpg" alt="Eco Resort Foz">
+                        <h3>Eco Resort Foz</h3>
+                        <p>Foz do Iguaçu - 4.8 estrelas</p>
+                        <p>A partir de R$ 220/noite</p>
+                        <button class="carrossel-reservar">Reservar</button>
+                    </div>
+                    <div class="carrossel-item">
+                        <img src="assets/hotel15.jpg" alt="Hotel Apucarana Plaza">
+                        <h3>Hotel Apucarana Plaza</h3>
+                        <p>Apucarana - 4.6 estrelas</p>
+                        <p>A partir de R$ 170/noite</p>
+                        <button class="carrossel-reservar">Reservar</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -204,6 +240,418 @@
                 </div>
             </div>
         </section>
+
+        <section id="como-funciona">
+            <h2>Como Funciona</h2>
+            <div class="passos">
+                <div class="passo">
+                    <div class="numero">1</div>
+                    <h3>Pesquise</h3>
+                    <p>Escolha a cidade, data de check-in e check-out, e o número de quartos que você precisa.</p>
+                </div>
+                <div class="passo">
+                    <div class="numero">2</div>
+                    <h3>Compare</h3>
+                    <p>Filtre por preço, avaliação ou proximidade. Visualize todos os detalhes dos hotéis disponíveis.</p>
+                </div>
+                <div class="passo">
+                    <div class="numero">3</div>
+                    <h3>Reserve</h3>
+                    <p>Escolha o hotel perfeito e finalize a reserva em poucos cliques. Confirmação por email!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="depoimentos">
+            <h2>Depoimentos de Clientes</h2>
+            <div class="depoimentos-container">
+                <div class="depoimento">
+                    <div class="estrelas">★★★★★</div>
+                    <p>"Adorei! Reservei meu hotel em Curitiba em poucos minutos. O site é super fácil de usar e encontrei ótimos preços!"</p>
+                    <p class="autor">- Gustavo Henrique</p>
+                </div>
+                <div class="depoimento">
+                    <div class="estrelas">★★★★★</div>
+                    <p>"Excelente serviço! Consegui filtrar os hotéis em Foz do Iguaçu pelos melhores avaliados. Muito prático!"</p>
+                    <p class="autor">- Eric Kamakawa</p>
+                </div>
+                <div class="depoimento">
+                    <div class="estrelas">★★★★☆</div>
+                    <p>"Muito bom! Preços competitivos e muitas opções de hotéis em Londrina. Recomendo a Vaga Express!"</p>
+                    <p class="autor">- Pedro Henrique</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre">
+            <h2>Sobre Nós</h2>
+            <div class="sobre-container">
+                <div class="sobre-texto">
+                    <h3>Bem-vindo à Vaga Express</h3>
+                    <p>Somos uma plataforma de reservas de hotéis 100% dedicada ao Paraná, oferecendo a melhor experiência de busca e reserva de hospedagens no estado.</p>
+                    <p><strong>Nossa Missão:</strong> Tornar as reservas de hotéis simples, rápidas e acessíveis para todos.</p>
+                    <p><strong>Nossa Visão:</strong> Ser a plataforma número 1 de reservas de hotéis no Paraná, com os melhores preços e melhor atendimento.</p>
+                    <p><strong>Nossos Valores:</strong> Confiança, Transparência, Qualidade e Inovação.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contato">
+            <h2>Fale Conosco</h2>
+            <div class="contato-container">
+                <div class="formulario-contato">
+                    <h3>Envie sua Mensagem</h3>
+                    <form>
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required>
+                        
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                        
+                        <label for="assunto">Assunto:</label>
+                        <input type="text" id="assunto" name="assunto" required>
+                        
+                        <label for="mensagem">Mensagem:</label>
+                        <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+                        
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+                <div class="info-contato">
+                    <h3>Informações de Contato</h3>
+                    <p><strong>Email:</strong> contato@vagaexpress.com.br</p>
+                    <p><strong>Telefone:</strong> (44) 3333-0000</p>
+                    <p><strong>Whatsapp:</strong> (44) 99999-0000</p>
+                    <p><strong>Horário de Atendimento:</strong> Segunda a Sexta, 8h às 18h</p>
+                    <p><strong>Endereço:</strong> Rua das Reservas, 123 - Paranavaí, PR</p>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <footer id="rodape">
+        <div class="footer-content">
+            <div class="footer-secao">
+                <h4>Vaga Express</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#reservas">Reservas</a></li>
+                    <li><a href="#sobre">Sobre Nós</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-secao">
+                <h4>Cidades</h4>
+                <ul>
+                    <li><a href="#">Curitiba</a></li>
+                    <li><a href="#">Londrina</a></li>
+                    <li><a href="#">Foz do Iguaçu</a></li>
+                    <li><a href="#">Cascavel</a></li>
+                </ul>
+            </div>
+            <div class="footer-secao">
+                <h4>Informações</h4>
+                <ul>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Perguntas Frequentes</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-secao">
+                <h4>Redes Sociais</h4>
+                <ul class="redes-sociais">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Linkedin</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Vaga Express. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal de Login/Registro -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <button id="login-tab" class="tab-button active">Login</button>
+                <button id="register-tab" class="tab-button">Registrar</button>
+            </div>
+            
+            <!-- Formulário de Login -->
+            <form id="login-form" class="auth-form">
+                <h2>Entrar na sua conta</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Senha</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="auth-submit">Entrar</button>
+                <div id="login-message" class="message"></div>
+            </form>
+            
+            <!-- Formulário de Registro -->
+            <form id="register-form" class="auth-form hidden">
+                <h2>Criar nova conta</h2>
+                <div class="form-group">
+                    <label for="register-name">Nome Completo</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-phone">Telefone</label>
+                    <input type="tel" id="register-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Senha</label>
+                    <input type="password" id="register-password" required minlength="6">
+                </div>
+                <button type="submit" class="auth-submit">Registrar</button>
+                <div id="register-message" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Carrossel infinito com clonagem
+        const carrossel = document.getElementById('carrossel');
+        const itens = document.querySelectorAll('.carrossel-item');
+        
+        // Clona todos os itens e adiciona ao final do carrossel
+        itens.forEach(item => {
+            const clone = item.cloneNode(true);
+            carrossel.appendChild(clone);
+        });
+
+        // Efeitos de transição de background no scroll
+        const sections = document.querySelectorAll('section');
+        const body = document.body;
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // 50% da seção visível
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    switch(sectionId) {
+                        case 'home':
+                            body.style.backgroundColor = '#ffffff'; // Branco
+                            break;
+                        case 'carrossel-destaque':
+                        case 'reservas':
+                            body.style.backgroundColor = '#f0f7ff'; // Azul muito claro
+                            break;
+                        case 'como-funciona':
+                        case 'depoimentos':
+                            body.style.backgroundColor = '#f8f9fa'; // Cinza muito claro
+                            break;
+                        case 'sobre':
+                        case 'contato':
+                            body.style.backgroundColor = '#f5f5f5'; // Cinza médio claro
+                            break;
+                        default:
+                            body.style.backgroundColor = '#ffffff'; // Branco padrão
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observa todas as seções
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Transição suave para mudanças de background
+        body.style.transition = 'background-color 0.8s ease';
+
+        // Sistema de Autenticação
+        const API_BASE = 'http://localhost:3000/api';
+        
+        // Elementos do modal
+        const modal = document.getElementById('auth-modal');
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const closeBtn = document.querySelector('.close');
+        const loginBtn = document.querySelector('.actions button');
+        
+        // Abrir modal
+        loginBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Fechar modal
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            resetForms();
+        });
+        
+        // Fechar modal clicando fora
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                resetForms();
+            }
+        });
+        
+        // Trocar entre abas
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+            resetMessages();
+        });
+        
+        registerTab.addEventListener('click', () => {
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+            registerForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            resetMessages();
+        });
+        
+        // Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const senha = document.getElementById('login-password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Salvar token no localStorage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showMessage('login-message', 'Login realizado com sucesso!', 'success');
+                    
+                    // Fechar modal após 2 segundos
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        resetForms();
+                        updateUIAfterLogin(data.user);
+                    }, 2000);
+                } else {
+                    showMessage('login-message', data.message || 'Erro no login', 'error');
+                }
+            } catch (error) {
+                console.error('Erro no login:', error);
+                showMessage('login-message', 'Erro de conexão. Tente novamente.', 'error');
+            }
+        });
+        
+        // Registro
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nome = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const telefone = document.getElementById('register-phone').value;
+            const senha = document.getElementById('register-password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nome, email, telefone, senha })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('register-message', data.message || 'Conta criada com sucesso! Agora você pode fazer login.', 'success');
+                    
+                    // Limpar formulário
+                    registerForm.reset();
+                    
+                    // Trocar para aba de login após 3 segundos
+                    setTimeout(() => {
+                        loginTab.click();
+                    }, 3000);
+                } else {
+                    showMessage('register-message', data.message || 'Erro no registro', 'error');
+                }
+            } catch (error) {
+                console.error('Erro no registro:', error);
+                showMessage('register-message', 'Erro de conexão. Tente novamente.', 'error');
+            }
+        });
+        
+        // Funções auxiliares
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+        }
+        
+        function resetMessages() {
+            document.getElementById('login-message').textContent = '';
+            document.getElementById('register-message').textContent = '';
+        }
+        
+        function resetForms() {
+            loginForm.reset();
+            registerForm.reset();
+            resetMessages();
+        }
+        
+        function updateUIAfterLogin(user) {
+            // Mudar botão de login para mostrar nome do usuário
+            const actionsDiv = document.querySelector('.actions');
+            actionsDiv.innerHTML = `
+                <span>Bem-vindo, ${user.nome}!</span>
+                <button onclick="logout()">Sair</button>
+            `;
+        }
+        
+        // Função de logout
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            location.reload();
+        }
+        
+        // Verificar se usuário já está logado ao carregar página
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            
+            if (token && user) {
+                updateUIAfterLogin(user);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -11,6 +11,16 @@ body {
     color: #333;
 }
 
+/* Efeitos em títulos */
+h2, h3 {
+    transition: all 0.3s ease;
+}
+
+h2:hover, h3:hover {
+    color: #007bff;
+    letter-spacing: 1px;
+}
+
 /* Header */
 #cabeçalho {
     display: flex;
@@ -39,32 +49,77 @@ nav ul {
 
 nav li {
     margin: 0 15px;
+    position: relative;
 }
 
 nav a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #007bff;
+    transition: width 0.3s ease;
+}
+
+nav a:hover {
+    color: #007bff;
+}
+
+nav a:hover::after {
+    width: 100%;
 }
 
 .actions button {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 8px 16px;
+    padding: 10px 20px;
     cursor: pointer;
     border-radius: 4px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.actions button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: left 0.3s ease;
 }
 
 .actions button:hover {
     background-color: #0056b3;
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.actions button:hover::before {
+    left: 100%;
 }
 
 /* Section Home */
 #home {
     padding: 50px 20px;
     text-align: center;
-    background-color: #fff;
+    background-color: transparent; /* Agora controlado pelo body */
 }
 
 .hero {
@@ -75,6 +130,13 @@ nav a {
     font-size: 2.5em;
     margin-bottom: 20px;
     color: #007bff;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+}
+
+.hero:hover h1 {
+    text-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    letter-spacing: 0.5px;
 }
 
 .hero p {
@@ -95,10 +157,35 @@ nav a {
     border-radius: 5px;
     text-decoration: none;
     display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
 }
 
 .cta-button:hover {
     background-color: #218838;
+    box-shadow: 0 8px 16px rgba(40, 167, 69, 0.5);
+    transform: translateY(-3px) scale(1.05);
+}
+
+.cta-button:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .features {
@@ -115,6 +202,13 @@ nav a {
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
+    background-color: #f0f7ff;
 }
 
 .feature h3 {
@@ -152,6 +246,453 @@ nav a {
     color: #333;
 }
 
+/* Carrossel Infinito */
+#carrossel-destaque {
+    padding: 50px 20px;
+    background-color: transparent; /* Agora controlado pelo body */
+}
+
+#carrossel-destaque h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.carrossel-wrapper {
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.carrossel {
+    display: flex;
+    animation: deslizar 30s linear infinite;
+}
+
+.carrossel-item {
+    min-width: 300px;
+    padding: 20px;
+    text-align: center;
+    background-color: #f8f9fa;
+    margin-right: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.carrossel-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.carrossel-item h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.carrossel-item p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.carrossel-reservar {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+.carrossel-reservar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: left 0.3s ease;
+}
+
+.carrossel-reservar:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    transform: scale(1.08);
+}
+
+.carrossel-reservar:hover::before {
+    left: 100%;
+}
+
+/* Animações gerais */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.hotel-card {
+    animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes deslizar {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-300px * 4 - 80px));
+    }
+}
+
+/* Section Como Funciona */
+#como-funciona {
+    padding: 50px 20px;
+    background-color: transparent; /* Agora controlado pelo body */
+}
+
+#como-funciona h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.passos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.passo {
+    text-align: center;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.passo:hover {
+    transform: translateY(-8px);
+}
+
+.numero {
+    width: 50px;
+    height: 50px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.passo:hover .numero {
+    box-shadow: 0 8px 16px rgba(0, 123, 255, 0.5);
+    transform: scale(1.1) rotate(360deg);
+}
+
+.passo h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.passo p {
+    color: #666;
+}
+
+/* Section Depoimentos */
+#depoimentos {
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+#depoimentos h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.depoimentos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.depoimento {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.depoimento:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+    border-left-color: #007bff;
+    background-color: #f0f7ff;
+}
+
+.estrelas {
+    color: #ffc107;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.depoimento p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.autor {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Section Sobre */
+#sobre {
+    padding: 50px 20px;
+    background-color: transparent; /* Agora controlado pelo body */
+}
+
+#sobre h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.sobre-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sobre-texto {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.sobre-texto:hover {
+    box-shadow: 0 10px 25px rgba(0, 123, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.sobre-texto h3 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.sobre-texto p {
+    margin-bottom: 15px;
+    color: #666;
+    line-height: 1.8;
+}
+
+/* Section Contato */
+#contato {
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+#contato h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.contato-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.formulario-contato,
+.info-contato {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.formulario-contato h3,
+.info-contato h3 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.formulario-contato form label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.formulario-contato input,
+.formulario-contato textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.formulario-contato input:focus,
+.formulario-contato textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+    background-color: #f0f7ff;
+}
+
+.formulario-contato button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.formulario-contato button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: left 0.3s ease;
+}
+
+.formulario-contato button:hover {
+    background-color: #218838;
+    box-shadow: 0 6px 14px rgba(40, 167, 69, 0.4);
+    transform: translateY(-2px);
+}
+
+.formulario-contato button:hover::before {
+    left: 100%;
+}
+
+.info-contato p {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+/* Footer */
+#rodape {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 20px 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+}
+
+.footer-secao h4 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.footer-secao ul {
+    list-style: none;
+}
+
+.footer-secao ul li {
+    margin-bottom: 10px;
+}
+
+.footer-secao a {
+    color: #bbb;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-secao a::before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #007bff;
+    transition: width 0.3s ease;
+}
+
+.footer-secao a:hover {
+    color: #007bff;
+}
+
+.footer-secao a:hover::before {
+    width: 100%;
+}
+
+.redes-sociais {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #555;
+    color: #999;
+}
+
 .filtros {
     background-color: #fff;
     padding: 20px;
@@ -178,6 +719,15 @@ nav a {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+#filtro-form select:focus,
+#filtro-form input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    background-color: #f0f7ff;
 }
 
 #filtro-form button {
@@ -188,10 +738,35 @@ nav a {
     border-radius: 4px;
     cursor: pointer;
     font-size: 1em;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+#filtro-form button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
 }
 
 #filtro-form button:hover {
     background-color: #0056b3;
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+#filtro-form button:hover::after {
+    width: 200px;
+    height: 200px;
 }
 
 .resultados {
@@ -206,12 +781,23 @@ nav a {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
+    transition: all 0.3s ease;
+}
+
+.hotel-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 123, 255, 0.25);
 }
 
 .hotel-card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.hotel-card:hover img {
+    transform: scale(1.1);
 }
 
 .hotel-card h3 {
@@ -232,10 +818,31 @@ nav a {
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 15px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+.hotel-card button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: left 0.3s ease;
 }
 
 .hotel-card button:hover {
     background-color: #218838;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    transform: scale(1.08);
+}
+
+.hotel-card button:hover::before {
+    left: 100%;
 }
 
 /* Responsividade para reservas */
@@ -246,5 +853,194 @@ nav a {
     }
     .resultados {
         grid-template-columns: 1fr;
+    }
+    .carrossel-wrapper {
+        overflow: hidden;
+    }
+    .carrossel-item {
+        min-width: 250px;
+    }
+    @keyframes deslizar {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-250px * 4 - 80px));
+        }
+    }
+    .contato-container {
+        grid-template-columns: 1fr;
+    }
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Modal de Autenticação */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #007bff;
+}
+
+.modal-header {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.tab-button.active {
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+    background-color: #f8f9ff;
+}
+
+.auth-form {
+    padding: 30px;
+}
+
+.auth-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.auth-submit {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.auth-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.auth-submit:active {
+    transform: translateY(0);
+}
+
+.message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsividade do modal */
+@media (max-width: 480px) {
+    .modal-content {
+        margin: 2% auto;
+        width: 95%;
+    }
+    
+    .auth-form {
+        padding: 20px;
     }
 }
