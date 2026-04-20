@@ -95,12 +95,6 @@ function initDatabase() {
       FOREIGN KEY (hotel_id) REFERENCES hoteis(id)
     )`);
 
-    // Limpar dados antigos de usuários e reservas para manter o banco limpo
-    db.run('DELETE FROM reservas');
-    db.run('DELETE FROM usuarios');
-    db.run("DELETE FROM sqlite_sequence WHERE name='usuarios'");
-    db.run("DELETE FROM sqlite_sequence WHERE name='reservas'");
-
     // Inserir hotéis de exemplo
     db.get("SELECT COUNT(*) as count FROM hoteis", [], (err, row) => {
       const hoteis = [
@@ -230,16 +224,23 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Rota protegida de exemplo
-app.get('/api/profile', authenticateToken, (req, res) => {
-  db.get('SELECT id, nome, email, telefone FROM usuarios WHERE id = ?', [req.user.userId], (err, user) => {
-    if (err) {
-      return handleServerError(res, err);
-    }
-    if (!user) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
-    }
-    res.json(user);
-  });
+app.get('/api/reservas', authenticateToken, async (req, res) => {
+  try {
+    const query = `
+      SELECT r.id, r.checkin, r.checkout, r.quartos, r.status,
+             h.nome AS hotel_nome, h.cidade AS hotel_cidade, h.preco AS hotel_preco,
+             h.imagem AS hotel_imagem
+      FROM reservas r
+      JOIN hoteis h ON r.hotel_id = h.id
+      WHERE r.usuario_id = ?
+      ORDER BY r.criado_em DESC
+    `;
+    const [rows] = await pool.execute(query, [req.user.userId]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Erro ao listar reservas:', error);
+    res.status(500).json({ message: 'Erro interno do servidor' });
+  }
 });
 
 // Rota para listar hotéis
@@ -325,7 +326,7 @@ app.post('/api/reservas', authenticateToken, (req, res) => {
 
         db.run(
           'INSERT INTO reservas (usuario_id, hotel_id, checkin, checkout, quartos) VALUES (?, ?, ?, ?, ?)',
-          [req.user.userId, hotel_id, checkin, checkout, quartosInt],
+          [req.user.userId, hotel_id, checkinStr, checkoutStr, quartosInt],
           function(err) {
             if (err) {
               console.error('Erro ao criar reserva:', err);

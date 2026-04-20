@@ -7,10 +7,41 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV !== 'production' ? 'segredo_dev' : undefined);
+
+if (!JWT_SECRET) {
+  console.error('JWT_SECRET não definido. Configure a variável de ambiente JWT_SECRET e reinicie o servidor.');
+  process.exit(1);
+}
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+const validateRegistration = ({ nome, email, senha }) => {
+  if (!nome || !email || !senha) {
+    return 'nome, email e senha são obrigatórios';
+  }
+  if (typeof email !== 'string' || !email.includes('@')) {
+    return 'Email inválido';
+  }
+  if (typeof senha !== 'string' || senha.length < 6) {
+    return 'Senha deve ter pelo menos 6 caracteres';
+  }
+  return null;
+};
+
+const validateLogin = ({ email, senha }) => {
+  if (!email || !senha) {
+    return 'email e senha são obrigatórios';
+  }
+  return null;
+};
+
+const handleServerError = (res, err, message = 'Erro interno do servidor') => {
+  console.error(message, err);
+  return res.status(500).json({ message });
+};
 
 // Conexão SQLite
 const db = new sqlite3.Database('./vagaexpress.db', (err) => {
@@ -71,6 +102,10 @@ function initDatabase() {
 
     // Inserir hotéis de exemplo
     db.get("SELECT COUNT(*) as count FROM hoteis", [], (err, row) => {
+      if (err) {
+        console.error('Erro ao contar hotéis:', err);
+        return;
+      }
       const hoteis = [
         ['Hotel Centro Curitiba', 'Curitiba', 4, 150.00, 'Hotel confortável no centro da cidade', 'assets/hotel1.jpg'],
         ['Pousada Londrina', 'Londrina', 4, 120.00, 'Pousada acolhedora com café da manhã', 'assets/hotel2.jpg'],
@@ -106,11 +141,14 @@ function initDatabase() {
 // Rota de registro
 app.post('/api/register', (req, res) => {
   const { nome, email, senha, telefone } = req.body;
+  const validationError = validateRegistration(req.body);
+  if (validationError) {
+    return res.status(400).json({ message: validationError });
+  }
 
-  // Verificar se usuário já existe
   db.get('SELECT id FROM usuarios WHERE email = ?', [email], async (err, row) => {
     if (err) {
-      return res.status(500).json({ message: 'Erro interno do servidor' });
+      return handleServerError(res, err);
     }
 
     if (row) {
@@ -118,23 +156,21 @@ app.post('/api/register', (req, res) => {
     }
 
     try {
-      // Hash da senha
       const hashedPassword = await bcrypt.hash(senha, 10);
 
-      // Inserir usuário
       db.run(
         'INSERT INTO usuarios (nome, email, senha, telefone, verificado) VALUES (?, ?, ?, ?, ?)',
-        [nome, email, hashedPassword, telefone, 0],
+        [nome, email, hashedPassword, telefone || null, 0],
         function(err) {
           if (err) {
-            return res.status(500).json({ message: 'Erro interno do servidor' });
+            if (err.message && err.message.includes('UNIQUE')) {
+              return res.status(400).json({ message: 'Email já cadastrado' });
+            }
+            return handleServerError(res, err);
           }
-
-          // Registro simples sem confirmação por email
           res.status(201).json({ message: 'Usuário registrado com sucesso! Agora você pode fazer login.' });
         }
       );
-
     } catch (error) {
       console.error('Erro no registro:', error);
       res.status(500).json({ message: 'Erro interno do servidor' });
@@ -145,10 +181,14 @@ app.post('/api/register', (req, res) => {
 // Rota de login
 app.post('/api/login', (req, res) => {
   const { email, senha } = req.body;
+  const validationError = validateLogin(req.body);
+  if (validationError) {
+    return res.status(400).json({ message: validationError });
+  }
 
   db.get('SELECT * FROM usuarios WHERE email = ?', [email], async (err, user) => {
     if (err) {
-      return res.status(500).json({ message: 'Erro interno do servidor' });
+      return handleServerError(res, err);
     }
 
     if (!user) {
@@ -161,9 +201,8 @@ app.post('/api/login', (req, res) => {
         return res.status(401).json({ message: 'Email ou senha incorretos' });
       }
 
-      const token = jwt.sign({ userId: user.id, nome: user.nome }, process.env.JWT_SECRET, { expiresIn: '7d' });
+      const token = jwt.sign({ userId: user.id, nome: user.nome }, JWT_SECRET, { expiresIn: '7d' });
       res.json({ message: 'Login realizado!', token, user: { id: user.id, nome: user.nome, email: user.email } });
-
     } catch (error) {
       console.error('Erro no login:', error);
       res.status(500).json({ message: 'Erro interno do servidor' });
@@ -180,7 +219,7 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).json({ message: 'Token não fornecido' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(403).json({ message: 'Token inválido' });
     }
@@ -243,8 +282,10 @@ app.post('/api/reservas', authenticateToken, (req, res) => {
     return res.status(400).json({ message: 'Dados da reserva incompletos' });
   }
 
-  const checkinDate = new Date(checkin);
-  const checkoutDate = new Date(checkout);
+  const checkinStr = typeof checkin === 'string' ? checkin.split('T')[0] : checkin;
+  const checkoutStr = typeof checkout === 'string' ? checkout.split('T')[0] : checkout;
+  const checkinDate = new Date(checkinStr);
+  const checkoutDate = new Date(checkoutStr);
   if (isNaN(checkinDate.getTime()) || isNaN(checkoutDate.getTime()) || checkoutDate <= checkinDate) {
     return res.status(400).json({ message: 'As datas informadas são inválidas' });
   }
@@ -267,7 +308,7 @@ app.post('/api/reservas', authenticateToken, (req, res) => {
       `SELECT * FROM reservas
        WHERE hotel_id = ?
          AND NOT (checkout <= ? OR checkin >= ?)`,
-      [hotel_id, checkin, checkout],
+      [hotel_id, checkinStr, checkoutStr],
       (err, conflito) => {
         if (err) {
           return res.status(500).json({ message: 'Erro interno do servidor' });
@@ -279,7 +320,7 @@ app.post('/api/reservas', authenticateToken, (req, res) => {
 
         db.run(
           'INSERT INTO reservas (usuario_id, hotel_id, checkin, checkout, quartos) VALUES (?, ?, ?, ?, ?)',
-          [req.user.userId, hotel_id, checkin, checkout, quartosInt],
+          [req.user.userId, hotel_id, checkinStr, checkoutStr, quartosInt],
           function(err) {
             if (err) {
               console.error('Erro ao criar reserva:', err);

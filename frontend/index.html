@@ -447,24 +447,55 @@
     <div id="reservation-modal" class="modal hidden">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Reservar Hotel</h2>
-            <p id="reservation-hotel-name" class="reservation-hotel-name"></p>
-            <form id="reservation-form" class="auth-form">
-                <div class="form-group">
-                    <label for="reservation-checkin">Check-in</label>
-                    <input type="date" id="reservation-checkin" required>
+
+            <div id="reservation-step-1">
+                <h2>Reservar Hotel</h2>
+                <p id="reservation-hotel-name" class="reservation-hotel-name"></p>
+                <div id="reservation-hotel-data" class="reservation-hotel-data"></div>
+                <form id="reservation-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="reservation-checkin">Check-in</label>
+                        <input type="date" id="reservation-checkin">
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-checkout">Check-out</label>
+                        <input type="date" id="reservation-checkout">
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-quartos">Quartos</label>
+                        <input type="number" id="reservation-quartos" min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-name">Nome</label>
+                        <input type="text" id="reservation-name" placeholder="Seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-email">Email</label>
+                        <input type="email" id="reservation-email" placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-phone">Telefone</label>
+                        <input type="tel" id="reservation-phone" placeholder="(41) 99999-9999">
+                    </div>
+                    <button type="submit" class="auth-submit">Verificar Reserva</button>
+                    <div id="reservation-message" class="message"></div>
+                </form>
+            </div>
+
+            <div id="reservation-step-2" class="hidden">
+                <h2>Confirmação de Reserva</h2>
+                <div id="reservation-summary" class="reservation-summary"></div>
+                <div class="reservation-actions">
+                    <button id="reservation-confirm-btn" type="button" class="auth-submit">Confirmar Reserva</button>
+                    <button id="reservation-edit-btn" type="button" class="auth-submit secondary">Voltar</button>
                 </div>
-                <div class="form-group">
-                    <label for="reservation-checkout">Check-out</label>
-                    <input type="date" id="reservation-checkout" required>
-                </div>
-                <div class="form-group">
-                    <label for="reservation-quartos">Quartos</label>
-                    <input type="number" id="reservation-quartos" min="1" value="1" required>
-                </div>
-                <button type="submit" class="auth-submit">Confirmar Reserva</button>
-                <div id="reservation-message" class="message"></div>
-            </form>
+            </div>
+
+            <div id="reservation-step-3" class="hidden">
+                <h2>Reserva Confirmada</h2>
+                <p id="reservation-confirmation-text">Sua reserva foi confirmada com sucesso!</p>
+                <button id="reservation-close-btn" type="button" class="auth-submit">Fechar</button>
+            </div>
         </div>
     </div>
 
@@ -548,7 +579,13 @@
                         <h3>${hotel.nome}</h3>
                         <p>${hotel.cidade} - ${stars}</p>
                         <p>A partir de R$ ${hotel.preco.toFixed(2)}/noite</p>
-                        <button type="button" data-hotel-id="${hotel.id}">Reservar</button>
+                        <button type="button"
+                            data-hotel-id="${hotel.id}"
+                            data-hotel-name="${hotel.nome}"
+                            data-hotel-city="${hotel.cidade}"
+                            data-hotel-price="${hotel.preco}"
+                            data-hotel-stars="${hotel.estrelas}"
+                        >Reservar</button>
                     </div>
                 `;
             }).join('');
@@ -799,26 +836,40 @@
 
                 // Mostrar reservas
                 reservasContent.innerHTML = '';
-                reservas.forEach(reserva => {
-                    const reservaCard = document.createElement('div');
-                    reservaCard.className = 'reserva-card';
-                    reservaCard.innerHTML = `
-                        <div class="reserva-header">
-                            <h3>${reserva.hotel_nome}</h3>
-                            <span class="reserva-status status-${reserva.status}">${reserva.status}</span>
-                        </div>
-                        <div class="reserva-details">
-                            <p><strong>Cidade:</strong> ${reserva.hotel_cidade}</p>
-                            <p><strong>Check-in:</strong> ${new Date(reserva.checkin).toLocaleDateString('pt-BR')}</p>
-                            <p><strong>Check-out:</strong> ${new Date(reserva.checkout).toLocaleDateString('pt-BR')}</p>
-                            <p><strong>Quartos:</strong> ${reserva.quartos}</p>
-                            <p><strong>Preço por noite:</strong> R$ ${reserva.hotel_preco.toFixed(2)}</p>
-                        </div>
-                    `;
-                    reservasContent.appendChild(reservaCard);
-                });
+                    reservas.forEach(reserva => {
+                        const reservaCard = document.createElement('div');
+                        reservaCard.className = 'reserva-card';
+                        
+                        // Força o fuso horário UTC para evitar que datas como "2026-04-20" virem "19/04/2026"
+                        const dataCheckin = new Date(reserva.checkin).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+                        const dataCheckout = new Date(reserva.checkout).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+                        
+                        // Caminho da imagem vindo do banco ou um fallback genérico
+                        const imagemSrc = reserva.hotel_imagem || 'assets/hotel1.jpg';
 
-                reservasContent.classList.remove('hidden');
+                        reservaCard.innerHTML = `
+                            <div class="reserva-card-content">
+                                <div class="reserva-image-container">
+                                    <img src="${imagemSrc}" alt="${reserva.hotel_nome}">
+                                </div>
+                                <div class="reserva-info">
+                                    <div class="reserva-header">
+                                        <h3>${reserva.hotel_nome}</h3>
+                                        <span class="reserva-status status-${reserva.status}">${reserva.status}</span>
+                                    </div>
+                                    <div class="reserva-details">
+                                        <p><strong>Cidade:</strong> ${reserva.hotel_cidade}</p>
+                                        <p><strong>Check-in:</strong> ${dataCheckin}</p>
+                                        <p><strong>Check-out:</strong> ${dataCheckout}</p>
+                                        <p><strong>Quartos:</strong> ${reserva.quartos}</p>
+                                        <p><strong>Preço por noite:</strong> R$ ${Number(reserva.hotel_preco).toFixed(2)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        reservasContent.appendChild(reservaCard);
+                    });
+                    reservasContent.classList.remove('hidden');
 
             } catch (error) {
                 console.error('Erro ao carregar reservas:', error);
@@ -832,33 +883,59 @@
         const reservationCloseBtn = reservationModal.querySelector('.close');
         const reservationForm = document.getElementById('reservation-form');
         const reservationHotelName = document.getElementById('reservation-hotel-name');
+        const reservationHotelData = document.getElementById('reservation-hotel-data');
         const reservationMessage = document.getElementById('reservation-message');
-        let currentHotelId = null;
+        const reservationStep1 = document.getElementById('reservation-step-1');
+        const reservationStep2 = document.getElementById('reservation-step-2');
+        const reservationStep3 = document.getElementById('reservation-step-3');
+        const reservationSummary = document.getElementById('reservation-summary');
+        const reservationConfirmBtn = document.getElementById('reservation-confirm-btn');
+        const reservationEditBtn = document.getElementById('reservation-edit-btn');
+        const reservationCloseBtnFinal = document.getElementById('reservation-close-btn');
+        let currentHotel = null;
+        let currentReservation = null;
 
-        const hotelNameToId = {
-            'Hotel Centro Curitiba': 1,
-            'Pousada Londrina': 2,
-            'Hotel Maringá Plaza': 3,
-            'Resort Foz do Iguaçu': 4,
-            'Hotel Cascavel': 5,
-            'Pousada Ponta Grossa': 6,
-            'Hotel Apucarana': 7,
-            'Hotel Paranavaí': 8,
-            'Centro Hotel Curitiba 2': 9,
-            'Pousada Londrina Norte': 10,
-            'Hotel Maringá Central': 11,
-            'Eco Resort Foz': 12,
-            'Hotel Cascavel Sul': 13,
-            'Pousada Ponta Grossa Verde': 14,
-            'Hotel Apucarana Plaza': 15,
-            'Hotel Paranavaí Lago': 16
-        };
-
-        function openReservationModal(hotelId, hotelName) {
-            currentHotelId = hotelId;
+        function openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars) {
+            currentHotel = {
+                id: hotelId,
+                nome: hotelName,
+                cidade: hotelCity || '',
+                preco: hotelPrice || 0,
+                estrelas: hotelStars || 'N/A'
+            };
             reservationHotelName.textContent = hotelName;
+            reservationHotelData.innerHTML = `
+                <p><strong>Cidade:</strong> ${currentHotel.cidade}</p>
+                <p><strong>Preço por noite:</strong> R$ ${Number(currentHotel.preco).toFixed(2)}</p>
+                <p><strong>Estrelas:</strong> ${currentHotel.estrelas}</p>
+            `;
+
+            // Resgata o usuário logado e preenche o formulário
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    const nameInput = document.getElementById('reservation-name');
+                    const emailInput = document.getElementById('reservation-email');
+                    
+                    nameInput.value = user.nome || '';
+                    emailInput.value = user.email || '';
+                    
+                    // Trava os campos para apenas leitura e escurece o fundo
+                    nameInput.readOnly = true;
+                    emailInput.readOnly = true;
+                    nameInput.style.backgroundColor = '#e9ecef';
+                    emailInput.style.backgroundColor = '#e9ecef';
+                } catch (e) {
+                    console.error('Erro ao ler usuário', e);
+                }
+            }
+
             reservationMessage.textContent = '';
             reservationMessage.className = 'message';
+            reservationStep1.classList.remove('hidden');
+            reservationStep2.classList.add('hidden');
+            reservationStep3.classList.add('hidden');
             reservationModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
@@ -867,7 +944,8 @@
             reservationModal.classList.add('hidden');
             document.body.style.overflow = 'auto';
             reservationForm.reset();
-            currentHotelId = null;
+            currentHotel = null;
+            currentReservation = null;
             reservationMessage.textContent = '';
         }
 
@@ -883,14 +961,18 @@
 
                 const hotelNameElement = card.querySelector('h3');
                 const hotelName = hotelNameElement ? hotelNameElement.textContent.trim() : 'Hotel';
-                const hotelId = event.target.dataset.hotelId || hotelNameToId[hotelName] || null;
+                const dataset = event.target.dataset || {};
+                const hotelId = dataset.hotelId ? Number(dataset.hotelId) : null;
+                const hotelCity = dataset.hotelCity || (card.querySelectorAll('p')[0] ? card.querySelectorAll('p')[0].textContent.split(' - ')[0] : '');
+                const hotelPrice = dataset.hotelPrice ? Number(dataset.hotelPrice) : ((card.querySelectorAll('p')[1] ? (card.querySelectorAll('p')[1].textContent.match(/R\$\s*([0-9.,]+)/) || [])[1] : 0) || 0);
+                const hotelStars = dataset.hotelStars || (card.querySelectorAll('p')[0] ? (card.querySelectorAll('p')[0].textContent.split(' - ')[1] || '').replace(' estrelas', '') : 'N/A');
 
                 if (!hotelId) {
                     alert('Este hotel ainda não está disponível para reserva. Use um dos hotéis de exemplo no topo.');
                     return;
                 }
 
-                openReservationModal(hotelId, hotelName);
+                openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars);
             }
         });
 
@@ -901,34 +983,72 @@
             }
         });
 
-        reservationForm.addEventListener('submit', async (e) => {
+        reservationForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
-
-            if (!token || !user) {
-                closeReservationModal();
-                authModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-                loginTab.click();
-                showMessage('login-message', 'Faça login para reservar.', 'error');
-                return;
-            }
-
-            if (!currentHotelId) {
+            if (!currentHotel) {
                 showReservationMessage('Selecione um hotel válido para reserva.', 'error');
                 return;
             }
 
             const checkin = document.getElementById('reservation-checkin').value;
             const checkout = document.getElementById('reservation-checkout').value;
-            const quartos = document.getElementById('reservation-quartos').value;
+            const quartos = document.getElementById('reservation-quartos').value || '1';
+            const nome = document.getElementById('reservation-name').value || 'Usuário';
+            const email = document.getElementById('reservation-email').value || 'email@exemplo.com';
+            const telefone = document.getElementById('reservation-phone').value || '(00) 00000-0000';
 
-            if (!checkin || !checkout || !quartos) {
-                showReservationMessage('Preencha todas as informações de reserva.', 'error');
+            currentReservation = {
+                hotel: currentHotel,
+                checkin,
+                checkout,
+                quartos,
+                nome,
+                email,
+                telefone
+            };
+
+            reservationSummary.innerHTML = `
+                <div class="summary-block">
+                    <h3>Dados do Hotel</h3>
+                    <p><strong>Hotel:</strong> ${currentReservation.hotel.nome}</p>
+                    <p><strong>Cidade:</strong> ${currentReservation.hotel.cidade}</p>
+                    <p><strong>Preço:</strong> R$ ${Number(currentReservation.hotel.preco).toFixed(2)}</p>
+                    <p><strong>Estrelas:</strong> ${currentReservation.hotel.estrelas}</p>
+                </div>
+                <div class="summary-block">
+                    <h3>Dados do Usuário</h3>
+                    <p><strong>Nome:</strong> ${currentReservation.nome}</p>
+                    <p><strong>Email:</strong> ${currentReservation.email}</p>
+                    <p><strong>Telefone:</strong> ${currentReservation.telefone}</p>
+                </div>
+                <div class="summary-block">
+                    <h3>Detalhes da Reserva</h3>
+                    <p><strong>Check-in:</strong> ${currentReservation.checkin}</p>
+                    <p><strong>Check-out:</strong> ${currentReservation.checkout}</p>
+                    <p><strong>Quartos:</strong> ${currentReservation.quartos}</p>
+                </div>
+            `;
+
+            reservationStep1.classList.add('hidden');
+            reservationStep2.classList.remove('hidden');
+            reservationStep3.classList.add('hidden');
+        });
+
+        reservationConfirmBtn.addEventListener('click', async () => {
+            if (!currentReservation) {
+                showReservationMessage('Não há reserva para confirmar.', 'error');
                 return;
             }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showReservationMessage('Faça login para salvar a reserva e vê-la em Minhas Reservas.', 'error');
+                return;
+            }
+
+            reservationConfirmBtn.disabled = true;
+            reservationConfirmBtn.textContent = 'Confirmando...';
 
             try {
                 const response = await fetch(`${API_BASE}/reservas`, {
@@ -937,23 +1057,50 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ hotel_id: currentHotelId, checkin, checkout, quartos })
+                    body: JSON.stringify({
+                        hotel_id: currentReservation.hotel.id,
+                        checkin: currentReservation.checkin,
+                        checkout: currentReservation.checkout,
+                        quartos: Number(currentReservation.quartos)
+                    })
                 });
-
                 const data = await response.json();
-                if (response.ok) {
-                    showReservationMessage(data.message || 'Reserva realizada com sucesso!', 'success');
-                    setTimeout(() => {
-                        closeReservationModal();
-                    }, 1800);
-                } else {
-                    showReservationMessage(data.message || 'Erro ao fazer reserva.', 'error');
+
+                if (!response.ok) {
+                    // Verifica se o servidor retornou erro 400 relacionado ao conflito de datas
+                    if (response.status === 400 && data.message.includes('período')) {
+                        throw new Error('Este hotel já está reservado para a data selecionada. Por favor, escolha outra data.');
+                    }
+                    throw new Error(data.message || 'Erro ao salvar reserva.');
+                }
+
+                reservationStep1.classList.add('hidden');
+                reservationStep2.classList.add('hidden');
+                reservationStep3.classList.remove('hidden');
+                document.getElementById('reservation-confirmation-text').textContent = `Sua reserva foi confirmada com sucesso! ID: ${data.reservaId || '—'}`;
+                reservationMessage.textContent = '';
+
+                if (window.location.hash === '#minhas-reservas') {
+                    loadUserReservations();
                 }
             } catch (error) {
-                console.error('Erro ao reservar:', error);
-                showReservationMessage('Erro de conexão. Tente novamente.', 'error');
+                // Devolve o usuário para a Etapa 1 do modal e mostra a mensagem de erro
+                reservationStep2.classList.add('hidden');
+                reservationStep1.classList.remove('hidden');
+                showReservationMessage(error.message, 'error');
+            } finally {
+                reservationConfirmBtn.disabled = false;
+                reservationConfirmBtn.textContent = 'Confirmar Reserva';
             }
         });
+
+        reservationEditBtn.addEventListener('click', () => {
+            reservationStep1.classList.remove('hidden');
+            reservationStep2.classList.add('hidden');
+            reservationStep3.classList.add('hidden');
+        });
+
+        reservationCloseBtnFinal.addEventListener('click', closeReservationModal);
 
         // Verificar se usuário já está logado ao carregar página
         window.addEventListener('load', async () => {
