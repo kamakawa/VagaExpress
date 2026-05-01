@@ -471,6 +471,9 @@
                         <label>Quartos</label>
                         <input type="number" id="reservation-quartos" min="1" value="1">
                     </div>
+                    <div class="reservation-col" style="grid-column:1/-1">
+                        <div id="calendario-section" class="calendario-section"></div>
+                    </div>
 
                     <!-- COLUNA 2 -->
                     <div class="reservation-col">
@@ -514,672 +517,597 @@
     </div>
 
     <script>
-        // Carrossel infinito com clonagem
-        const carrossel = document.getElementById('carrossel');
-        const itens = document.querySelectorAll('.carrossel-item');
-        
-        // Clona todos os itens e adiciona ao final do carrossel
-        itens.forEach(item => {
-            const clone = item.cloneNode(true);
-            carrossel.appendChild(clone);
+    /* =========================================================
+       VAGA EXPRESS — JavaScript principal
+       ========================================================= */
+    const API_BASE = 'http://localhost:3000/api';
+
+    /* ── utilidades ────────────────────────────────────────── */
+    const getToken = () => localStorage.getItem('token');
+    const getUser  = () => JSON.parse(localStorage.getItem('user') || 'null');
+
+    function imgUrl(path) {
+        if (!path) return 'http://localhost:3000/assets/hotel1.jpg';
+        if (path.startsWith('http')) return path;
+        return `http://localhost:3000/${path}`;
+    }
+
+    /* ── carrossel ─────────────────────────────────────────── */
+    const carrossel = document.getElementById('carrossel');
+    document.querySelectorAll('.carrossel-item').forEach(item =>
+        carrossel.appendChild(item.cloneNode(true))
+    );
+
+    /* ── background scroll ─────────────────────────────────── */
+    const bgMap = {
+        'home':'#ffffff','carrossel-destaque':'#f0f7ff',
+        'reservas':'#f0f7ff','como-funciona':'#f8f9fa',
+        'depoimentos':'#f8f9fa','sobre':'#f5f5f5','contato':'#f5f5f5'
+    };
+    document.body.style.transition = 'background-color 0.8s ease';
+    new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting && bgMap[e.target.id])
+                document.body.style.backgroundColor = bgMap[e.target.id];
         });
-
-        // Efeitos de transição de background no scroll
-        const sections = document.querySelectorAll('section');
-        const body = document.body;
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5 // 50% da seção visível
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const sectionId = entry.target.id;
-                    switch(sectionId) {
-                        case 'home':
-                            body.style.backgroundColor = '#ffffff'; // Branco
-                            break;
-                        case 'carrossel-destaque':
-                        case 'reservas':
-                            body.style.backgroundColor = '#f0f7ff'; // Azul muito claro
-                            break;
-                        case 'como-funciona':
-                        case 'depoimentos':
-                            body.style.backgroundColor = '#f8f9fa'; // Cinza muito claro
-                            break;
-                        case 'sobre':
-                        case 'contato':
-                            body.style.backgroundColor = '#f5f5f5'; // Cinza médio claro
-                            break;
-                        default:
-                            body.style.backgroundColor = '#ffffff'; // Branco padrão
-                    }
-                }
+    }, { threshold: 0.5 }).observe(document.getElementById('home') || document.body);
+    document.querySelectorAll('section').forEach(s => {
+        new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting && bgMap[e.target.id])
+                    document.body.style.backgroundColor = bgMap[e.target.id];
             });
-        }, observerOptions);
+        }, { threshold: 0.3 }).observe(s);
+    });
 
-        // Observa todas as seções
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+    /* =========================================================
+       AUTENTICAÇÃO
+       ========================================================= */
+    const authModal   = document.getElementById('auth-modal');
+    const loginForm   = document.getElementById('login-form');
+    const registerForm= document.getElementById('register-form');
+    const loginTab    = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
 
-        // Transição suave para mudanças de background
-        body.style.transition = 'background-color 0.8s ease';
+    function openAuthModal() {
+        authModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeAuthModal() {
+        authModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        loginForm.reset(); registerForm.reset();
+        document.getElementById('login-message').textContent = '';
+        document.getElementById('register-message').textContent = '';
+    }
 
-        // Sistema de Autenticação
-        const API_BASE = 'http://localhost:3000/api';
-        const filtroForm = document.getElementById('filtro-form');
-        const resultadosContainer = document.querySelector('.resultados');
+    document.querySelector('.actions button')?.addEventListener('click', openAuthModal);
+    authModal.querySelector('.close').addEventListener('click', closeAuthModal);
+    window.addEventListener('click', e => { if (e.target === authModal) closeAuthModal(); });
 
-        async function fetchHotels(params = {}) {
-            const query = new URLSearchParams(params);
-            const response = await fetch(`${API_BASE}/hoteis?${query.toString()}`);
-            if (!response.ok) {
-                throw new Error('Erro ao buscar hotéis');
-            }
-            return response.json();
-        }
+    loginTab.addEventListener('click', () => {
+        loginTab.classList.add('active'); registerTab.classList.remove('active');
+        loginForm.classList.remove('hidden'); registerForm.classList.add('hidden');
+    });
+    registerTab.addEventListener('click', () => {
+        registerTab.classList.add('active'); loginTab.classList.remove('active');
+        registerForm.classList.remove('hidden'); loginForm.classList.add('hidden');
+    });
 
-        function renderHotels(hotels) {
-            const hotelsHtml = hotels.map(hotel => {
-                const stars = '★'.repeat(hotel.estrelas || 4);
-                const imageSrc = hotel.imagem || 'assets/hotel1.jpg';
-                return `
-                    <div class="hotel-card">
-                        <img src="${imageSrc}" alt="${hotel.nome}">
-                        <h3>${hotel.nome}</h3>
-                        <p>${hotel.cidade} - ${stars}</p>
-                        <p>A partir de R$ ${hotel.preco.toFixed(2)}/noite</p>
-                        <button type="button"
-                            data-hotel-id="${hotel.id}"
-                            data-hotel-name="${hotel.nome}"
-                            data-hotel-city="${hotel.cidade}"
-                            data-hotel-price="${hotel.preco}"
-                            data-hotel-stars="${hotel.estrelas}"
-                        >Reservar</button>
-                    </div>
-                `;
-            }).join('');
+    function showMsg(id, msg, type) {
+        const el = document.getElementById(id);
+        el.textContent = msg;
+        el.className = `message ${type}`;
+    }
 
-            if (hotels.length === 0) {
-                resultadosContainer.innerHTML = '<div class="no-results"><p>Nenhum hotel encontrado para os critérios selecionados.</p></div>';
+    function updateUIAfterLogin(user) {
+        const actionsDiv = document.querySelector('.actions');
+        actionsDiv.innerHTML = `
+            <span class="welcome-text">Olá, ${user.nome.split(' ')[0]}!</span>
+            <button class="btn-logout" onclick="logout()">Sair</button>
+        `;
+        document.getElementById('login-required')?.classList.add('hidden');
+        document.getElementById('reservas-list')?.classList.remove('hidden');
+    }
+
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.reload();
+    }
+
+    loginForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const senha = document.getElementById('login-password').value;
+        try {
+            const res  = await fetch(`${API_BASE}/login`, {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({ email, senha })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                showMsg('login-message', 'Login realizado!', 'success');
+                setTimeout(() => { closeAuthModal(); updateUIAfterLogin(data.user); }, 1200);
             } else {
-                resultadosContainer.innerHTML = hotelsHtml;
+                showMsg('login-message', data.message || 'Erro no login', 'error');
             }
+        } catch { showMsg('login-message', 'Erro de conexão', 'error'); }
+    });
+
+    registerForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const nome   = document.getElementById('register-name').value;
+        const email  = document.getElementById('register-email').value;
+        const telefone = document.getElementById('register-phone').value;
+        const senha  = document.getElementById('register-password').value;
+        try {
+            const res  = await fetch(`${API_BASE}/register`, {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({ nome, email, telefone, senha })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showMsg('register-message', 'Conta criada! Faça login.', 'success');
+                registerForm.reset();
+                setTimeout(() => loginTab.click(), 2000);
+            } else {
+                showMsg('register-message', data.message || 'Erro no registro', 'error');
+            }
+        } catch { showMsg('register-message', 'Erro de conexão', 'error'); }
+    });
+
+    /* =========================================================
+       BUSCA DE HOTÉIS
+       ========================================================= */
+    const resultadosContainer = document.querySelector('.resultados');
+    const filtroForm = document.getElementById('filtro-form');
+
+    function renderHotels(hotels) {
+        if (!hotels.length) {
+            resultadosContainer.innerHTML = '<div class="no-results"><p>Nenhum hotel encontrado.</p></div>';
+            return;
+        }
+        resultadosContainer.innerHTML = hotels.map(h => {
+            const estrelas = Number(h.estrelas) || 4;
+            const cheias   = Math.floor(estrelas);
+            const stars    = '★'.repeat(cheias) + (estrelas % 1 >= 0.5 ? '½' : '') + '☆'.repeat(5 - cheias - (estrelas % 1 >= 0.5 ? 1 : 0));
+            return `
+            <div class="hotel-card">
+                <img src="${imgUrl(h.imagem)}" alt="${h.nome}" onerror="this.src='assets/hotel1.jpg'">
+                <div class="hotel-card-body">
+                    <h3>${h.nome}</h3>
+                    <p class="hotel-cidade">${h.cidade}</p>
+                    <p class="hotel-estrelas">${stars}</p>
+                    <p class="hotel-preco">R$ ${Number(h.preco).toFixed(2)} <span>/ noite</span></p>
+                    <button type="button"
+                        data-hotel-id="${h.id}"
+                        data-hotel-name="${h.nome}"
+                        data-hotel-city="${h.cidade}"
+                        data-hotel-price="${h.preco}"
+                        data-hotel-stars="${h.estrelas}"
+                        data-hotel-imagem="${h.imagem}">
+                        Reservar
+                    </button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    async function searchHotels() {
+        const cidade  = document.getElementById('cidade').value;
+        const ordenar = document.getElementById('ordenar').value;
+        const params  = new URLSearchParams();
+        if (cidade)  params.set('cidade', cidade);
+        if (ordenar) params.set('ordenar', ordenar);
+
+        resultadosContainer.innerHTML = '<div class="no-results"><p>Buscando hotéis...</p></div>';
+        try {
+            const res    = await fetch(`${API_BASE}/hoteis?${params}`);
+            if (!res.ok) throw new Error();
+            const hotels = await res.json();
+            if (ordenar === 'preco')    hotels.sort((a,b) => a.preco - b.preco);
+            if (ordenar === 'avaliacao') hotels.sort((a,b) => (b.estrelas||0) - (a.estrelas||0));
+            renderHotels(hotels);
+        } catch {
+            resultadosContainer.innerHTML = '<div class="no-results"><p>Erro ao buscar hotéis. Verifique se o servidor está rodando.</p></div>';
+        }
+    }
+
+    filtroForm.addEventListener('submit', e => { e.preventDefault(); searchHotels(); });
+
+    /* =========================================================
+       MODAL DE RESERVA + CALENDÁRIO
+       ========================================================= */
+    const reservationModal      = document.getElementById('reservation-modal');
+    const reservationCloseBtn   = reservationModal.querySelector('.close');
+    const reservationForm       = document.getElementById('reservation-form');
+    const reservationMessage    = document.getElementById('reservation-message');
+    const reservationStep1      = document.getElementById('reservation-step-1');
+    const reservationStep2      = document.getElementById('reservation-step-2');
+    const reservationStep3      = document.getElementById('reservation-step-3');
+    const reservationSummary    = document.getElementById('reservation-summary');
+    const reservationConfirmBtn = document.getElementById('reservation-confirm-btn');
+    const reservationEditBtn    = document.getElementById('reservation-edit-btn');
+    const reservationCloseBtnFinal = document.getElementById('reservation-close-btn');
+
+    let currentHotel       = null;
+    let currentReservation = null;
+    let datasOcupadas      = []; // [{checkin, checkout}]
+    let calViewDate        = new Date();
+
+    /* ── calendário ─────────────────────────────────────────── */
+    function dateRangeOccupied(checkin, checkout, reservas) {
+        const ci = new Date(checkin);
+        const co = new Date(checkout);
+        return reservas.some(r => {
+            const rci = new Date(r.checkin);
+            const rco = new Date(r.checkout);
+            return ci < rco && co > rci;
+        });
+    }
+
+    function isDayOccupied(date, reservas) {
+        const d = new Date(date);
+        d.setHours(12,0,0,0);
+        return reservas.some(r => {
+            const ci = new Date(r.checkin);  ci.setHours(0,0,0,0);
+            const co = new Date(r.checkout); co.setHours(23,59,59,999);
+            return d >= ci && d <= co;
+        });
+    }
+
+    function renderCalendar(year, month, reservas) {
+        const container = document.getElementById('cal-container');
+        if (!container) return;
+
+        const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        const today = new Date(); today.setHours(0,0,0,0);
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month+1, 0).getDate();
+
+        let html = `
+        <div class="cal-nav">
+            <button id="cal-prev">&#8249;</button>
+            <span>${monthNames[month]} ${year}</span>
+            <button id="cal-next">&#8250;</button>
+        </div>
+        <div class="calendario-grid">
+            <div class="cal-header">Dom</div><div class="cal-header">Seg</div>
+            <div class="cal-header">Ter</div><div class="cal-header">Qua</div>
+            <div class="cal-header">Qui</div><div class="cal-header">Sex</div>
+            <div class="cal-header">Sáb</div>`;
+
+        for (let i = 0; i < firstDay; i++)
+            html += '<div class="cal-dia outro-mes"></div>';
+
+        for (let d = 1; d <= daysInMonth; d++) {
+            const date = new Date(year, month, d);
+            date.setHours(12,0,0,0);
+            const iso  = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            const ocp  = isDayOccupied(iso, reservas);
+            const past = date < today;
+            let cls = 'cal-dia';
+            if (ocp)  cls += ' ocupado';
+            if (!ocp && date.toDateString() === today.toDateString()) cls += ' hoje';
+            if (past && !ocp) cls += ' outro-mes';
+            html += `<div class="${cls}" title="${ocp ? 'Ocupado' : ''}">${d}</div>`;
         }
 
-        async function searchHotels() {
-            const cidade = document.getElementById('cidade').value;
-            const ordenar = document.getElementById('ordenar').value;
+        html += '</div>';
+        container.innerHTML = html;
 
-            const params = {};
-            if (cidade) params.cidade = cidade;
+        document.getElementById('cal-prev').addEventListener('click', () => {
+            calViewDate = new Date(year, month-1, 1);
+            renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), reservas);
+        });
+        document.getElementById('cal-next').addEventListener('click', () => {
+            calViewDate = new Date(year, month+1, 1);
+            renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), reservas);
+        });
+    }
 
-            try {
-                let hotels = await fetchHotels(params);
+    async function loadCalendar(hotelId) {
+        const section = document.getElementById('calendario-section');
+        if (!section) return;
+        section.innerHTML = `
+            <h4>Disponibilidade</h4>
+            <div class="calendario-legenda">
+                <div class="legenda-item"><div class="legenda-cor legenda-livre"></div>Disponível</div>
+                <div class="legenda-item"><div class="legenda-cor legenda-ocupado"></div>Ocupado</div>
+            </div>
+            <div id="cal-container"><p style="color:var(--cinza-3);font-size:13px">Carregando...</p></div>`;
+        try {
+            const res = await fetch(`${API_BASE}/hoteis/${hotelId}/disponibilidade`);
+            datasOcupadas = res.ok ? await res.json() : [];
+        } catch { datasOcupadas = []; }
+        calViewDate = new Date();
+        renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), datasOcupadas);
+    }
 
-                if (ordenar === 'preco') {
-                    hotels.sort((a, b) => a.preco - b.preco);
-                } else if (ordenar === 'avaliacao') {
-                    hotels.sort((a, b) => (b.estrelas || 0) - (a.estrelas || 0));
-                } else if (ordenar === 'distancia') {
-                    hotels.sort((a, b) => a.nome.localeCompare(b.nome));
-                }
+    /* ── abrir modal ─────────────────────────────────────────── */
+    async function openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars, hotelImagem) {
+        currentHotel = { id: hotelId, nome: hotelName, cidade: hotelCity||'', preco: Number(hotelPrice)||0, estrelas: hotelStars||'N/A', imagem: hotelImagem||'' };
 
-                renderHotels(hotels);
-            } catch (error) {
-                console.error(error);
-                resultadosContainer.innerHTML = '<div class="no-results"><p>Erro ao buscar hotéis. Tente novamente.</p></div>';
-            }
+        document.getElementById('reservation-hotel-name').textContent = hotelName;
+        document.getElementById('reservation-hotel-data').innerHTML = `
+            <p><strong>Cidade:</strong> ${currentHotel.cidade}</p>
+            <p><strong>Preço por noite:</strong> R$ ${currentHotel.preco.toFixed(2)}</p>
+            <p><strong>Estrelas:</strong> ${currentHotel.estrelas}</p>`;
+
+        const user = getUser();
+        if (user) {
+            const ni = document.getElementById('reservation-name');
+            const ei = document.getElementById('reservation-email');
+            ni.value = user.nome || ''; ni.readOnly = true; ni.style.background = 'var(--cinza-5)';
+            ei.value = user.email|| ''; ei.readOnly = true; ei.style.background = 'var(--cinza-5)';
         }
 
-        filtroForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await searchHotels();
-        });
+        reservationMessage.textContent = '';
+        reservationMessage.className   = 'message';
+        reservationStep1.classList.remove('hidden');
+        reservationStep2.classList.add('hidden');
+        reservationStep3.classList.add('hidden');
+        reservationModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
 
-        // Elementos do modal de autenticação
-        const authModal = document.getElementById('auth-modal');
-        const loginTab = document.getElementById('login-tab');
-        const registerTab = document.getElementById('register-tab');
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const authCloseBtn = authModal.querySelector('.close');
-        const loginBtn = document.querySelector('.actions button');
-        
-        // Abrir modal de autenticação
-        loginBtn.addEventListener('click', () => {
-            authModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-        
-        // Fechar modal de autenticação
-        authCloseBtn.addEventListener('click', () => {
-            authModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            resetForms();
-        });
-        
-        // Fechar modal de autenticação clicando fora
-        window.addEventListener('click', (e) => {
-            if (e.target === authModal) {
-                authModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                resetForms();
-            }
-        });
-        
-        // Trocar entre abas
-        loginTab.addEventListener('click', () => {
-            loginTab.classList.add('active');
-            registerTab.classList.remove('active');
-            loginForm.classList.remove('hidden');
-            registerForm.classList.add('hidden');
-            resetMessages();
-        });
-        
-        registerTab.addEventListener('click', () => {
-            registerTab.classList.add('active');
-            loginTab.classList.remove('active');
-            registerForm.classList.remove('hidden');
-            loginForm.classList.add('hidden');
-            resetMessages();
-        });
-        
-        // Login
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value;
-            const senha = document.getElementById('login-password').value;
-            
-            try {
-                const response = await fetch(`${API_BASE}/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, senha })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    // Salvar token no localStorage
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    
-                    showMessage('login-message', 'Login realizado com sucesso!', 'success');
-                    
-                    // Fechar modal após 2 segundos
-                    setTimeout(() => {
-                        authModal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                        resetForms();
-                        updateUIAfterLogin(data.user);
-                    }, 2000);
-                } else {
-                    showMessage('login-message', data.message || 'Erro no login', 'error');
-                }
-            } catch (error) {
-                console.error('Erro no login:', error);
-                showMessage('login-message', 'Erro de conexão. Tente novamente.', 'error');
-            }
-        });
-        
-        // Registro
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const nome = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const telefone = document.getElementById('register-phone').value;
-            const senha = document.getElementById('register-password').value;
-            
-            try {
-                const response = await fetch(`${API_BASE}/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ nome, email, telefone, senha })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showMessage('register-message', data.message || 'Conta criada com sucesso! Agora você pode fazer login.', 'success');
-                    
-                    // Limpar formulário
-                    registerForm.reset();
-                    
-                    // Trocar para aba de login após 3 segundos
-                    setTimeout(() => {
-                        loginTab.click();
-                    }, 3000);
-                } else {
-                    showMessage('register-message', data.message || 'Erro no registro', 'error');
-                }
-            } catch (error) {
-                console.error('Erro no registro:', error);
-                showMessage('register-message', 'Erro de conexão. Tente novamente.', 'error');
-            }
-        });
-        
-        // Funções auxiliares
-        function showMessage(elementId, message, type) {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.className = `message ${type}`;
-        }
-        
-        function resetMessages() {
-            document.getElementById('login-message').textContent = '';
-            document.getElementById('register-message').textContent = '';
-        }
-        
-        function resetForms() {
-            loginForm.reset();
-            registerForm.reset();
-            resetMessages();
-        }
-        
-        function updateUIAfterLogin(user) {
-            // Mudar botão de login para mostrar nome do usuário
-            const actionsDiv = document.querySelector('.actions');
-            actionsDiv.innerHTML = `
-                <span>Bem-vindo, ${user.nome}!</span>
-                <button onclick="logout()">Sair</button>
-            `;
+        await loadCalendar(hotelId);
+    }
 
-            // Carregar reservas se estiver na seção minhas-reservas
-            if (window.location.hash === '#minhas-reservas') {
-                loadUserReservations();
-            }
-        }
-        
-        // Função de logout
-        function logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            location.reload();
+    function closeReservationModal() {
+        reservationModal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        reservationForm.reset();
+        currentHotel = null; currentReservation = null;
+        reservationMessage.textContent = '';
+        datasOcupadas = [];
+    }
+
+    /* ── delegação de clique nos cards ──────────────────────── */
+    document.body.addEventListener('click', e => {
+        const btn = e.target.closest('.carrossel-reservar, .hotel-card button, .cta-button');
+        if (!btn) return;
+
+        if (btn.classList.contains('cta-button')) {
+            document.querySelector('a[href="#reservas"]')?.click();
+            return;
         }
 
-        // Carregar reservas do usuário
-        async function loadUserReservations() {
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
+        const ds = btn.dataset;
+        const card = btn.closest('.carrossel-item, .hotel-card');
 
-            const loginRequired = document.getElementById('login-required');
-            const reservasList = document.getElementById('reservas-list');
-            const loadingReservas = document.getElementById('loading-reservas');
-            const noReservas = document.getElementById('no-reservas');
-            const reservasContent = document.getElementById('reservas-content');
+        const hotelId = ds.hotelId ? Number(ds.hotelId) : null;
+        if (!hotelId) { alert('Hotel indisponível para reserva.'); return; }
 
-            if (!token || !user) {
-                loginRequired.classList.remove('hidden');
-                reservasList.classList.add('hidden');
-                return;
-            }
+        const hotelName   = ds.hotelName   || card?.querySelector('h3')?.textContent || 'Hotel';
+        const hotelCity   = ds.hotelCity   || '';
+        const hotelPrice  = ds.hotelPrice  ? Number(ds.hotelPrice) : 0;
+        const hotelStars  = ds.hotelStars  || 'N/A';
+        const hotelImagem = ds.hotelImagem || '';
 
-            loginRequired.classList.add('hidden');
-            reservasList.classList.remove('hidden');
-            loadingReservas.classList.remove('hidden');
-            noReservas.classList.add('hidden');
-            reservasContent.classList.add('hidden');
+        openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars, hotelImagem);
+    });
 
-            try {
-                const response = await fetch(`${API_BASE}/reservas`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+    reservationCloseBtn.addEventListener('click', closeReservationModal);
+    window.addEventListener('click', e => { if (e.target === reservationModal) closeReservationModal(); });
 
-                const reservas = await response.json();
+    /* ── step 1: formulário ─────────────────────────────────── */
+    reservationForm.addEventListener('submit', e => {
+        e.preventDefault();
+        if (!currentHotel) { showReservationMessage('Selecione um hotel.', 'error'); return; }
 
-                loadingReservas.classList.add('hidden');
+        const checkin  = document.getElementById('reservation-checkin').value;
+        const checkout = document.getElementById('reservation-checkout').value;
+        const quartos  = document.getElementById('reservation-quartos').value || '1';
+        const nome     = document.getElementById('reservation-name').value || '';
+        const email    = document.getElementById('reservation-email').value || '';
+        const telefone = document.getElementById('reservation-phone').value || '';
 
-                if (!response.ok || !reservas || reservas.length === 0) {
-                    noReservas.classList.remove('hidden');
-                    return;
-                }
+        if (!checkin || !checkout) { showReservationMessage('Selecione as datas.', 'error'); return; }
+        if (checkout <= checkin)   { showReservationMessage('Check-out deve ser depois do check-in.', 'error'); return; }
 
-                // Função corrigida para mapear hotel ID para imagem
-                function getHotelImage(hotelId, hotelNome) {
-                    const imageMap = {
-                        1: 'assets/hotel1.jpg', 2: 'assets/hotel2.jpg', 3: 'assets/hotel3.jpg',
-                        4: 'assets/hotel4.jpg', 5: 'assets/hotel5.jpg', 6: 'assets/hotel6.jpg',
-                        7: 'assets/hotel7.jpg', 8: 'assets/hotel8.jpg', 9: 'assets/hotel9.jpg',
-                        10: 'assets/hotel10.jpg', 11: 'assets/hotel11.jpg', 12: 'assets/hotel12.jpg',
-                        13: 'assets/hotel13.jpg', 14: 'assets/hotel14.jpg', 15: 'assets/hotel15.jpg',
-                        16: 'assets/hotel16.jpg'
-                    };
-                    
-                    // Converte para número por segurança
-                    const id = Number(hotelId);
-                    if (id && imageMap[id]) {
-                        return imageMap[id];
-                    }
-                    
-                    if (hotelNome) {
-                        // Remove acentos e converte para minúsculo para a busca não falhar
-                        const nomeNormalizado = hotelNome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                        
-                        if (nomeNormalizado.includes('foz') || nomeNormalizado.includes('iguacu')) return 'assets/hotel4.jpg';
-                        if (nomeNormalizado.includes('curitiba')) return 'assets/hotel1.jpg';
-                        if (nomeNormalizado.includes('londrina')) return 'assets/hotel2.jpg';
-                        if (nomeNormalizado.includes('maringa')) return 'assets/hotel3.jpg';
-                        if (nomeNormalizado.includes('cascavel')) return 'assets/hotel5.jpg';
-                        if (nomeNormalizado.includes('ponta grossa')) return 'assets/hotel6.jpg';
-                        if (nomeNormalizado.includes('apucarana')) return 'assets/hotel15.jpg';
-                        if (nomeNormalizado.includes('paranavai')) return 'assets/hotel8.jpg';
-                    }
-                    
-                    return 'assets/hotel1.jpg';
-                }
-
-                reservasContent.innerHTML = '';
-                
-                reservas.forEach(reserva => {
-                    const reservaCard = document.createElement('div');
-                    reservaCard.className = 'reserva-card';
-                    
-                    const dataCheckin = new Date(reserva.checkin).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-                    const dataCheckout = new Date(reserva.checkout).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-                    
-                    // Tenta pegar o ID de várias formas (cobre diferenças entre banco de dados e Node)
-                    const idDoHotel = reserva.hotel_id || reserva.hotelId || reserva.id_hotel;
-                    const imagemSrc = getHotelImage(idDoHotel, reserva.hotel_nome);
-
-                    reservaCard.innerHTML = `
-                        <div class="reserva-card-content">
-                            <div class="reserva-image-container">
-                                <img src="${imagemSrc}" alt="${reserva.hotel_nome}">
-                            </div>
-                            <div class="reserva-info">
-                                <div class="reserva-header">
-                                    <h3>${reserva.hotel_nome}</h3>
-                                    <span class="reserva-status status-${reserva.status}">${reserva.status || 'Confirmada'}</span>
-                                </div>
-                                <div class="reserva-details">
-                                    <p><strong>Cidade:</strong> ${reserva.hotel_cidade}</p>
-                                    <p><strong>Check-in:</strong> ${dataCheckin}</p>
-                                    <p><strong>Check-out:</strong> ${dataCheckout}</p>
-                                    <p><strong>Quartos:</strong> ${reserva.quartos}</p>
-                                    <p><strong>Preço por noite:</strong> R$ ${Number(reserva.hotel_preco).toFixed(2)}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    reservasContent.appendChild(reservaCard);
-                });
-                reservasContent.classList.remove('hidden');
-
-            } catch (error) {
-                console.error('Erro ao carregar reservas:', error);
-                loadingReservas.classList.add('hidden');
-                noReservas.classList.remove('hidden');
-            }
+        if (dateRangeOccupied(checkin, checkout, datasOcupadas)) {
+            showReservationMessage('⚠️ Há datas ocupadas no período selecionado. Escolha outro período.', 'error');
+            return;
         }
 
-        // Reserva
-        const reservationModal = document.getElementById('reservation-modal');
-        const reservationCloseBtn = reservationModal.querySelector('.close');
-        const reservationForm = document.getElementById('reservation-form');
-        const reservationHotelName = document.getElementById('reservation-hotel-name');
-        const reservationHotelData = document.getElementById('reservation-hotel-data');
-        const reservationMessage = document.getElementById('reservation-message');
-        const reservationStep1 = document.getElementById('reservation-step-1');
-        const reservationStep2 = document.getElementById('reservation-step-2');
-        const reservationStep3 = document.getElementById('reservation-step-3');
-        const reservationSummary = document.getElementById('reservation-summary');
-        const reservationConfirmBtn = document.getElementById('reservation-confirm-btn');
-        const reservationEditBtn = document.getElementById('reservation-edit-btn');
-        const reservationCloseBtnFinal = document.getElementById('reservation-close-btn');
-        let currentHotel = null;
-        let currentReservation = null;
+        currentReservation = { hotel: currentHotel, checkin, checkout, quartos, nome, email, telefone };
 
-        function openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars) {
-            currentHotel = {
-                id: hotelId,
-                nome: hotelName,
-                cidade: hotelCity || '',
-                preco: hotelPrice || 0,
-                estrelas: hotelStars || 'N/A'
-            };
-            reservationHotelName.textContent = hotelName;
-            reservationHotelData.innerHTML = `
+        const ci = new Date(checkin);
+        const co = new Date(checkout);
+        const noites = Math.round((co - ci) / 86400000);
+        const total  = noites * currentHotel.preco;
+
+        reservationSummary.innerHTML = `
+            <div class="summary-block">
+                <h3>Hotel</h3>
+                <p><strong>Nome:</strong> ${currentHotel.nome}</p>
                 <p><strong>Cidade:</strong> ${currentHotel.cidade}</p>
-                <p><strong>Preço por noite:</strong> R$ ${Number(currentHotel.preco).toFixed(2)}</p>
-                <p><strong>Estrelas:</strong> ${currentHotel.estrelas}</p>
-            `;
+                <p><strong>Preço/noite:</strong> R$ ${currentHotel.preco.toFixed(2)}</p>
+            </div>
+            <div class="summary-block">
+                <h3>Hóspede</h3>
+                <p><strong>Nome:</strong> ${nome}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Telefone:</strong> ${telefone||'—'}</p>
+            </div>
+            <div class="summary-block">
+                <h3>Reserva</h3>
+                <p><strong>Check-in:</strong> ${new Date(checkin+'T12:00:00').toLocaleDateString('pt-BR')}</p>
+                <p><strong>Check-out:</strong> ${new Date(checkout+'T12:00:00').toLocaleDateString('pt-BR')}</p>
+                <p><strong>Quartos:</strong> ${quartos}</p>
+                <p><strong>Noites:</strong> ${noites}</p>
+                <p><strong>Total est.:</strong> R$ ${total.toFixed(2)}</p>
+            </div>`;
 
-            // Resgata o usuário logado e preenche o formulário
-            const userStr = localStorage.getItem('user');
-            if (userStr) {
-                try {
-                    const user = JSON.parse(userStr);
-                    const nameInput = document.getElementById('reservation-name');
-                    const emailInput = document.getElementById('reservation-email');
-                    
-                    nameInput.value = user.nome || '';
-                    emailInput.value = user.email || '';
-                    
-                    // Trava os campos para apenas leitura e escurece o fundo
-                    nameInput.readOnly = true;
-                    emailInput.readOnly = true;
-                    nameInput.style.backgroundColor = '#e9ecef';
-                    emailInput.style.backgroundColor = '#e9ecef';
-                } catch (e) {
-                    console.error('Erro ao ler usuário', e);
-                }
-            }
+        reservationStep1.classList.add('hidden');
+        reservationStep2.classList.remove('hidden');
+        reservationStep3.classList.add('hidden');
+    });
 
-            reservationMessage.textContent = '';
-            reservationMessage.className = 'message';
-            reservationStep1.classList.remove('hidden');
+    function showReservationMessage(msg, type) {
+        reservationMessage.textContent = msg;
+        reservationMessage.className = `message ${type}`;
+    }
+
+    /* ── step 2: confirmar ──────────────────────────────────── */
+    reservationConfirmBtn.addEventListener('click', async () => {
+        if (!currentReservation) return;
+
+        const token = getToken();
+        if (!token) {
             reservationStep2.classList.add('hidden');
-            reservationStep3.classList.add('hidden');
-            reservationModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            reservationStep1.classList.remove('hidden');
+            showReservationMessage('Faça login para confirmar a reserva.', 'error');
+            setTimeout(openAuthModal, 800);
+            return;
         }
 
-        function closeReservationModal() {
-            reservationModal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            reservationForm.reset();
-            currentHotel = null;
-            currentReservation = null;
-            reservationMessage.textContent = '';
-        }
+        reservationConfirmBtn.disabled = true;
+        reservationConfirmBtn.textContent = 'Confirmando...';
 
-        function showReservationMessage(message, type) {
-            reservationMessage.textContent = message;
-            reservationMessage.className = `message ${type}`;
-        }
+        try {
+            const res = await fetch(`${API_BASE}/reservas`, {
+                method: 'POST',
+                headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
+                body: JSON.stringify({
+                    hotel_id: currentReservation.hotel.id,
+                    checkin:  currentReservation.checkin,
+                    checkout: currentReservation.checkout,
+                    quartos:  Number(currentReservation.quartos)
+                })
+            });
+            const data = await res.json();
 
-        document.body.addEventListener('click', (event) => {
-            if (event.target.matches('.carrossel-reservar, .hotel-card button')) {
-                const card = event.target.closest('.carrossel-item, .hotel-card');
-                if (!card) return;
-
-                const hotelNameElement = card.querySelector('h3');
-                const hotelName = hotelNameElement ? hotelNameElement.textContent.trim() : 'Hotel';
-                const dataset = event.target.dataset || {};
-                const hotelId = dataset.hotelId ? Number(dataset.hotelId) : null;
-                const hotelCity = dataset.hotelCity || (card.querySelectorAll('p')[0] ? card.querySelectorAll('p')[0].textContent.split(' - ')[0] : '');
-                const hotelPrice = dataset.hotelPrice ? Number(dataset.hotelPrice) : ((card.querySelectorAll('p')[1] ? (card.querySelectorAll('p')[1].textContent.match(/R\$\s*([0-9.,]+)/) || [])[1] : 0) || 0);
-                const hotelStars = dataset.hotelStars || (card.querySelectorAll('p')[0] ? (card.querySelectorAll('p')[0].textContent.split(' - ')[1] || '').replace(' estrelas', '') : 'N/A');
-
-                if (!hotelId) {
-                    alert('Este hotel ainda não está disponível para reserva. Use um dos hotéis de exemplo no topo.');
-                    return;
-                }
-
-                openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars);
-            }
-        });
-
-        reservationCloseBtn.addEventListener('click', closeReservationModal);
-        window.addEventListener('click', (event) => {
-            if (event.target === reservationModal) {
-                closeReservationModal();
-            }
-        });
-
-        reservationForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            if (!currentHotel) {
-                showReservationMessage('Selecione um hotel válido para reserva.', 'error');
-                return;
-            }
-
-            const checkin = document.getElementById('reservation-checkin').value;
-            const checkout = document.getElementById('reservation-checkout').value;
-            const quartos = document.getElementById('reservation-quartos').value || '1';
-            const nome = document.getElementById('reservation-name').value || 'Usuário';
-            const email = document.getElementById('reservation-email').value || 'email@exemplo.com';
-            const telefone = document.getElementById('reservation-phone').value || '(00) 00000-0000';
-
-            currentReservation = {
-                hotel: currentHotel,
-                checkin,
-                checkout,
-                quartos,
-                nome,
-                email,
-                telefone
-            };
-
-            reservationSummary.innerHTML = `
-                <div class="summary-block">
-                    <h3>Dados do Hotel</h3>
-                    <p><strong>Hotel:</strong> ${currentReservation.hotel.nome}</p>
-                    <p><strong>Cidade:</strong> ${currentReservation.hotel.cidade}</p>
-                    <p><strong>Preço:</strong> R$ ${Number(currentReservation.hotel.preco).toFixed(2)}</p>
-                    <p><strong>Estrelas:</strong> ${currentReservation.hotel.estrelas}</p>
-                </div>
-                <div class="summary-block">
-                    <h3>Dados do Usuário</h3>
-                    <p><strong>Nome:</strong> ${currentReservation.nome}</p>
-                    <p><strong>Email:</strong> ${currentReservation.email}</p>
-                    <p><strong>Telefone:</strong> ${currentReservation.telefone}</p>
-                </div>
-                <div class="summary-block">
-                    <h3>Detalhes da Reserva</h3>
-                    <p><strong>Check-in:</strong> ${currentReservation.checkin}</p>
-                    <p><strong>Check-out:</strong> ${currentReservation.checkout}</p>
-                    <p><strong>Quartos:</strong> ${currentReservation.quartos}</p>
-                </div>
-            `;
+            if (!res.ok) throw new Error(data.message || 'Erro ao salvar reserva.');
 
             reservationStep1.classList.add('hidden');
-            reservationStep2.classList.remove('hidden');
-            reservationStep3.classList.add('hidden');
-        });
-
-        reservationConfirmBtn.addEventListener('click', async () => {
-            if (!currentReservation) {
-                showReservationMessage('Não há reserva para confirmar.', 'error');
-                return;
-            }
-
-            const token = localStorage.getItem('token');
-            if (!token) {
-                showReservationMessage('Faça login para salvar a reserva e vê-la em Minhas Reservas.', 'error');
-                return;
-            }
-
-            reservationConfirmBtn.disabled = true;
-            reservationConfirmBtn.textContent = 'Confirmando...';
-
-            try {
-                const response = await fetch(`${API_BASE}/reservas`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        hotel_id: currentReservation.hotel.id,
-                        checkin: currentReservation.checkin,
-                        checkout: currentReservation.checkout,
-                        quartos: Number(currentReservation.quartos)
-                    })
-                });
-                const data = await response.json();
-
-                if (!response.ok) {
-                    // Verifica se o servidor retornou erro 400 relacionado ao conflito de datas
-                    if (response.status === 400 && data.message.includes('período')) {
-                        throw new Error('Este hotel já está reservado para a data selecionada. Por favor, escolha outra data.');
-                    }
-                    throw new Error(data.message || 'Erro ao salvar reserva.');
-                }
-
-                reservationStep1.classList.add('hidden');
-                reservationStep2.classList.add('hidden');
-                reservationStep3.classList.remove('hidden');
-                document.getElementById('reservation-confirmation-text').textContent = `Sua reserva foi confirmada com sucesso! ID: ${data.reservaId || '—'}`;
-                reservationMessage.textContent = '';
-
-                if (window.location.hash === '#minhas-reservas') {
-                    loadUserReservations();
-                }
-            } catch (error) {
-                // Devolve o usuário para a Etapa 1 do modal e mostra a mensagem de erro
-                reservationStep2.classList.add('hidden');
-                reservationStep1.classList.remove('hidden');
-                showReservationMessage(error.message, 'error');
-            } finally {
-                reservationConfirmBtn.disabled = false;
-                reservationConfirmBtn.textContent = 'Confirmar Reserva';
-            }
-        });
-
-        reservationEditBtn.addEventListener('click', () => {
-            reservationStep1.classList.remove('hidden');
             reservationStep2.classList.add('hidden');
-            reservationStep3.classList.add('hidden');
-        });
+            reservationStep3.classList.remove('hidden');
+            document.getElementById('reservation-confirmation-text').textContent =
+                `Reserva confirmada com sucesso! Código: #${data.reservaId}`;
 
-        reservationCloseBtnFinal.addEventListener('click', closeReservationModal);
-
-        // Verificar se usuário já está logado ao carregar página
-        window.addEventListener('load', async () => {
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
-            
-            if (token && user) {
-                updateUIAfterLogin(user);
-            }
-
-            // Carregar reservas se estiver na seção minhas-reservas
-            if (window.location.hash === '#minhas-reservas') {
-                loadUserReservations();
-            }
-            await searchHotels();
-        });
-
-        // Observer para carregar reservas quando a seção fica visível
-        const reservasObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.target.id === 'minhas-reservas') {
-                    loadUserReservations();
-                }
-            });
-        }, { threshold: 0.1 });
-
-        // Observar a seção minhas-reservas
-        const minhasReservasSection = document.getElementById('minhas-reservas');
-        if (minhasReservasSection) {
-            reservasObserver.observe(minhasReservasSection);
+        } catch (err) {
+            reservationStep2.classList.add('hidden');
+            reservationStep1.classList.remove('hidden');
+            showReservationMessage(err.message, 'error');
+        } finally {
+            reservationConfirmBtn.disabled = false;
+            reservationConfirmBtn.textContent = 'Confirmar Reserva';
         }
+    });
+
+    reservationEditBtn.addEventListener('click', () => {
+        reservationStep2.classList.add('hidden');
+        reservationStep1.classList.remove('hidden');
+    });
+
+    reservationCloseBtnFinal.addEventListener('click', closeReservationModal);
+
+    /* =========================================================
+       MINHAS RESERVAS
+       ========================================================= */
+    async function loadUserReservations() {
+        const token = getToken();
+        const user  = getUser();
+        const loginRequired  = document.getElementById('login-required');
+        const reservasList   = document.getElementById('reservas-list');
+        const loadingReservas= document.getElementById('loading-reservas');
+        const noReservas     = document.getElementById('no-reservas');
+        const reservasContent= document.getElementById('reservas-content');
+
+        if (!token || !user) {
+            loginRequired?.classList.remove('hidden');
+            reservasList?.classList.add('hidden');
+            return;
+        }
+
+        loginRequired?.classList.add('hidden');
+        reservasList?.classList.remove('hidden');
+        loadingReservas?.classList.remove('hidden');
+        noReservas?.classList.add('hidden');
+        reservasContent?.classList.add('hidden');
+
+        try {
+            const res     = await fetch(`${API_BASE}/reservas`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const reservas = await res.json();
+            loadingReservas?.classList.add('hidden');
+
+            if (!res.ok || !reservas.length) {
+                noReservas?.classList.remove('hidden');
+                return;
+            }
+
+            reservasContent.innerHTML = reservas.map(r => {
+                const ci = new Date(r.checkin  + 'T12:00:00').toLocaleDateString('pt-BR');
+                const co = new Date(r.checkout + 'T12:00:00').toLocaleDateString('pt-BR');
+                return `
+                <div class="reserva-card">
+                    <div class="reserva-card-content">
+                        <div class="reserva-image-container">
+                            <img src="${imgUrl(r.hotel_imagem)}" alt="${r.hotel_nome}"
+                                 onerror="this.src='assets/hotel1.jpg'">
+                        </div>
+                        <div class="reserva-info">
+                            <div class="reserva-header">
+                                <h3>${r.hotel_nome}</h3>
+                                <span class="reserva-status status-confirmada">Confirmada</span>
+                            </div>
+                            <div class="reserva-details">
+                                <p><strong>Cidade:</strong> ${r.hotel_cidade}</p>
+                                <p><strong>Check-in:</strong> ${ci}</p>
+                                <p><strong>Check-out:</strong> ${co}</p>
+                                <p><strong>Quartos:</strong> ${r.quartos||1}</p>
+                                <p><strong>Preço/noite:</strong> R$ ${Number(r.hotel_preco).toFixed(2)}</p>
+                            </div>
+                            <div class="reserva-actions">
+                                <button class="btn-cancelar-reserva" data-reserva-id="${r.id}">
+                                    Cancelar Reserva
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            reservasContent.querySelectorAll('.btn-cancelar-reserva').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!confirm('Cancelar esta reserva?')) return;
+                    try {
+                        const res = await fetch(`${API_BASE}/reservas/${btn.dataset.reservaId}`, {
+                            method: 'DELETE',
+                            headers: { 'Authorization': `Bearer ${getToken()}` }
+                        });
+                        const data = await res.json();
+                        res.ok ? loadUserReservations() : alert(data.message);
+                    } catch { alert('Erro de conexão.'); }
+                });
+            });
+
+            reservasContent?.classList.remove('hidden');
+        } catch {
+            loadingReservas?.classList.add('hidden');
+            noReservas?.classList.remove('hidden');
+        }
+    }
+
+    new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) loadUserReservations(); });
+    }, { threshold: 0.1 }).observe(document.getElementById('minhas-reservas'));
+
+    /* =========================================================
+       INIT — carrega ao abrir a página
+       ========================================================= */
+    window.addEventListener('load', () => {
+        const user = getUser();
+        if (user) updateUIAfterLogin(user);
+        searchHotels();
+    });
     </script>
 </body>
 </html>

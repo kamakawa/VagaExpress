@@ -4,10 +4,8 @@
   "description": "Backend para Vaga Express - Sistema de reservas de hotéis",
   "main": "server.js",
   "scripts": {
-    "start": "node server-sqlite.js",
-    "dev": "nodemon server-sqlite.js",
-    "start-mysql": "node server.js",
-    "dev-mysql": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

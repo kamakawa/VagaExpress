@@ -1400,3 +1400,217 @@ section {
         flex-direction: column;
     }
 }
+/* ===== Botão Cancelar Reserva ===== */
+.reserva-actions {
+    margin-top: 12px;
+}
+
+.btn-cancelar-reserva {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-cancelar-reserva:hover {
+    background: #b02a37;
+    transform: translateY(-1px);
+}
+
+.btn-cancelar-reserva:active {
+    transform: translateY(0);
+}
+
+/* =====================================================
+   VAGA EXPRESS — Complemento de Estilos
+   ===================================================== */
+
+/* ── hotel-card melhorado ───────────────────────────── */
+.hotel-card { border-radius: 12px; overflow: hidden; background: #fff; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,.08); transition: transform .2s ease, box-shadow .2s ease; }
+.hotel-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,.13); }
+.hotel-card img   { width: 100%; height: 160px; object-fit: cover; display: block; }
+.hotel-card-body  { padding: 14px 16px; }
+.hotel-card-body h3 { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 3px; }
+.hotel-cidade  { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+.hotel-estrelas{ font-size: 13px; color: #f59e0b; margin-bottom: 6px; }
+.hotel-preco   { font-size: 17px; font-weight: 700; color: #1a56db; margin-bottom: 12px; }
+.hotel-preco span { font-size: 12px; font-weight: 400; color: #94a3b8; }
+.hotel-card-body button {
+  width: 100%; padding: 10px; background: #1a56db; color: #fff;
+  border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background .2s;
+}
+.hotel-card-body button:hover { background: #1341b0; }
+
+/* ── welcome text & logout ──────────────────────────── */
+.welcome-text { font-size: 14px; font-weight: 500; color: #475569; }
+.btn-logout {
+  padding: 7px 16px; background: transparent; color: #475569;
+  border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;
+  font-weight: 500; cursor: pointer; transition: color .2s, border-color .2s;
+}
+.btn-logout:hover { color: #ef4444; border-color: #ef4444; }
+
+/* ── calendário de disponibilidade ─────────────────── */
+.calendario-section { margin-top: 16px; }
+.calendario-section h4 {
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .5px; color: #94a3b8; margin-bottom: 10px;
+}
+.calendario-legenda { display: flex; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+.legenda-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; }
+.legenda-cor { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.legenda-livre   { background: #dcfce7; border: 1px solid #86efac; }
+.legenda-ocupado { background: #fee2e2; border: 1px solid #fca5a5; }
+
+.cal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.cal-nav button {
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; color: #475569;
+  font-size: 16px; cursor: pointer; line-height: 1; transition: background .15s, color .15s;
+}
+.cal-nav button:hover { background: #e8f0fe; color: #1a56db; }
+.cal-nav span { font-size: 14px; font-weight: 600; color: #0f172a; }
+
+.calendario-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 3px; text-align: center;
+}
+.cal-header {
+  font-size: 10px; font-weight: 600; color: #94a3b8;
+  padding: 4px 0; text-transform: uppercase; letter-spacing: .3px;
+}
+.cal-dia {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; font-size: 12px; font-weight: 500; color: #1e293b;
+  background: #f8fafc; border: 1px solid transparent; cursor: default;
+}
+.cal-dia.ocupado {
+  background: #fee2e2; color: #b91c1c;
+  border-color: #fca5a5; font-weight: 700;
+}
+.cal-dia.hoje {
+  border: 2px solid #1a56db; color: #1a56db; font-weight: 700;
+}
+.cal-dia.outro-mes { color: #cbd5e1; background: transparent; }
+
+/* ── reservation grid ───────────────────────────────── */
+.reservation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+.reservation-col h4 {
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .5px; color: #94a3b8; margin-bottom: 14px;
+}
+.reservation-col label {
+  display: block; font-size: 13px; font-weight: 500;
+  color: #475569; margin-bottom: 5px; margin-top: 12px;
+}
+.reservation-col input {
+  width: 100%; height: 40px; padding: 0 12px;
+  border: 1px solid #cbd5e1; border-radius: 8px;
+  font-size: 14px; font-family: inherit; color: #1e293b;
+  background: #fff; outline: none; transition: border-color .2s;
+}
+.reservation-col input:focus { border-color: #1a56db; }
+.reservation-footer { grid-column: 1 / -1; margin-top: 20px; }
+.reservation-footer .btn-primary, .reservation-footer button {
+  width: 100%; padding: 12px; background: #1a56db; color: #fff;
+  border: none; border-radius: 8px; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: background .2s, transform .15s;
+}
+.reservation-footer button:hover { background: #1341b0; transform: translateY(-1px); }
+#reservation-message { grid-column: 1 / -1; }
+
+/* ── summary block ──────────────────────────────────── */
+.reservation-summary { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 20px; }
+.summary-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; }
+.summary-block h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #94a3b8; margin-bottom: 8px; }
+.summary-block p  { font-size: 13px; color: #475569; margin-bottom: 3px; }
+.summary-block strong { color: #1e293b; font-weight: 500; }
+
+/* ── reservation card ───────────────────────────────── */
+.reservation-card { background: #e8f0fe; border: 1px solid #c7d7f8; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; }
+.reservation-card h3 { font-size: 15px; font-weight: 600; color: #1a56db; margin-bottom: 6px; }
+.reservation-card p  { font-size: 13px; color: #475569; margin-bottom: 2px; }
+
+/* ── reserva cards ──────────────────────────────────── */
+.reservas-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 16px; }
+.reserva-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.reserva-card-content { display: flex; }
+.reserva-image-container { flex-shrink: 0; width: 110px; }
+.reserva-image-container img { width: 110px; height: 100%; object-fit: cover; display: block; }
+.reserva-info { padding: 14px 16px; flex: 1; }
+.reserva-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.reserva-header h3 { font-size: 14px; font-weight: 600; color: #0f172a; }
+.reserva-status { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px; white-space: nowrap; }
+.status-confirmada { background: #dcfce7; color: #15803d; }
+.reserva-details p { font-size: 12.5px; color: #475569; margin-bottom: 3px; }
+.reserva-details strong { color: #1e293b; font-weight: 500; }
+.reserva-actions { margin-top: 10px; }
+.btn-cancelar-reserva {
+  padding: 6px 14px; background: transparent; color: #ef4444;
+  border: 1px solid #ef4444; border-radius: 8px; font-size: 12px;
+  font-weight: 600; cursor: pointer; transition: background .2s, color .2s;
+}
+.btn-cancelar-reserva:hover { background: #ef4444; color: #fff; }
+
+/* ── mensagens ──────────────────────────────────────── */
+.message { font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-top: 10px; }
+.message:empty { display: none; }
+.message.success { background: #dcfce7; color: #15803d; }
+.message.error   { background: #fee2e2; color: #b91c1c; }
+
+/* ── no results ─────────────────────────────────────── */
+.no-results { text-align: center; padding: 48px 24px; color: #94a3b8; font-size: 15px; grid-column: 1/-1; }
+
+/* ── loading / no-reservas ──────────────────────────── */
+.loading    { text-align: center; padding: 40px; color: #94a3b8; }
+.no-reservas { text-align: center; padding: 48px 24px; background: #f8fafc; border-radius: 12px; }
+.no-reservas p { color: #475569; margin-bottom: 14px; }
+.no-reservas button { padding: 10px 24px; background: #1a56db; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+/* ── reservas-message (login required) ─────────────── */
+.reservas-message { text-align: center; padding: 60px 24px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; }
+.reservas-message p { color: #475569; margin-bottom: 14px; }
+.reservas-message button { padding: 10px 24px; background: #1a56db; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+/* ── step 3 confirmação ─────────────────────────────── */
+#reservation-step-3 { text-align: center; padding: 20px 0; }
+#reservation-step-3 h2 { color: #10b981; font-size: 22px; margin-bottom: 12px; }
+#reservation-confirmation-text { color: #475569; font-size: 15px; margin-bottom: 24px; }
+.reservation-actions { display: flex; gap: 12px; }
+.reservation-actions button { flex: 1; }
+
+/* ── auth modal tabs ────────────────────────────────── */
+.modal-header { display: flex; gap: 4px; margin-bottom: 22px; background: #f1f5f9; border-radius: 8px; padding: 4px; }
+.tab-button { flex: 1; padding: 9px; border: none; background: transparent; border-radius: 6px; font-size: 14px; font-weight: 500; color: #475569; cursor: pointer; transition: background .15s, color .15s; }
+.tab-button.active { background: #fff; color: #1a56db; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+/* ── modal base ─────────────────────────────────────── */
+.modal { position: fixed; inset: 0; background: rgba(15,23,42,.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 16px; }
+.modal.hidden { display: none !important; }
+#auth-modal { display: none; flex; }
+#auth-modal[style*="block"] { display: flex !important; }
+.modal-content { background: #fff; border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,.18); max-height: 90vh; overflow-y: auto; }
+#reservation-modal .modal-content { max-width: 680px; }
+.close { position: absolute; top: 14px; right: 18px; font-size: 22px; color: #94a3b8; cursor: pointer; transition: color .15s; line-height: 1; background: none; border: none; }
+.close:hover { color: #0f172a; }
+.auth-form h2 { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.form-group label { font-size: 13px; font-weight: 600; color: #475569; }
+.form-group input { height: 42px; padding: 0 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; outline: none; transition: border-color .2s; }
+.form-group input:focus { border-color: #1a56db; }
+.auth-submit { width: 100%; padding: 12px; background: #1a56db; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 6px; transition: background .2s, transform .15s; }
+.auth-submit:hover { background: #1341b0; transform: translateY(-1px); }
+.auth-submit.secondary { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.auth-submit.secondary:hover { background: #e2e8f0; }
+.auth-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+.hidden { display: none !important; }
