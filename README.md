@@ -1,77 +1,89 @@
-# Vaga Express - Sistema de Reservas de Hotéis 🏨
+# 🚀 Vaga Express
 
-O **Vaga Express** é a minha primeira aplicação **Fullstack**, desenvolvida para facilitar a reserva de hospedagens no estado do Paraná. O projeto simula um ecossistema completo de reservas, permitindo que usuários pesquisem hotéis por cidade, visualizem detalhes, criem contas e gerenciem suas reservas de forma segura.
-
-Este projeto marca o início da minha jornada integrando tecnologias de Frontend, Backend e Banco de Dados.
+Sistema web de reservas de hotéis desenvolvido com foco em simular uma aplicação real, integrando frontend, backend e banco de dados em uma arquitetura completa.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 📌 Sobre o Projeto
 
-Para a construção deste projeto, utilizei as seguintes tecnologias:
+O **Vaga Express** é uma aplicação fullstack que permite o cadastro de usuários, visualização de hotéis fictícios e realização de reservas.
 
-### Frontend
-<div style="display: inline_block">
-  <img align="center" alt="HTML5" height="40" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg">
-  <img align="center" alt="CSS3" height="40" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg">
-  <img align="center" alt="JS" height="40" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg">
-</div>
+O projeto foi desenvolvido com o objetivo de aplicar, na prática, conceitos fundamentais de desenvolvimento web, como integração entre camadas, persistência de dados e estruturação de APIs.
 
-### Backend & Database
-<div style="display: inline_block">
-  <img align="center" alt="NodeJS" height="40" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg">
-  <img align="center" alt="Express" height="40" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original.svg">
-  <img align="center" alt="SQLite" height="40" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg">
-  <img align="center" alt="MySQL" height="40" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg">
-</div>
+Embora seja um projeto inicial, ele representa um passo importante na construção de aplicações completas e funcionais.
 
 ---
 
-## 📋 Funcionalidades Principais
+## 🛠️ Tecnologias Utilizadas
 
-* **Autenticação Segura:** Sistema de login e registro de usuários com criptografia de senhas via `bcrypt`.
-* **Gestão de Sessão:** Uso de **JSON Web Tokens (JWT)** para proteger rotas e manter o usuário conectado.
-* **Busca e Filtros:** Filtragem dinâmica de hotéis por cidade e ordenação por preço ou avaliação.
-* **Reserva em Tempo Real:** Verificação de disponibilidade para evitar conflitos de datas no mesmo hotel.
-* **Persistência de Dados:** Histórico de reservas vinculado ao perfil do usuário.
-* **Dual-Database Support:** O backend está preparado para rodar tanto com **SQLite** quanto com **MySQL**.
+- **Backend:** Node.js  
+- **Banco de Dados:** MySQL  
+- **Frontend:** HTML, CSS e JavaScript  
 
 ---
 
-## 🛠️ Como Executar o Projeto
+## ⚙️ Funcionalidades
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/kamakawa/vaga-express.git](https://github.com/kamakawa/VagaExpress.git)
-    ```
-
-2.  **Instale as dependências:**
-    ```bash
-    cd vagaexpress-backend
-    npm install
-    ```
-
-3.  **Configure as variáveis de ambiente:**
-    Crie um arquivo `.env` na raiz do projeto e adicione:
-    ```env
-    PORT=3000
-    JWT_SECRET=sua_chave_secreta_aqui
-    ```
-
-4.  **Inicie o servidor (Modo SQLite):**
-    ```bash
-    npm run dev
-    ```
-
-5.  **Acesse a aplicação:**
-    Abra o arquivo `index.html` no seu navegador (recomenda-se usar a extensão *Live Server* do VS Code).
+- Cadastro de usuários  
+- Login de usuários  
+- Visualização de hotéis  
+- Sistema de reservas  
+- Integração com banco de dados relacional  
 
 ---
 
+## 📚 Aprendizados
 
-## 🤝 Contato
+Durante o desenvolvimento deste projeto, foram trabalhados conceitos como:
 
-Desenvolvido por **Eric Kamakawa** *Estudante de Engenharia de Computação - UTFPR*
-
+- Integração entre backend e banco de dados  
+- Estruturação de APIs REST  
+- Modelagem de dados  
+- Organização de fluxo de informações  
+- Construção de uma aplicação fullstack  
 
 ---
+
+## 🤝 Colaboração
+
+Projeto desenvolvido em parceria com **Leonardo Neres**.
+
+---
+
+## 🚧 Status do Projeto
+
+✔️ Concluído (versão inicial)  
+🔄 Possíveis melhorias futuras:
+- Implementação de autenticação mais robusta  
+- Melhorias na interface do usuário  
+- Deploy da aplicação  
+- Testes automatizados  
+
+---
+
+## 📌 Próximos Passos
+
+O projeto continuará sendo aprimorado com foco em:
+
+- Boas práticas de engenharia de software  
+- Escalabilidade  
+- Melhor experiência do usuário  
+
+---
+
+## 📎 Como Executar o Projeto
+
+```bash
+# Clone o repositório
+git clone https://github.com/kamakawa/vaga-express.git
+
+# Acesse a pasta do projeto
+cd vaga-express
+
+# Instale as dependências
+npm install
+
+# Configure o banco de dados (MySQL)
+
+# Execute o servidor
+npm start
