@@ -520,9 +520,15 @@
     /* =========================================================
        VAGA EXPRESS — JavaScript principal
        ========================================================= */
+    /* helpers */
+    function show(el) { if (el) el.classList.remove('hidden'); }
+    function hide(el) { if (el) el.classList.add('hidden'); }
+
+    /* =========================================================
+       VAGA EXPRESS — JavaScript principal
+       ========================================================= */
     const API_BASE = 'http://localhost:3000/api';
 
-    /* ── utilidades ────────────────────────────────────────── */
     const getToken = () => localStorage.getItem('token');
     const getUser  = () => JSON.parse(localStorage.getItem('user') || 'null');
 
@@ -606,8 +612,10 @@
             <span class="welcome-text">Olá, ${user.nome.split(' ')[0]}!</span>
             <button class="btn-logout" onclick="logout()">Sair</button>
         `;
-        document.getElementById('login-required')?.classList.add('hidden');
-        document.getElementById('reservas-list')?.classList.remove('hidden');
+        const lr = document.getElementById('login-required');
+        const rl = document.getElementById('reservas-list');
+        if (lr) lr.classList.add('hidden');
+        if (rl) rl.classList.remove('hidden');
     }
 
     function logout() {
@@ -630,7 +638,7 @@
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 showMsg('login-message', 'Login realizado!', 'success');
-                setTimeout(() => { closeAuthModal(); updateUIAfterLogin(data.user); }, 1200);
+                setTimeout(() => { closeAuthModal(); updateUIAfterLogin(data.user);loadUserReservations(); }, 1200);
             } else {
                 showMsg('login-message', data.message || 'Erro no login', 'error');
             }
@@ -639,10 +647,10 @@
 
     registerForm.addEventListener('submit', async e => {
         e.preventDefault();
-        const nome   = document.getElementById('register-name').value;
-        const email  = document.getElementById('register-email').value;
+        const nome     = document.getElementById('register-name').value;
+        const email    = document.getElementById('register-email').value;
         const telefone = document.getElementById('register-phone').value;
-        const senha  = document.getElementById('register-password').value;
+        const senha    = document.getElementById('register-password').value;
         try {
             const res  = await fetch(`${API_BASE}/register`, {
                 method:'POST', headers:{'Content-Type':'application/json'},
@@ -708,8 +716,6 @@
             const res    = await fetch(`${API_BASE}/hoteis?${params}`);
             if (!res.ok) throw new Error();
             const hotels = await res.json();
-            if (ordenar === 'preco')    hotels.sort((a,b) => a.preco - b.preco);
-            if (ordenar === 'avaliacao') hotels.sort((a,b) => (b.estrelas||0) - (a.estrelas||0));
             renderHotels(hotels);
         } catch {
             resultadosContainer.innerHTML = '<div class="no-results"><p>Erro ao buscar hotéis. Verifique se o servidor está rodando.</p></div>';
@@ -735,10 +741,9 @@
 
     let currentHotel       = null;
     let currentReservation = null;
-    let datasOcupadas      = []; // [{checkin, checkout}]
+    let datasOcupadas      = [];
     let calViewDate        = new Date();
 
-    /* ── calendário ─────────────────────────────────────────── */
     function dateRangeOccupied(checkin, checkout, reservas) {
         const ci = new Date(checkin);
         const co = new Date(checkout);
@@ -750,8 +755,7 @@
     }
 
     function isDayOccupied(date, reservas) {
-        const d = new Date(date);
-        d.setHours(12,0,0,0);
+        const d = new Date(date); d.setHours(12,0,0,0);
         return reservas.some(r => {
             const ci = new Date(r.checkin);  ci.setHours(0,0,0,0);
             const co = new Date(r.checkout); co.setHours(23,59,59,999);
@@ -762,13 +766,10 @@
     function renderCalendar(year, month, reservas) {
         const container = document.getElementById('cal-container');
         if (!container) return;
-
-        const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-                            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
         const today = new Date(); today.setHours(0,0,0,0);
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month+1, 0).getDate();
-
         let html = `
         <div class="cal-nav">
             <button id="cal-prev">&#8249;</button>
@@ -780,26 +781,20 @@
             <div class="cal-header">Ter</div><div class="cal-header">Qua</div>
             <div class="cal-header">Qui</div><div class="cal-header">Sex</div>
             <div class="cal-header">Sáb</div>`;
-
-        for (let i = 0; i < firstDay; i++)
-            html += '<div class="cal-dia outro-mes"></div>';
-
+        for (let i = 0; i < firstDay; i++) html += '<div class="cal-dia outro-mes"></div>';
         for (let d = 1; d <= daysInMonth; d++) {
-            const date = new Date(year, month, d);
-            date.setHours(12,0,0,0);
+            const date = new Date(year, month, d); date.setHours(12,0,0,0);
             const iso  = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
             const ocp  = isDayOccupied(iso, reservas);
             const past = date < today;
             let cls = 'cal-dia';
-            if (ocp)  cls += ' ocupado';
-            if (!ocp && date.toDateString() === today.toDateString()) cls += ' hoje';
-            if (past && !ocp) cls += ' outro-mes';
-            html += `<div class="${cls}" title="${ocp ? 'Ocupado' : ''}">${d}</div>`;
+            if (ocp) cls += ' ocupado';
+            else if (date.toDateString() === today.toDateString()) cls += ' hoje';
+            else if (past) cls += ' outro-mes';
+            html += `<div class="${cls}">${d}</div>`;
         }
-
         html += '</div>';
         container.innerHTML = html;
-
         document.getElementById('cal-prev').addEventListener('click', () => {
             calViewDate = new Date(year, month-1, 1);
             renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), reservas);
@@ -819,7 +814,7 @@
                 <div class="legenda-item"><div class="legenda-cor legenda-livre"></div>Disponível</div>
                 <div class="legenda-item"><div class="legenda-cor legenda-ocupado"></div>Ocupado</div>
             </div>
-            <div id="cal-container"><p style="color:var(--cinza-3);font-size:13px">Carregando...</p></div>`;
+            <div id="cal-container"><p style="color:#94a3b8;font-size:13px">Carregando...</p></div>`;
         try {
             const res = await fetch(`${API_BASE}/hoteis/${hotelId}/disponibilidade`);
             datasOcupadas = res.ok ? await res.json() : [];
@@ -828,32 +823,25 @@
         renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), datasOcupadas);
     }
 
-    /* ── abrir modal ─────────────────────────────────────────── */
     async function openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars, hotelImagem) {
         currentHotel = { id: hotelId, nome: hotelName, cidade: hotelCity||'', preco: Number(hotelPrice)||0, estrelas: hotelStars||'N/A', imagem: hotelImagem||'' };
-
         document.getElementById('reservation-hotel-name').textContent = hotelName;
         document.getElementById('reservation-hotel-data').innerHTML = `
             <p><strong>Cidade:</strong> ${currentHotel.cidade}</p>
             <p><strong>Preço por noite:</strong> R$ ${currentHotel.preco.toFixed(2)}</p>
             <p><strong>Estrelas:</strong> ${currentHotel.estrelas}</p>`;
-
         const user = getUser();
         if (user) {
             const ni = document.getElementById('reservation-name');
             const ei = document.getElementById('reservation-email');
-            ni.value = user.nome || ''; ni.readOnly = true; ni.style.background = 'var(--cinza-5)';
-            ei.value = user.email|| ''; ei.readOnly = true; ei.style.background = 'var(--cinza-5)';
+            ni.value = user.nome || ''; ni.readOnly = true; ni.style.background = '#f1f5f9';
+            ei.value = user.email|| ''; ei.readOnly = true; ei.style.background = '#f1f5f9';
         }
-
         reservationMessage.textContent = '';
         reservationMessage.className   = 'message';
-        reservationStep1.classList.remove('hidden');
-        reservationStep2.classList.add('hidden');
-        reservationStep3.classList.add('hidden');
+        show(reservationStep1); hide(reservationStep2); hide(reservationStep3);
         reservationModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
-
         await loadCalendar(hotelId);
     }
 
@@ -866,61 +854,46 @@
         datasOcupadas = [];
     }
 
-    /* ── delegação de clique nos cards ──────────────────────── */
     document.body.addEventListener('click', e => {
-        const btn = e.target.closest('.carrossel-reservar, .hotel-card button, .cta-button');
-        if (!btn) return;
-
-        if (btn.classList.contains('cta-button')) {
+        if (e.target.matches('.cta-button')) {
             document.querySelector('a[href="#reservas"]')?.click();
             return;
         }
-
-        const ds = btn.dataset;
+        const btn = e.target.matches('[data-hotel-id]') ? e.target : e.target.closest('[data-hotel-id]');
+        if (!btn) return;
+        const hotelId = Number(btn.dataset.hotelId);
+        if (!hotelId) return;
         const card = btn.closest('.carrossel-item, .hotel-card');
-
-        const hotelId = ds.hotelId ? Number(ds.hotelId) : null;
-        if (!hotelId) { alert('Hotel indisponível para reserva.'); return; }
-
-        const hotelName   = ds.hotelName   || card?.querySelector('h3')?.textContent || 'Hotel';
-        const hotelCity   = ds.hotelCity   || '';
-        const hotelPrice  = ds.hotelPrice  ? Number(ds.hotelPrice) : 0;
-        const hotelStars  = ds.hotelStars  || 'N/A';
-        const hotelImagem = ds.hotelImagem || '';
-
-        openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars, hotelImagem);
+        openReservationModal(
+            hotelId,
+            btn.dataset.hotelName  || card?.querySelector('h3')?.textContent?.trim() || 'Hotel',
+            btn.dataset.hotelCity  || '',
+            btn.dataset.hotelPrice ? Number(btn.dataset.hotelPrice) : 0,
+            btn.dataset.hotelStars || 'N/A',
+            btn.dataset.hotelImagem|| ''
+        );
     });
 
     reservationCloseBtn.addEventListener('click', closeReservationModal);
     window.addEventListener('click', e => { if (e.target === reservationModal) closeReservationModal(); });
 
-    /* ── step 1: formulário ─────────────────────────────────── */
     reservationForm.addEventListener('submit', e => {
         e.preventDefault();
         if (!currentHotel) { showReservationMessage('Selecione um hotel.', 'error'); return; }
-
         const checkin  = document.getElementById('reservation-checkin').value;
         const checkout = document.getElementById('reservation-checkout').value;
         const quartos  = document.getElementById('reservation-quartos').value || '1';
         const nome     = document.getElementById('reservation-name').value || '';
         const email    = document.getElementById('reservation-email').value || '';
         const telefone = document.getElementById('reservation-phone').value || '';
-
         if (!checkin || !checkout) { showReservationMessage('Selecione as datas.', 'error'); return; }
         if (checkout <= checkin)   { showReservationMessage('Check-out deve ser depois do check-in.', 'error'); return; }
-
         if (dateRangeOccupied(checkin, checkout, datasOcupadas)) {
-            showReservationMessage('⚠️ Há datas ocupadas no período selecionado. Escolha outro período.', 'error');
+            showReservationMessage('⚠️ Período com datas ocupadas. Escolha outro período.', 'error');
             return;
         }
-
         currentReservation = { hotel: currentHotel, checkin, checkout, quartos, nome, email, telefone };
-
-        const ci = new Date(checkin);
-        const co = new Date(checkout);
-        const noites = Math.round((co - ci) / 86400000);
-        const total  = noites * currentHotel.preco;
-
+        const noites = Math.round((new Date(checkout) - new Date(checkin)) / 86400000);
         reservationSummary.innerHTML = `
             <div class="summary-block">
                 <h3>Hotel</h3>
@@ -938,14 +911,10 @@
                 <h3>Reserva</h3>
                 <p><strong>Check-in:</strong> ${new Date(checkin+'T12:00:00').toLocaleDateString('pt-BR')}</p>
                 <p><strong>Check-out:</strong> ${new Date(checkout+'T12:00:00').toLocaleDateString('pt-BR')}</p>
-                <p><strong>Quartos:</strong> ${quartos}</p>
                 <p><strong>Noites:</strong> ${noites}</p>
-                <p><strong>Total est.:</strong> R$ ${total.toFixed(2)}</p>
+                <p><strong>Total est.:</strong> R$ ${(noites * currentHotel.preco).toFixed(2)}</p>
             </div>`;
-
-        reservationStep1.classList.add('hidden');
-        reservationStep2.classList.remove('hidden');
-        reservationStep3.classList.add('hidden');
+        hide(reservationStep1); show(reservationStep2); hide(reservationStep3);
     });
 
     function showReservationMessage(msg, type) {
@@ -953,22 +922,17 @@
         reservationMessage.className = `message ${type}`;
     }
 
-    /* ── step 2: confirmar ──────────────────────────────────── */
     reservationConfirmBtn.addEventListener('click', async () => {
         if (!currentReservation) return;
-
         const token = getToken();
         if (!token) {
-            reservationStep2.classList.add('hidden');
-            reservationStep1.classList.remove('hidden');
+            hide(reservationStep2); show(reservationStep1);
             showReservationMessage('Faça login para confirmar a reserva.', 'error');
             setTimeout(openAuthModal, 800);
             return;
         }
-
         reservationConfirmBtn.disabled = true;
         reservationConfirmBtn.textContent = 'Confirmando...';
-
         try {
             const res = await fetch(`${API_BASE}/reservas`, {
                 method: 'POST',
@@ -976,23 +940,24 @@
                 body: JSON.stringify({
                     hotel_id: currentReservation.hotel.id,
                     checkin:  currentReservation.checkin,
-                    checkout: currentReservation.checkout,
-                    quartos:  Number(currentReservation.quartos)
+                    checkout: currentReservation.checkout
                 })
             });
             const data = await res.json();
-
+            if (res.status === 401 || res.status === 403) {
+                localStorage.removeItem('token'); localStorage.removeItem('user');
+                hide(reservationStep2); show(reservationStep1);
+                showReservationMessage('Sessão expirada. Faça login novamente.', 'error');
+                setTimeout(openAuthModal, 1000);
+                return;
+            }
             if (!res.ok) throw new Error(data.message || 'Erro ao salvar reserva.');
-
-            reservationStep1.classList.add('hidden');
-            reservationStep2.classList.add('hidden');
-            reservationStep3.classList.remove('hidden');
+            hide(reservationStep1); hide(reservationStep2); show(reservationStep3);
             document.getElementById('reservation-confirmation-text').textContent =
-                `Reserva confirmada com sucesso! Código: #${data.reservaId}`;
-
+                `Reserva confirmada! Código: #${data.reservaId}`;
+            loadUserReservations();
         } catch (err) {
-            reservationStep2.classList.add('hidden');
-            reservationStep1.classList.remove('hidden');
+            hide(reservationStep2); show(reservationStep1);
             showReservationMessage(err.message, 'error');
         } finally {
             reservationConfirmBtn.disabled = false;
@@ -1000,11 +965,7 @@
         }
     });
 
-    reservationEditBtn.addEventListener('click', () => {
-        reservationStep2.classList.add('hidden');
-        reservationStep1.classList.remove('hidden');
-    });
-
+    reservationEditBtn.addEventListener('click', () => { hide(reservationStep2); show(reservationStep1); });
     reservationCloseBtnFinal.addEventListener('click', closeReservationModal);
 
     /* =========================================================
@@ -1013,62 +974,64 @@
     async function loadUserReservations() {
         const token = getToken();
         const user  = getUser();
-        const loginRequired  = document.getElementById('login-required');
-        const reservasList   = document.getElementById('reservas-list');
-        const loadingReservas= document.getElementById('loading-reservas');
-        const noReservas     = document.getElementById('no-reservas');
-        const reservasContent= document.getElementById('reservas-content');
+        const loginRequired   = document.getElementById('login-required');
+        const reservasList    = document.getElementById('reservas-list');
+        const loadingReservas = document.getElementById('loading-reservas');
+        const noReservas      = document.getElementById('no-reservas');
+        const reservasContent = document.getElementById('reservas-content');
 
         if (!token || !user) {
-            loginRequired?.classList.remove('hidden');
-            reservasList?.classList.add('hidden');
+            show(loginRequired); hide(reservasList);
             return;
         }
 
-        loginRequired?.classList.add('hidden');
-        reservasList?.classList.remove('hidden');
-        loadingReservas?.classList.remove('hidden');
-        noReservas?.classList.add('hidden');
-        reservasContent?.classList.add('hidden');
+        hide(loginRequired); show(reservasList);
+        show(loadingReservas); hide(noReservas); hide(reservasContent);
 
         try {
-            const res     = await fetch(`${API_BASE}/reservas`, {
+            const res = await fetch(`${API_BASE}/reservas`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            const reservas = await res.json();
-            loadingReservas?.classList.add('hidden');
+            hide(loadingReservas);
 
-            if (!res.ok || !reservas.length) {
-                noReservas?.classList.remove('hidden');
+            if (res.status === 401 || res.status === 403) {
+                localStorage.removeItem('token'); localStorage.removeItem('user');
+                show(loginRequired); hide(reservasList);
                 return;
             }
 
+            const reservas = await res.json();
+
+            if (!Array.isArray(reservas) || reservas.length === 0) {
+                hide(reservasContent);
+                show(noReservas); return;
+            }
+
             reservasContent.innerHTML = reservas.map(r => {
-                const ci = new Date(r.checkin  + 'T12:00:00').toLocaleDateString('pt-BR');
-                const co = new Date(r.checkout + 'T12:00:00').toLocaleDateString('pt-BR');
+                const ci = r.checkin  ? new Date(r.checkin.substring(0,10)  + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
+                const co = r.checkout ? new Date(r.checkout.substring(0,10) + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
+                const imgSrc = r.hotel_imagem
+                    ? (r.hotel_imagem.startsWith('http') ? r.hotel_imagem : `http://localhost:3000/${r.hotel_imagem}`)
+                    : 'assets/hotel1.jpg';
                 return `
                 <div class="reserva-card">
                     <div class="reserva-card-content">
                         <div class="reserva-image-container">
-                            <img src="${imgUrl(r.hotel_imagem)}" alt="${r.hotel_nome}"
-                                 onerror="this.src='assets/hotel1.jpg'">
+                            <img src="${imgSrc}" alt="${r.hotel_nome || 'Hotel'}" onerror="this.src='assets/hotel1.jpg'">
                         </div>
                         <div class="reserva-info">
                             <div class="reserva-header">
-                                <h3>${r.hotel_nome}</h3>
+                                <h3>${r.hotel_nome || 'Hotel'}</h3>
                                 <span class="reserva-status status-confirmada">Confirmada</span>
                             </div>
                             <div class="reserva-details">
-                                <p><strong>Cidade:</strong> ${r.hotel_cidade}</p>
+                                <p><strong>Cidade:</strong> ${r.hotel_cidade || '—'}</p>
                                 <p><strong>Check-in:</strong> ${ci}</p>
                                 <p><strong>Check-out:</strong> ${co}</p>
-                                <p><strong>Quartos:</strong> ${r.quartos||1}</p>
-                                <p><strong>Preço/noite:</strong> R$ ${Number(r.hotel_preco).toFixed(2)}</p>
+                                <p><strong>Preço/noite:</strong> R$ ${Number(r.hotel_preco || 0).toFixed(2)}</p>
                             </div>
                             <div class="reserva-actions">
-                                <button class="btn-cancelar-reserva" data-reserva-id="${r.id}">
-                                    Cancelar Reserva
-                                </button>
+                                <button class="btn-cancelar-reserva" data-reserva-id="${r.id}">Cancelar Reserva</button>
                             </div>
                         </div>
                     </div>
@@ -1078,36 +1041,34 @@
             reservasContent.querySelectorAll('.btn-cancelar-reserva').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     if (!confirm('Cancelar esta reserva?')) return;
-                    try {
-                        const res = await fetch(`${API_BASE}/reservas/${btn.dataset.reservaId}`, {
-                            method: 'DELETE',
-                            headers: { 'Authorization': `Bearer ${getToken()}` }
-                        });
-                        const data = await res.json();
-                        res.ok ? loadUserReservations() : alert(data.message);
-                    } catch { alert('Erro de conexão.'); }
+                    const delRes = await fetch(`${API_BASE}/reservas/${btn.dataset.reservaId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${getToken()}` }
+                    }).catch(() => null);
+                    if (delRes && delRes.ok) loadUserReservations();
+                    else alert('Erro ao cancelar. Tente novamente.');
                 });
             });
 
-            reservasContent?.classList.remove('hidden');
-        } catch {
-            loadingReservas?.classList.add('hidden');
-            noReservas?.classList.remove('hidden');
+            show(reservasContent);
+
+        } catch (err) {
+            console.error('Erro em loadUserReservations:', err);
+            hide(loadingReservas);
+            show(noReservas);
         }
     }
 
-    new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) loadUserReservations(); });
-    }, { threshold: 0.1 }).observe(document.getElementById('minhas-reservas'));
-
-    /* =========================================================
-       INIT — carrega ao abrir a página
-       ========================================================= */
+    // carregar sempre que entrar na página
     window.addEventListener('load', () => {
         const user = getUser();
-        if (user) updateUIAfterLogin(user);
+        if (user) {
+            updateUIAfterLogin(user);
+            loadUserReservations(); // 🔥 força carregamento
+        }
         searchHotels();
     });
+
     </script>
 </body>
 </html>
