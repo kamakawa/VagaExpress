@@ -3,514 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vaga Express</title>
+    <title>Vaga Express — Reservas de hotéis no Paraná</title>
+    <meta name="description" content="Encontre e reserve os melhores hotéis do Paraná com rapidez, transparência e segurança.">
+    <meta name="theme-color" content="#0b2340">
     <link rel="icon" href="assets/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header id="cabeçalho">
-        <div class="logo-container">
-            <img src="assets/logo.png" alt="Logo do site" height="50px">
-        </div>
-        <div class="text-container">
-            <h1>Vaga Express</h1>
-            <p>Reserva de vagas rápida e fácil</p>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#reservas">Reservas</a></li>
-                <li><a href="#minhas-reservas">Minhas Reservas</a></li>
-                <li><a href="#sobre">Sobre Nós</a></li>
-                <li><a href="#contato">Contato</a></li>
-            </ul>
-        </nav>
-        <div class="actions">
-            <button>Login</button>
+    <!-- SVG sprite -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+        <symbol id="i-touch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5a2 2 0 0 1 4 0v6"/><path d="M13 10a2 2 0 0 1 4 0v1a2 2 0 0 1 4 0v4a6 6 0 0 1-6 6h-2a6 6 0 0 1-5-3l-3-5a2 2 0 0 1 3-2l2 2"/></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+        <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .8-5.2 4.8 1.5 7-6.3-3.6-6.3 3.6 1.5-7L2 9.4l7-.8z"/></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+        <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></symbol>
+    </svg>
+
+    <header class="topbar" id="topbar">
+        <div class="container">
+            <a class="brand" href="#home" aria-label="Vaga Express — início">
+                <img src="assets/logo.png" alt="Vaga Express">
+            </a>
+            <nav class="nav" id="nav" aria-label="Navegação principal">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#reservas">Hotéis</a></li>
+                    <li><a href="#minhas-reservas">Minhas Reservas</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="actions">
+                <button class="btn btn-navy" id="open-login" type="button">Entrar</button>
+            </div>
+            <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
     <main>
         <section id="home">
-            <div class="hero">
-                <h1>Bem-Vindo ao Vaga Express!</h1>
-                <p>Sua solução rápida e fácil para reservas de vagas em hotéis. Encontre o hotel perfeito com preços acessíveis e confirme sua reserva em minutos.</p>
-                <button class="cta-button">Reservar Agora</button>
+            <div class="container">
+                <div class="hero">
+                    <span class="eyebrow">Hospedagem no Paraná</span>
+                    <h1>Reserve o hotel certo, <em>sem complicação.</em></h1>
+                    <p>Hotéis selecionados em todo o estado, preços transparentes e confirmação em minutos. Da capital às Cataratas, sua próxima estadia começa aqui.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-gold" href="#reservas">Encontrar hotéis</a>
+                        <a class="btn btn-ghost" href="#como-funciona">Como funciona</a>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat"><strong>16+</strong><span>Hotéis selecionados</span></div>
+                    <div class="stat"><strong>8</strong><span>Cidades atendidas</span></div>
+                    <div class="stat"><strong>4,3</strong><span>Avaliação média</span></div>
+                </div>
             </div>
+        </section>
+
+        <div class="container">
             <div class="features">
                 <div class="feature">
+                    <div class="ico"><svg><use href="#i-bolt"/></svg></div>
                     <h3>Rápido</h3>
-                    <p>Reserve em poucos cliques.</p>
+                    <p>Escolha o hotel, as datas e confirme a reserva em poucos cliques.</p>
                 </div>
                 <div class="feature">
-                    <h3>Fácil</h3>
-                    <p>Interface intuitiva para todos.</p>
+                    <div class="ico"><svg><use href="#i-touch"/></svg></div>
+                    <h3>Simples</h3>
+                    <p>Interface clara, calendário de disponibilidade e resumo antes de confirmar.</p>
                 </div>
                 <div class="feature">
+                    <div class="ico"><svg><use href="#i-shield"/></svg></div>
                     <h3>Confiável</h3>
-                    <p>Hotéis verificados e seguros.</p>
+                    <p>Hotéis verificados e suas reservas sempre acessíveis na sua conta.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="carrossel-destaque">
-            <h2>Hotéis em Destaque</h2>
+        <section id="carrossel-destaque" class="block">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Seleção da casa</span>
+                    <h2>Hotéis em destaque</h2>
+                    <p>Os endereços mais bem avaliados pelos nossos hóspedes.</p>
+                </div>
+            </div>
             <div class="carrossel-wrapper">
-                <div class="carrossel" id="carrossel">
-                    <div class="carrossel-item">
-                        <img src="assets/hotel4.jpg" alt="Resort Foz do Iguaçu">
-                        <h3>Resort Foz do Iguaçu</h3>
-                        <p>Foz do Iguaçu - 5.0 estrelas</p>
-                        <p>A partir de R$ 250/noite</p>
-                        <button class="carrossel-reservar" type="button" data-hotel-id="4">Reservar</button>
-                    </div>
-                    <div class="carrossel-item">
-                        <img src="assets/hotel9.jpg" alt="Centro Hotel Curitiba 2">
-                        <h3>Centro Hotel Curitiba 2</h3>
-                        <p>Curitiba - 4.7 estrelas</p>
-                        <p>A partir de R$ 180/noite</p>
-                        <button class="carrossel-reservar" type="button" data-hotel-id="9">Reservar</button>
-                    </div>
-                    <div class="carrossel-item">
-                        <img src="assets/hotel12.jpg" alt="Eco Resort Foz">
-                        <h3>Eco Resort Foz</h3>
-                        <p>Foz do Iguaçu - 4.8 estrelas</p>
-                        <p>A partir de R$ 220/noite</p>
-                        <button class="carrossel-reservar" type="button" data-hotel-id="12">Reservar</button>
-                    </div>
-                    <div class="carrossel-item">
-                        <img src="assets/hotel15.jpg" alt="Hotel Apucarana Plaza">
-                        <h3>Hotel Apucarana Plaza</h3>
-                        <p>Apucarana - 4.6 estrelas</p>
-                        <p>A partir de R$ 170/noite</p>
-                        <button class="carrossel-reservar" type="button" data-hotel-id="15">Reservar</button>
-                    </div>
-                </div>
+                <div class="carrossel" id="carrossel" aria-live="off"></div>
             </div>
         </section>
 
-        <section id="reservas">
-            <h2>Reservas de Hotéis no Paraná</h2>
-            <div class="filtros">
-                <form id="filtro-form">
-                    <label for="cidade">Cidade:</label>
-                    <select id="cidade" name="cidade">
-                        <option value="">Todas</option>
-                        <option value="Apucarana">Apucarana</option>
-                        <option value="Curitiba">Curitiba</option>
-                        <option value="Londrina">Londrina</option>
-                        <option value="Maringá">Maringá</option>
-                        <option value="Foz do Iguaçu">Foz do Iguaçu</option>
-                        <option value="Cascavel">Cascavel</option>
-                        <option value="Paranavaí">Paranavaí</option>
-                        <option value="Ponta Grossa">Ponta Grossa</option>
-                    </select>
-                    
-                    <label for="ordenar">Ordenar por:</label>
-                    <select id="ordenar" name="ordenar">
-                        <option value="relevancia">Relevância</option>
-                        <option value="avaliacao">Melhor Avaliado</option>
-                        <option value="preco">Mais Barato</option>
-                        <option value="distancia">Mais Próximo</option>
-                    </select>
-                    
-                    <label for="checkin">Check-in:</label>
-                    <input type="date" id="checkin" name="checkin">
-                    
-                    <label for="checkout">Check-out:</label>
-                    <input type="date" id="checkout" name="checkout">
-                    
-                    <label for="quartos">Quartos:</label>
-                    <input type="number" id="quartos" name="quartos" min="1" value="1">
-                    
-                    <button type="submit">Buscar</button>
-                </form>
-            </div>
-            <div class="resultados">
-                <div class="hotel-card">
-                    <img src="assets/hotel1.jpg" alt="Hotel Centro Curitiba">
-                    <h3>Hotel Centro Curitiba</h3>
-                    <p>Curitiba - 4.5 estrelas</p>
-                    <p>A partir de R$ 150/noite</p>
-                    <button type="button" data-hotel-id="1">Reservar</button>
+        <section id="reservas" class="block">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Encontre sua estadia</span>
+                    <h2>Hotéis no Paraná</h2>
+                    <p>Filtre por cidade e ordene como preferir. As datas escolhidas aqui já seguem para a reserva.</p>
                 </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel2.jpg" alt="Pousada Londrina">
-                    <h3>Pousada Londrina</h3>
-                    <p>Londrina - 4.0 estrelas</p>
-                    <p>A partir de R$ 120/noite</p>
-                    <button type="button" data-hotel-id="2">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel3.jpg" alt="Hotel Maringá Plaza">
-                    <h3>Hotel Maringá Plaza</h3>
-                    <p>Maringá - 4.2 estrelas</p>
-                    <p>A partir de R$ 140/noite</p>
-                    <button type="button" data-hotel-id="3">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel4.jpg" alt="Resort Foz do Iguaçu">
-                    <h3>Resort Foz do Iguaçu</h3>
-                    <p>Foz do Iguaçu - 5.0 estrelas</p>
-                    <p>A partir de R$ 250/noite</p>
-                    <button type="button" data-hotel-id="4">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel5.jpg" alt="Hotel Cascavel">
-                    <h3>Hotel Cascavel</h3>
-                    <p>Cascavel - 3.8 estrelas</p>
-                    <p>A partir de R$ 110/noite</p>
-                    <button type="button" data-hotel-id="5">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel6.jpg" alt="Pousada Ponta Grossa">
-                    <h3>Pousada Ponta Grossa</h3>
-                    <p>Ponta Grossa - 4.1 estrelas</p>
-                    <p>A partir de R$ 130/noite</p>
-                    <button type="button" data-hotel-id="6">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel7.jpg" alt="Hotel Apucarana">
-                    <h3>Hotel Apucarana</h3>
-                    <p>Apucarana - 3.5 estrelas</p>
-                    <p>A partir de R$ 100/noite</p>
-                    <button type="button" data-hotel-id="7">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel8.jpg" alt="Hotel Paranavaí">
-                    <h3>Hotel Paranavaí</h3>
-                    <p>Paranavaí - 4.3 estrelas</p>
-                    <p>A partir de R$ 160/noite</p>
-                    <button type="button" data-hotel-id="8">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel9.jpg" alt="Centro Hotel Curitiba 2">
-                    <h3>Centro Hotel Curitiba 2</h3>
-                    <p>Curitiba - 4.7 estrelas</p>
-                    <p>A partir de R$ 180/noite</p>
-                    <button type="button" data-hotel-id="9">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel10.jpg" alt="Pousada Londrina Norte">
-                    <h3>Pousada Londrina Norte</h3>
-                    <p>Londrina - 3.9 estrelas</p>
-                    <p>A partir de R$ 115/noite</p>
-                    <button type="button" data-hotel-id="10">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel11.jpg" alt="Hotel Maringá Central">
-                    <h3>Hotel Maringá Central</h3>
-                    <p>Maringá - 4.4 estrelas</p>
-                    <p>A partir de R$ 155/noite</p>
-                    <button type="button" data-hotel-id="11">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel12.jpg" alt="Eco Resort Foz">
-                    <h3>Eco Resort Foz</h3>
-                    <p>Foz do Iguaçu - 4.8 estrelas</p>
-                    <p>A partir de R$ 220/noite</p>
-                    <button type="button" data-hotel-id="12">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel13.jpg" alt="Hotel Cascavel Sul">
-                    <h3>Hotel Cascavel Sul</h3>
-                    <p>Cascavel - 4.0 estrelas</p>
-                    <p>A partir de R$ 125/noite</p>
-                    <button type="button" data-hotel-id="13">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel14.jpg" alt="Pousada Ponta Grossa Verde">
-                    <h3>Pousada Ponta Grossa Verde</h3>
-                    <p>Ponta Grossa - 3.7 estrelas</p>
-                    <p>A partir de R$ 105/noite</p>
-                    <button type="button" data-hotel-id="14">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel15.jpg" alt="Hotel Apucarana Plaza">
-                    <h3>Hotel Apucarana Plaza</h3>
-                    <p>Apucarana - 4.6 estrelas</p>
-                    <p>A partir de R$ 170/noite</p>
-                    <button type="button" data-hotel-id="15">Reservar</button>
-                </div>
-                <div class="hotel-card">
-                    <img src="assets/hotel16.jpg" alt="Hotel Paranavaí Lago">
-                    <h3>Hotel Paranavaí Lago</h3>
-                    <p>Paranavaí - 4.2 estrelas</p>
-                    <p>A partir de R$ 145/noite</p>
-                    <button type="button" data-hotel-id="16">Reservar</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="como-funciona">
-            <h2>Como Funciona</h2>
-            <div class="passos">
-                <div class="passo">
-                    <div class="numero">1</div>
-                    <h3>Pesquise</h3>
-                    <p>Escolha a cidade, data de check-in e check-out, e o número de quartos que você precisa.</p>
-                </div>
-                <div class="passo">
-                    <div class="numero">2</div>
-                    <h3>Compare</h3>
-                    <p>Filtre por preço, avaliação ou proximidade. Visualize todos os detalhes dos hotéis disponíveis.</p>
-                </div>
-                <div class="passo">
-                    <div class="numero">3</div>
-                    <h3>Reserve</h3>
-                    <p>Escolha o hotel perfeito e finalize a reserva em poucos cliques. Confirmação por email!</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="minhas-reservas">
-            <h2>Minhas Reservas</h2>
-            <div id="reservas-container">
-                <div id="login-required" class="reservas-message">
-                    <p>Faça login para ver suas reservas.</p>
-                    <button onclick="document.getElementById('auth-modal').style.display='block'; document.body.style.overflow='hidden';">Fazer Login</button>
-                </div>
-                <div id="reservas-list" class="reservas-list hidden">
-                    <div id="loading-reservas" class="loading">Carregando suas reservas...</div>
-                    <div id="no-reservas" class="no-reservas hidden">
-                        <p>Você ainda não fez nenhuma reserva.</p>
-                        <button onclick="document.querySelector('a[href=\'#reservas\']').click()">Fazer uma Reserva</button>
-                    </div>
-                    <div id="reservas-content" class="reservas-content hidden">
-                        <!-- Reservas serão inseridas aqui dinamicamente -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="depoimentos">
-            <h2>Depoimentos de Clientes</h2>
-            <div class="depoimentos-container">
-                <div class="depoimento">
-                    <div class="estrelas">★★★★★</div>
-                    <p>"Adorei! Reservei meu hotel em Curitiba em poucos minutos. O site é super fácil de usar e encontrei ótimos preços!"</p>
-                    <p class="autor">- Gustavo Henrique</p>
-                </div>
-                <div class="depoimento">
-                    <div class="estrelas">★★★★★</div>
-                    <p>"Excelente serviço! Consegui filtrar os hotéis em Foz do Iguaçu pelos melhores avaliados. Muito prático!"</p>
-                    <p class="autor">- Eric Kamakawa</p>
-                </div>
-                <div class="depoimento">
-                    <div class="estrelas">★★★★☆</div>
-                    <p>"Muito bom! Preços competitivos e muitas opções de hotéis em Londrina. Recomendo a Vaga Express!"</p>
-                    <p class="autor">- Pedro Henrique</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="sobre">
-            <h2>Sobre Nós</h2>
-            <div class="sobre-container">
-                <div class="sobre-texto">
-                    <h3>Bem-vindo à Vaga Express</h3>
-                    <p>Somos uma plataforma de reservas de hotéis 100% dedicada ao Paraná, oferecendo a melhor experiência de busca e reserva de hospedagens no estado.</p>
-                    <p><strong>Nossa Missão:</strong> Tornar as reservas de hotéis simples, rápidas e acessíveis para todos.</p>
-                    <p><strong>Nossa Visão:</strong> Ser a plataforma número 1 de reservas de hotéis no Paraná, com os melhores preços e melhor atendimento.</p>
-                    <p><strong>Nossos Valores:</strong> Confiança, Transparência, Qualidade e Inovação.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="contato">
-            <h2>Fale Conosco</h2>
-            <div class="contato-container">
-                <div class="formulario-contato">
-                    <h3>Envie sua Mensagem</h3>
-                    <form>
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" required>
-                        
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                        
-                        <label for="assunto">Assunto:</label>
-                        <input type="text" id="assunto" name="assunto" required>
-                        
-                        <label for="mensagem">Mensagem:</label>
-                        <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
-                        
-                        <button type="submit">Enviar</button>
+                <div class="filtros">
+                    <form id="filtro-form">
+                        <div class="field">
+                            <label for="cidade">Cidade</label>
+                            <select id="cidade" name="cidade">
+                                <option value="">Todas</option>
+                                <option value="Apucarana">Apucarana</option>
+                                <option value="Curitiba">Curitiba</option>
+                                <option value="Londrina">Londrina</option>
+                                <option value="Maringá">Maringá</option>
+                                <option value="Foz do Iguaçu">Foz do Iguaçu</option>
+                                <option value="Cascavel">Cascavel</option>
+                                <option value="Paranavaí">Paranavaí</option>
+                                <option value="Ponta Grossa">Ponta Grossa</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="ordenar">Ordenar por</label>
+                            <select id="ordenar" name="ordenar">
+                                <option value="relevancia">Relevância</option>
+                                <option value="avaliacao">Melhor avaliado</option>
+                                <option value="preco">Menor preço</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="checkin">Check-in</label>
+                            <input type="date" id="checkin" name="checkin">
+                        </div>
+                        <div class="field">
+                            <label for="checkout">Check-out</label>
+                            <input type="date" id="checkout" name="checkout">
+                        </div>
+                        <div class="field">
+                            <label for="quartos">Quartos</label>
+                            <input type="number" id="quartos" name="quartos" min="1" value="1">
+                        </div>
+                        <button type="submit" class="btn btn-gold">Buscar</button>
                     </form>
                 </div>
-                <div class="info-contato">
-                    <h3>Informações de Contato</h3>
-                    <p><strong>Email:</strong> contato@vagaexpress.com.br</p>
-                    <p><strong>Telefone:</strong> (44) 3333-0000</p>
-                    <p><strong>Whatsapp:</strong> (44) 99999-0000</p>
-                    <p><strong>Horário de Atendimento:</strong> Segunda a Sexta, 8h às 18h</p>
-                    <p><strong>Endereço:</strong> Rua das Reservas, 123 - Paranavaí, PR</p>
+                <div class="resultados" id="resultados"></div>
+            </div>
+        </section>
+
+        <section id="como-funciona" class="block">
+            <div class="container">
+                <div class="section-head center">
+                    <span class="eyebrow">Passo a passo</span>
+                    <h2>Como funciona</h2>
+                    <p>Três etapas entre você e a sua próxima hospedagem.</p>
+                </div>
+                <div class="passos">
+                    <div class="passo">
+                        <div class="numero">01</div>
+                        <h3>Pesquise</h3>
+                        <p>Escolha a cidade, as datas de check-in e check-out e o número de quartos.</p>
+                    </div>
+                    <div class="passo">
+                        <div class="numero">02</div>
+                        <h3>Compare</h3>
+                        <p>Ordene por preço ou avaliação e confira a disponibilidade no calendário de cada hotel.</p>
+                    </div>
+                    <div class="passo">
+                        <div class="numero">03</div>
+                        <h3>Reserve</h3>
+                        <p>Revise o resumo, confirme e acompanhe tudo em “Minhas Reservas”.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="minhas-reservas" class="block">
+            <div class="container">
+                <div class="section-head">
+                    <span class="eyebrow">Sua conta</span>
+                    <h2>Minhas reservas</h2>
+                    <p>Consulte e gerencie as suas estadias.</p>
+                </div>
+                <div id="reservas-container">
+                    <div id="login-required" class="reservas-message">
+                        <p>Entre na sua conta para ver as suas reservas.</p>
+                        <button class="btn btn-navy" id="login-required-btn" type="button">Fazer login</button>
+                    </div>
+                    <div id="reservas-list" class="reservas-list hidden">
+                        <div id="loading-reservas" class="loading">Carregando suas reservas…</div>
+                        <div id="no-reservas" class="no-reservas hidden">
+                            <p>Você ainda não fez nenhuma reserva.</p>
+                            <a class="btn btn-gold" href="#reservas">Explorar hotéis</a>
+                        </div>
+                        <div id="reservas-content" class="reservas-content hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="depoimentos" class="block">
+            <div class="container">
+                <div class="section-head center">
+                    <span class="eyebrow">Depoimentos</span>
+                    <h2>Quem reservou, recomenda</h2>
+                </div>
+                <div class="depoimentos-container">
+                    <figure class="depoimento">
+                        <div class="estrelas" aria-label="5 estrelas">★★★★★</div>
+                        <p>“Reservei meu hotel em Curitiba em poucos minutos. O site é muito fácil de usar e encontrei ótimos preços.”</p>
+                        <figcaption class="autor"><i>G</i>Gustavo Henrique</figcaption>
+                    </figure>
+                    <figure class="depoimento">
+                        <div class="estrelas" aria-label="5 estrelas">★★★★★</div>
+                        <p>“Consegui filtrar os hotéis de Foz do Iguaçu pelos mais bem avaliados. Muito prático e direto.”</p>
+                        <figcaption class="autor"><i>E</i>Eric Kamakawa</figcaption>
+                    </figure>
+                    <figure class="depoimento">
+                        <div class="estrelas" aria-label="4 estrelas">★★★★☆</div>
+                        <p>“Preços competitivos e muitas opções em Londrina. Recomendo a Vaga Express.”</p>
+                        <figcaption class="autor"><i>P</i>Pedro Henrique</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" class="block">
+            <div class="container sobre-container">
+                <div class="section-head">
+                    <span class="eyebrow">Sobre nós</span>
+                    <h2>Uma plataforma dedicada ao Paraná</h2>
+                    <p>Somos uma plataforma de reservas 100% focada no estado, com a missão de tornar a busca e a reserva de hospedagem simples, rápida e acessível para todos. Nossa visão é ser a principal referência em reservas de hotéis no Paraná.</p>
+                </div>
+                <div class="valores">
+                    <div class="valor"><h3>Confiança</h3><p>Hotéis verificados e informações claras.</p></div>
+                    <div class="valor"><h3>Transparência</h3><p>Preço e período visíveis antes de confirmar.</p></div>
+                    <div class="valor"><h3>Qualidade</h3><p>Seleção criteriosa de hospedagens.</p></div>
+                    <div class="valor"><h3>Inovação</h3><p>Tecnologia a serviço da sua viagem.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contato" class="block">
+            <div class="container">
+                <div class="section-head center">
+                    <span class="eyebrow">Contato</span>
+                    <h2>Fale conosco</h2>
+                    <p>Dúvidas, sugestões ou parcerias? Respondemos em até um dia útil.</p>
+                </div>
+                <div class="contato-container">
+                    <div class="formulario-contato">
+                        <h3>Envie sua mensagem</h3>
+                        <form id="contato-form">
+                            <div class="field">
+                                <label for="nome">Nome</label>
+                                <input type="text" id="nome" name="nome" required>
+                            </div>
+                            <div class="field">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="field full">
+                                <label for="assunto">Assunto</label>
+                                <input type="text" id="assunto" name="assunto" required>
+                            </div>
+                            <div class="field full">
+                                <label for="mensagem">Mensagem</label>
+                                <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+                            </div>
+                            <div class="full"><button type="submit" class="btn btn-navy">Enviar mensagem</button></div>
+                        </form>
+                    </div>
+                    <div class="info-contato">
+                        <h3>Informações</h3>
+                        <div class="info-item"><svg><use href="#i-mail"/></svg><div><small>E-mail</small><span>contato@vagaexpress.com.br</span></div></div>
+                        <div class="info-item"><svg><use href="#i-phone"/></svg><div><small>Telefone</small><span>(44) 3333-0000</span></div></div>
+                        <div class="info-item"><svg><use href="#i-phone"/></svg><div><small>WhatsApp</small><span>(44) 99999-0000</span></div></div>
+                        <div class="info-item"><svg><use href="#i-clock"/></svg><div><small>Atendimento</small><span>Segunda a sexta, 8h às 18h</span></div></div>
+                        <div class="info-item"><svg><use href="#i-pin"/></svg><div><small>Endereço</small><span>Rua das Reservas, 123 — Paranavaí, PR</span></div></div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <footer id="rodape">
-        <div class="footer-content">
-            <div class="footer-secao">
-                <h4>Vaga Express</h4>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#reservas">Reservas</a></li>
-                    <li><a href="#sobre">Sobre Nós</a></li>
-                    <li><a href="#contato">Contato</a></li>
-                </ul>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">Vaga<b>Express</b></span>
+                    <p>Reservas de hotéis no Paraná, com a rapidez e a clareza que a sua viagem merece.</p>
+                </div>
+                <div class="footer-secao">
+                    <h4>Navegação</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#reservas">Hotéis</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-secao">
+                    <h4>Destinos</h4>
+                    <ul>
+                        <li><a href="#reservas" data-cidade="Curitiba">Curitiba</a></li>
+                        <li><a href="#reservas" data-cidade="Londrina">Londrina</a></li>
+                        <li><a href="#reservas" data-cidade="Foz do Iguaçu">Foz do Iguaçu</a></li>
+                        <li><a href="#reservas" data-cidade="Cascavel">Cascavel</a></li>
+                    </ul>
+                </div>
+                <div class="footer-secao">
+                    <h4>Informações</h4>
+                    <ul>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Perguntas Frequentes</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-secao">
-                <h4>Cidades</h4>
-                <ul>
-                    <li><a href="#">Curitiba</a></li>
-                    <li><a href="#">Londrina</a></li>
-                    <li><a href="#">Foz do Iguaçu</a></li>
-                    <li><a href="#">Cascavel</a></li>
-                </ul>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Vaga Express. Todos os direitos reservados.</span>
+                <span>Feito no Paraná</span>
             </div>
-            <div class="footer-secao">
-                <h4>Informações</h4>
-                <ul>
-                    <li><a href="#">Política de Privacidade</a></li>
-                    <li><a href="#">Termos de Uso</a></li>
-                    <li><a href="#">Perguntas Frequentes</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
-            </div>
-            <div class="footer-secao">
-                <h4>Redes Sociais</h4>
-                <ul class="redes-sociais">
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Linkedin</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Vaga Express. Todos os direitos reservados.</p>
         </div>
     </footer>
 
+    <div id="toast-root" aria-live="polite"></div>
+
     <!-- Modal de Login/Registro -->
-    <div id="auth-modal" class="modal">
+    <div id="auth-modal" class="modal" role="dialog" aria-modal="true" aria-label="Autenticação">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <button class="close" type="button" aria-label="Fechar">&times;</button>
             <div class="modal-header">
-                <button id="login-tab" class="tab-button active">Login</button>
-                <button id="register-tab" class="tab-button">Registrar</button>
+                <button id="login-tab" class="tab-button active" type="button">Entrar</button>
+                <button id="register-tab" class="tab-button" type="button">Criar conta</button>
             </div>
-            
-            <!-- Formulário de Login -->
+
             <form id="login-form" class="auth-form">
-                <h2>Entrar na sua conta</h2>
+                <h2>Bem-vindo de volta</h2>
                 <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" required>
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" autocomplete="email" required>
                 </div>
                 <div class="form-group">
                     <label for="login-password">Senha</label>
-                    <input type="password" id="login-password" required>
+                    <input type="password" id="login-password" autocomplete="current-password" required>
                 </div>
                 <button type="submit" class="auth-submit">Entrar</button>
                 <div id="login-message" class="message"></div>
             </form>
-            
-            <!-- Formulário de Registro -->
+
             <form id="register-form" class="auth-form hidden">
-                <h2>Criar nova conta</h2>
+                <h2>Crie sua conta</h2>
                 <div class="form-group">
-                    <label for="register-name">Nome Completo</label>
-                    <input type="text" id="register-name" required>
+                    <label for="register-name">Nome completo</label>
+                    <input type="text" id="register-name" autocomplete="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="register-email">Email</label>
-                    <input type="email" id="register-email" required>
+                    <label for="register-email">E-mail</label>
+                    <input type="email" id="register-email" autocomplete="email" required>
                 </div>
                 <div class="form-group">
                     <label for="register-phone">Telefone</label>
-                    <input type="tel" id="register-phone" required>
+                    <input type="tel" id="register-phone" autocomplete="tel" required>
                 </div>
                 <div class="form-group">
-                    <label for="register-password">Senha</label>
-                    <input type="password" id="register-password" required minlength="6">
+                    <label for="register-password">Senha (mín. 6 caracteres)</label>
+                    <input type="password" id="register-password" autocomplete="new-password" required minlength="6">
                 </div>
-                <button type="submit" class="auth-submit">Registrar</button>
+                <button type="submit" class="auth-submit">Criar conta</button>
                 <div id="register-message" class="message"></div>
             </form>
         </div>
     </div>
 
     <!-- Modal de Reserva -->
-    <div id="reservation-modal" class="modal hidden">
+    <div id="reservation-modal" class="modal" role="dialog" aria-modal="true" aria-label="Reservar hotel">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <button class="close" type="button" aria-label="Fechar">&times;</button>
 
             <div id="reservation-step-1">
-                <h2>Reservar Hotel</h2>
-
+                <h2>Reservar hotel</h2>
                 <div class="reservation-card">
                     <h3 id="reservation-hotel-name"></h3>
-                    <div id="reservation-hotel-data"></div>
+                    <div id="reservation-hotel-data" class="chips"></div>
                 </div>
 
                 <form id="reservation-form" class="reservation-grid">
-
-                    <!-- COLUNA 1 -->
                     <div class="reservation-col">
-                        <h4>Datas</h4>
-
-                        <label>Check-in</label>
+                        <h4>Período</h4>
+                        <label for="reservation-checkin">Check-in</label>
                         <input type="date" id="reservation-checkin">
-
-                        <label>Check-out</label>
+                        <label for="reservation-checkout">Check-out</label>
                         <input type="date" id="reservation-checkout">
-
-                        <label>Quartos</label>
+                        <label for="reservation-quartos">Quartos</label>
                         <input type="number" id="reservation-quartos" min="1" value="1">
                     </div>
-                    <div class="reservation-col" style="grid-column:1/-1">
-                        <div id="calendario-section" class="calendario-section"></div>
-                    </div>
 
-                    <!-- COLUNA 2 -->
                     <div class="reservation-col">
-                        <h4>Seus Dados</h4>
-
-                        <label>Nome</label>
+                        <h4>Seus dados</h4>
+                        <label for="reservation-name">Nome</label>
                         <input type="text" id="reservation-name">
-
-                        <label>Email</label>
+                        <label for="reservation-email">E-mail</label>
                         <input type="email" id="reservation-email">
-
-                        <label>Telefone</label>
+                        <label for="reservation-phone">Telefone</label>
                         <input type="tel" id="reservation-phone">
                     </div>
 
-                    <div class="reservation-footer">
-                        <button type="submit" class="btn-primary">
-                            Verificar Reserva
-                        </button>
+                    <div class="reservation-col wide">
+                        <div id="calendario-section" class="calendario-section"></div>
                     </div>
 
+                    <div class="reservation-footer">
+                        <button type="submit" class="auth-submit">Revisar reserva</button>
+                    </div>
                     <div id="reservation-message" class="message"></div>
                 </form>
             </div>
 
             <div id="reservation-step-2" class="hidden">
-                <h2>Confirmação de Reserva</h2>
+                <h2>Confirme sua reserva</h2>
                 <div id="reservation-summary" class="reservation-summary"></div>
+                <div id="reservation-total"></div>
                 <div class="reservation-actions">
-                    <button id="reservation-confirm-btn" type="button" class="auth-submit">Confirmar Reserva</button>
                     <button id="reservation-edit-btn" type="button" class="auth-submit secondary">Voltar</button>
+                    <button id="reservation-confirm-btn" type="button" class="auth-submit">Confirmar reserva</button>
                 </div>
             </div>
 
             <div id="reservation-step-3" class="hidden">
-                <h2>Reserva Confirmada</h2>
-                <p id="reservation-confirmation-text">Sua reserva foi confirmada com sucesso!</p>
+                <div class="check"><svg><use href="#i-check"/></svg></div>
+                <h2>Reserva confirmada</h2>
+                <p id="reservation-confirmation-text"></p>
                 <button id="reservation-close-btn" type="button" class="auth-submit">Fechar</button>
             </div>
         </div>
@@ -520,85 +445,98 @@
     /* =========================================================
        VAGA EXPRESS — JavaScript principal
        ========================================================= */
-    /* helpers */
-    function show(el) { if (el) el.classList.remove('hidden'); }
-    function hide(el) { if (el) el.classList.add('hidden'); }
-
-    /* =========================================================
-       VAGA EXPRESS — JavaScript principal
-       ========================================================= */
     const API_BASE = 'http://localhost:3000/api';
+    const ORIGIN   = 'http://localhost:3000';
+
+    const $  = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const show = el => el && el.classList.remove('hidden');
+    const hide = el => el && el.classList.add('hidden');
 
     const getToken = () => localStorage.getItem('token');
-    const getUser  = () => JSON.parse(localStorage.getItem('user') || 'null');
+    const getUser  = () => { try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } };
+    const clearSession = () => { localStorage.removeItem('token'); localStorage.removeItem('user'); };
+
+    /* Escapa texto vindo da API antes de usar em innerHTML */
+    const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+
+    const brl = n => Number(n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const fmtDate = iso => iso ? new Date(String(iso).substring(0, 10) + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
+    const rating = n => Number(n || 0).toFixed(1).replace('.', ',');
+    const todayISO = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
 
     function imgUrl(path) {
-        if (!path) return 'http://localhost:3000/assets/hotel1.jpg';
-        if (path.startsWith('http')) return path;
-        return `http://localhost:3000/${path}`;
+        if (!path) return `${ORIGIN}/assets/hotel1.jpg`;
+        if (/^https?:/.test(path)) return path;
+        return `${ORIGIN}/${path}`;
+    }
+    const FALLBACK_IMG = 'assets/hotel1.jpg';
+    document.addEventListener('error', e => {
+        if (e.target.tagName === 'IMG' && !e.target.dataset.fb) { e.target.dataset.fb = '1'; e.target.src = FALLBACK_IMG; }
+    }, true);
+
+    function toast(msg, type = '') {
+        const el = document.createElement('div');
+        el.className = `toast ${type}`;
+        el.textContent = msg;
+        $('#toast-root').appendChild(el);
+        setTimeout(() => el.remove(), 4000);
     }
 
-    /* ── carrossel ─────────────────────────────────────────── */
-    const carrossel = document.getElementById('carrossel');
-    document.querySelectorAll('.carrossel-item').forEach(item =>
-        carrossel.appendChild(item.cloneNode(true))
-    );
-
-    /* ── background scroll ─────────────────────────────────── */
-    const bgMap = {
-        'home':'#ffffff','carrossel-destaque':'#f0f7ff',
-        'reservas':'#f0f7ff','como-funciona':'#f8f9fa',
-        'depoimentos':'#f8f9fa','sobre':'#f5f5f5','contato':'#f5f5f5'
-    };
-    document.body.style.transition = 'background-color 0.8s ease';
-    new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting && bgMap[e.target.id])
-                document.body.style.backgroundColor = bgMap[e.target.id];
-        });
-    }, { threshold: 0.5 }).observe(document.getElementById('home') || document.body);
-    document.querySelectorAll('section').forEach(s => {
-        new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (e.isIntersecting && bgMap[e.target.id])
-                    document.body.style.backgroundColor = bgMap[e.target.id];
-            });
-        }, { threshold: 0.3 }).observe(s);
+    /* ── Header: menu mobile e seção ativa ─────────────────── */
+    const menuToggle = $('#menu-toggle');
+    const nav = $('#nav');
+    menuToggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', open);
     });
+    nav.addEventListener('click', e => {
+        if (e.target.closest('a')) { nav.classList.remove('open'); menuToggle.setAttribute('aria-expanded', false); }
+    });
+
+    const navLinks = $$('.nav a');
+    const spy = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+            if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${en.target.id}`));
+        });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    ['home', 'reservas', 'minhas-reservas', 'sobre', 'contato'].forEach(id => spy.observe(document.getElementById(id)));
+
+    /* ── Modais ────────────────────────────────────────────── */
+    function openModal(m)  { m.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeModal(m) { m.classList.remove('open'); if (!$('.modal.open')) document.body.style.overflow = ''; }
 
     /* =========================================================
        AUTENTICAÇÃO
        ========================================================= */
-    const authModal   = document.getElementById('auth-modal');
-    const loginForm   = document.getElementById('login-form');
-    const registerForm= document.getElementById('register-form');
-    const loginTab    = document.getElementById('login-tab');
-    const registerTab = document.getElementById('register-tab');
+    const authModal    = $('#auth-modal');
+    const loginForm    = $('#login-form');
+    const registerForm = $('#register-form');
+    const loginTab     = $('#login-tab');
+    const registerTab  = $('#register-tab');
 
-    function openAuthModal() {
-        authModal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    }
+    function openAuthModal() { openModal(authModal); }
     function closeAuthModal() {
-        authModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+        closeModal(authModal);
         loginForm.reset(); registerForm.reset();
-        document.getElementById('login-message').textContent = '';
-        document.getElementById('register-message').textContent = '';
+        $('#login-message').textContent = '';
+        $('#register-message').textContent = '';
     }
 
-    document.querySelector('.actions button')?.addEventListener('click', openAuthModal);
+    $('#open-login').addEventListener('click', openAuthModal);
+    $('#login-required-btn').addEventListener('click', openAuthModal);
     authModal.querySelector('.close').addEventListener('click', closeAuthModal);
-    window.addEventListener('click', e => { if (e.target === authModal) closeAuthModal(); });
+    authModal.addEventListener('click', e => { if (e.target === authModal) closeAuthModal(); });
 
-    loginTab.addEventListener('click', () => {
-        loginTab.classList.add('active'); registerTab.classList.remove('active');
-        loginForm.classList.remove('hidden'); registerForm.classList.add('hidden');
-    });
-    registerTab.addEventListener('click', () => {
-        registerTab.classList.add('active'); loginTab.classList.remove('active');
-        registerForm.classList.remove('hidden'); loginForm.classList.add('hidden');
-    });
+    function switchTab(tab) {
+        const login = tab === 'login';
+        loginTab.classList.toggle('active', login);
+        registerTab.classList.toggle('active', !login);
+        loginForm.classList.toggle('hidden', !login);
+        registerForm.classList.toggle('hidden', login);
+    }
+    loginTab.addEventListener('click', () => switchTab('login'));
+    registerTab.addEventListener('click', () => switchTab('register'));
 
     function showMsg(id, msg, type) {
         const el = document.getElementById(id);
@@ -607,30 +545,23 @@
     }
 
     function updateUIAfterLogin(user) {
-        const actionsDiv = document.querySelector('.actions');
-        actionsDiv.innerHTML = `
-            <span class="welcome-text">Olá, ${user.nome.split(' ')[0]}!</span>
-            <button class="btn-logout" onclick="logout()">Sair</button>
-        `;
-        const lr = document.getElementById('login-required');
-        const rl = document.getElementById('reservas-list');
-        if (lr) lr.classList.add('hidden');
-        if (rl) rl.classList.remove('hidden');
+        $('.actions').innerHTML = `
+            <span class="welcome-text">Olá, <b>${esc(user.nome.split(' ')[0])}</b></span>
+            <button class="btn-logout" id="logout-btn" type="button">Sair</button>`;
+        $('#logout-btn').addEventListener('click', logout);
+        hide($('#login-required'));
+        show($('#reservas-list'));
     }
 
-    function logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        location.reload();
-    }
+    function logout() { clearSession(); location.reload(); }
 
     loginForm.addEventListener('submit', async e => {
         e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const senha = document.getElementById('login-password').value;
+        const email = $('#login-email').value;
+        const senha = $('#login-password').value;
         try {
             const res  = await fetch(`${API_BASE}/login`, {
-                method:'POST', headers:{'Content-Type':'application/json'},
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, senha })
             });
             const data = await res.json();
@@ -638,183 +569,194 @@
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 showMsg('login-message', 'Login realizado!', 'success');
-                setTimeout(() => { closeAuthModal(); updateUIAfterLogin(data.user);loadUserReservations(); }, 1200);
+                setTimeout(() => { closeAuthModal(); updateUIAfterLogin(data.user); loadUserReservations(); }, 800);
             } else {
                 showMsg('login-message', data.message || 'Erro no login', 'error');
             }
-        } catch { showMsg('login-message', 'Erro de conexão', 'error'); }
+        } catch { showMsg('login-message', 'Erro de conexão com o servidor', 'error'); }
     });
 
     registerForm.addEventListener('submit', async e => {
         e.preventDefault();
-        const nome     = document.getElementById('register-name').value;
-        const email    = document.getElementById('register-email').value;
-        const telefone = document.getElementById('register-phone').value;
-        const senha    = document.getElementById('register-password').value;
+        const nome     = $('#register-name').value;
+        const email    = $('#register-email').value;
+        const telefone = $('#register-phone').value;
+        const senha    = $('#register-password').value;
         try {
             const res  = await fetch(`${API_BASE}/register`, {
-                method:'POST', headers:{'Content-Type':'application/json'},
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nome, email, telefone, senha })
             });
             const data = await res.json();
             if (res.ok) {
                 showMsg('register-message', 'Conta criada! Faça login.', 'success');
                 registerForm.reset();
-                setTimeout(() => loginTab.click(), 2000);
+                setTimeout(() => switchTab('login'), 1500);
             } else {
                 showMsg('register-message', data.message || 'Erro no registro', 'error');
             }
-        } catch { showMsg('register-message', 'Erro de conexão', 'error'); }
+        } catch { showMsg('register-message', 'Erro de conexão com o servidor', 'error'); }
     });
 
     /* =========================================================
        BUSCA DE HOTÉIS
        ========================================================= */
-    const resultadosContainer = document.querySelector('.resultados');
-    const filtroForm = document.getElementById('filtro-form');
+    const resultadosContainer = $('#resultados');
+    const filtroForm = $('#filtro-form');
+    const carrossel  = $('#carrossel');
+
+    const hotelAttrs = h => `data-hotel-id="${esc(h.id)}" data-hotel-name="${esc(h.nome)}" data-hotel-city="${esc(h.cidade)}" data-hotel-price="${esc(h.preco)}" data-hotel-stars="${esc(h.estrelas)}" data-hotel-imagem="${esc(h.imagem)}"`;
 
     function renderHotels(hotels) {
         if (!hotels.length) {
-            resultadosContainer.innerHTML = '<div class="no-results"><p>Nenhum hotel encontrado.</p></div>';
+            resultadosContainer.innerHTML = '<div class="no-results"><p>Nenhum hotel encontrado para esse filtro.</p></div>';
             return;
         }
-        resultadosContainer.innerHTML = hotels.map(h => {
-            const estrelas = Number(h.estrelas) || 4;
-            const cheias   = Math.floor(estrelas);
-            const stars    = '★'.repeat(cheias) + (estrelas % 1 >= 0.5 ? '½' : '') + '☆'.repeat(5 - cheias - (estrelas % 1 >= 0.5 ? 1 : 0));
-            return `
-            <div class="hotel-card">
-                <img src="${imgUrl(h.imagem)}" alt="${h.nome}" onerror="this.src='assets/hotel1.jpg'">
+        resultadosContainer.innerHTML = hotels.map((h, i) => `
+            <article class="hotel-card" style="animation-delay:${Math.min(i, 8) * 50}ms">
+                <div class="thumb">
+                    <img src="${esc(imgUrl(h.imagem))}" alt="${esc(h.nome)}" loading="lazy">
+                    <span class="badge"><svg><use href="#i-star"/></svg>${rating(h.estrelas)}</span>
+                </div>
                 <div class="hotel-card-body">
-                    <h3>${h.nome}</h3>
-                    <p class="hotel-cidade">${h.cidade}</p>
-                    <p class="hotel-estrelas">${stars}</p>
-                    <p class="hotel-preco">R$ ${Number(h.preco).toFixed(2)} <span>/ noite</span></p>
-                    <button type="button"
-                        data-hotel-id="${h.id}"
-                        data-hotel-name="${h.nome}"
-                        data-hotel-city="${h.cidade}"
-                        data-hotel-price="${h.preco}"
-                        data-hotel-stars="${h.estrelas}"
-                        data-hotel-imagem="${h.imagem}">
-                        Reservar
-                    </button>
+                    <p class="hotel-cidade"><svg><use href="#i-pin"/></svg>${esc(h.cidade)}</p>
+                    <h3>${esc(h.nome)}</h3>
+                    <div class="hotel-card-foot">
+                        <div class="hotel-preco"><small>a partir de</small>${brl(h.preco)} <span>/ noite</span></div>
+                        <button type="button" ${hotelAttrs(h)}>Reservar</button>
+                    </div>
+                </div>
+            </article>`).join('');
+    }
+
+    function renderCarousel(hotels) {
+        const top = [...hotels].sort((a, b) => Number(b.estrelas) - Number(a.estrelas)).slice(0, 6);
+        if (!top.length) { carrossel.innerHTML = ''; return; }
+        const item = (h, hidden) => `
+            <div class="carrossel-item" ${hidden ? 'aria-hidden="true"' : ''}>
+                <div class="thumb">
+                    <img src="${esc(imgUrl(h.imagem))}" alt="${esc(h.nome)}" loading="lazy">
+                    <span class="tag">★ ${rating(h.estrelas)}</span>
+                </div>
+                <div class="info">
+                    <h3>${esc(h.nome)}</h3>
+                    <p class="meta">${esc(h.cidade)}</p>
+                    <div class="row">
+                        <div class="price"><small>a partir de</small><br>${brl(h.preco)}</div>
+                        <button class="carrossel-reservar" type="button" ${hidden ? 'tabindex="-1"' : ''} ${hotelAttrs(h)}>Reservar</button>
+                    </div>
                 </div>
             </div>`;
-        }).join('');
+        /* duplicado para o loop contínuo (-50%) */
+        carrossel.innerHTML = top.map(h => item(h, false)).join('') + top.map(h => item(h, true)).join('');
     }
 
     async function searchHotels() {
-        const cidade  = document.getElementById('cidade').value;
-        const ordenar = document.getElementById('ordenar').value;
-        const params  = new URLSearchParams();
-        if (cidade)  params.set('cidade', cidade);
-        if (ordenar) params.set('ordenar', ordenar);
+        const params = new URLSearchParams();
+        if ($('#cidade').value)  params.set('cidade', $('#cidade').value);
+        if ($('#ordenar').value) params.set('ordenar', $('#ordenar').value);
 
-        resultadosContainer.innerHTML = '<div class="no-results"><p>Buscando hotéis...</p></div>';
+        resultadosContainer.innerHTML = '<div class="skeleton"></div>'.repeat(4);
         try {
-            const res    = await fetch(`${API_BASE}/hoteis?${params}`);
+            const res = await fetch(`${API_BASE}/hoteis?${params}`);
             if (!res.ok) throw new Error();
             const hotels = await res.json();
             renderHotels(hotels);
+            if (!carrossel.children.length) {
+                const all = params.toString() ? await (await fetch(`${API_BASE}/hoteis`)).json() : hotels;
+                renderCarousel(all);
+            }
         } catch {
-            resultadosContainer.innerHTML = '<div class="no-results"><p>Erro ao buscar hotéis. Verifique se o servidor está rodando.</p></div>';
+            resultadosContainer.innerHTML = '<div class="no-results"><p>Não foi possível carregar os hotéis. Verifique se o servidor está rodando.</p></div>';
         }
     }
 
-    filtroForm.addEventListener('submit', e => { e.preventDefault(); searchHotels(); });
+    filtroForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const ci = $('#checkin').value, co = $('#checkout').value;
+        if (ci && co && co <= ci) { toast('O check-out deve ser depois do check-in.', 'error'); return; }
+        searchHotels();
+    });
+    $('#cidade').addEventListener('change', searchHotels);
+    $('#ordenar').addEventListener('change', searchHotels);
+
+    $('#checkin').min = $('#checkout').min = todayISO();
+    $('#checkin').addEventListener('change', e => {
+        const co = $('#checkout');
+        co.min = e.target.value || todayISO();
+        if (co.value && co.value <= e.target.value) co.value = '';
+    });
+
+    /* links do rodapé filtram por cidade */
+    $$('[data-cidade]').forEach(a => a.addEventListener('click', () => {
+        $('#cidade').value = a.dataset.cidade;
+        searchHotels();
+    }));
 
     /* =========================================================
        MODAL DE RESERVA + CALENDÁRIO
        ========================================================= */
-    const reservationModal      = document.getElementById('reservation-modal');
-    const reservationCloseBtn   = reservationModal.querySelector('.close');
-    const reservationForm       = document.getElementById('reservation-form');
-    const reservationMessage    = document.getElementById('reservation-message');
-    const reservationStep1      = document.getElementById('reservation-step-1');
-    const reservationStep2      = document.getElementById('reservation-step-2');
-    const reservationStep3      = document.getElementById('reservation-step-3');
-    const reservationSummary    = document.getElementById('reservation-summary');
-    const reservationConfirmBtn = document.getElementById('reservation-confirm-btn');
-    const reservationEditBtn    = document.getElementById('reservation-edit-btn');
-    const reservationCloseBtnFinal = document.getElementById('reservation-close-btn');
+    const reservationModal = $('#reservation-modal');
+    const reservationForm  = $('#reservation-form');
+    const reservationMessage = $('#reservation-message');
+    const step1 = $('#reservation-step-1'), step2 = $('#reservation-step-2'), step3 = $('#reservation-step-3');
+    const confirmBtn = $('#reservation-confirm-btn');
 
-    let currentHotel       = null;
-    let currentReservation = null;
-    let datasOcupadas      = [];
-    let calViewDate        = new Date();
+    let currentHotel = null, currentReservation = null, datasOcupadas = [], calViewDate = new Date();
 
     function dateRangeOccupied(checkin, checkout, reservas) {
-        const ci = new Date(checkin);
-        const co = new Date(checkout);
-        return reservas.some(r => {
-            const rci = new Date(r.checkin);
-            const rco = new Date(r.checkout);
-            return ci < rco && co > rci;
-        });
+        const ci = new Date(checkin), co = new Date(checkout);
+        return reservas.some(r => ci < new Date(r.checkout) && co > new Date(r.checkin));
     }
 
-    function isDayOccupied(date, reservas) {
-        const d = new Date(date); d.setHours(12,0,0,0);
+    function isDayOccupied(iso, reservas) {
+        const d = new Date(iso + 'T12:00:00');
         return reservas.some(r => {
-            const ci = new Date(r.checkin);  ci.setHours(0,0,0,0);
-            const co = new Date(r.checkout); co.setHours(23,59,59,999);
+            const ci = new Date(String(r.checkin).substring(0, 10) + 'T00:00:00');
+            const co = new Date(String(r.checkout).substring(0, 10) + 'T23:59:59');
             return d >= ci && d <= co;
         });
     }
 
     function renderCalendar(year, month, reservas) {
-        const container = document.getElementById('cal-container');
+        const container = $('#cal-container');
         if (!container) return;
         const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-        const today = new Date(); today.setHours(0,0,0,0);
+        const today = new Date(); today.setHours(0, 0, 0, 0);
         const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month+1, 0).getDate();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
         let html = `
         <div class="cal-nav">
-            <button id="cal-prev">&#8249;</button>
+            <button type="button" id="cal-prev" aria-label="Mês anterior">&#8249;</button>
             <span>${monthNames[month]} ${year}</span>
-            <button id="cal-next">&#8250;</button>
+            <button type="button" id="cal-next" aria-label="Próximo mês">&#8250;</button>
         </div>
         <div class="calendario-grid">
-            <div class="cal-header">Dom</div><div class="cal-header">Seg</div>
-            <div class="cal-header">Ter</div><div class="cal-header">Qua</div>
-            <div class="cal-header">Qui</div><div class="cal-header">Sex</div>
-            <div class="cal-header">Sáb</div>`;
-        for (let i = 0; i < firstDay; i++) html += '<div class="cal-dia outro-mes"></div>';
+            ${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d => `<div class="cal-header">${d}</div>`).join('')}`;
+        for (let i = 0; i < firstDay; i++) html += '<div></div>';
         for (let d = 1; d <= daysInMonth; d++) {
-            const date = new Date(year, month, d); date.setHours(12,0,0,0);
-            const iso  = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-            const ocp  = isDayOccupied(iso, reservas);
-            const past = date < today;
+            const date = new Date(year, month, d);
+            const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             let cls = 'cal-dia';
-            if (ocp) cls += ' ocupado';
-            else if (date.toDateString() === today.toDateString()) cls += ' hoje';
-            else if (past) cls += ' outro-mes';
+            if (isDayOccupied(iso, reservas)) cls += ' ocupado';
+            else if (date.getTime() === today.getTime()) cls += ' hoje';
+            else if (date < today) cls += ' outro-mes';
             html += `<div class="${cls}">${d}</div>`;
         }
-        html += '</div>';
-        container.innerHTML = html;
-        document.getElementById('cal-prev').addEventListener('click', () => {
-            calViewDate = new Date(year, month-1, 1);
-            renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), reservas);
-        });
-        document.getElementById('cal-next').addEventListener('click', () => {
-            calViewDate = new Date(year, month+1, 1);
-            renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), reservas);
-        });
+        container.innerHTML = html + '</div>';
+        $('#cal-prev').addEventListener('click', () => { calViewDate = new Date(year, month - 1, 1); renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), reservas); });
+        $('#cal-next').addEventListener('click', () => { calViewDate = new Date(year, month + 1, 1); renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), reservas); });
     }
 
     async function loadCalendar(hotelId) {
-        const section = document.getElementById('calendario-section');
-        if (!section) return;
+        const section = $('#calendario-section');
         section.innerHTML = `
             <h4>Disponibilidade</h4>
             <div class="calendario-legenda">
                 <div class="legenda-item"><div class="legenda-cor legenda-livre"></div>Disponível</div>
                 <div class="legenda-item"><div class="legenda-cor legenda-ocupado"></div>Ocupado</div>
             </div>
-            <div id="cal-container"><p style="color:#94a3b8;font-size:13px">Carregando...</p></div>`;
+            <div id="cal-container"><p class="meta">Carregando…</p></div>`;
         try {
             const res = await fetch(`${API_BASE}/hoteis/${hotelId}/disponibilidade`);
             datasOcupadas = res.ok ? await res.json() : [];
@@ -823,98 +765,58 @@
         renderCalendar(calViewDate.getFullYear(), calViewDate.getMonth(), datasOcupadas);
     }
 
-    async function openReservationModal(hotelId, hotelName, hotelCity, hotelPrice, hotelStars, hotelImagem) {
-        currentHotel = { id: hotelId, nome: hotelName, cidade: hotelCity||'', preco: Number(hotelPrice)||0, estrelas: hotelStars||'N/A', imagem: hotelImagem||'' };
-        document.getElementById('reservation-hotel-name').textContent = hotelName;
-        document.getElementById('reservation-hotel-data').innerHTML = `
-            <p><strong>Cidade:</strong> ${currentHotel.cidade}</p>
-            <p><strong>Preço por noite:</strong> R$ ${currentHotel.preco.toFixed(2)}</p>
-            <p><strong>Estrelas:</strong> ${currentHotel.estrelas}</p>`;
+    async function openReservationModal(h) {
+        currentHotel = { id: h.id, nome: h.nome, cidade: h.cidade || '', preco: Number(h.preco) || 0, estrelas: h.estrelas, imagem: h.imagem || '' };
+        $('#reservation-hotel-name').textContent = h.nome;
+        $('#reservation-hotel-data').innerHTML = `
+            <span class="chip">${esc(currentHotel.cidade)}</span>
+            <span class="chip">★ ${rating(currentHotel.estrelas)}</span>
+            <span class="chip gold">${brl(currentHotel.preco)} / noite</span>`;
+
         const user = getUser();
-        if (user) {
-            const ni = document.getElementById('reservation-name');
-            const ei = document.getElementById('reservation-email');
-            ni.value = user.nome || ''; ni.readOnly = true; ni.style.background = '#f1f5f9';
-            ei.value = user.email|| ''; ei.readOnly = true; ei.style.background = '#f1f5f9';
-        }
-        reservationMessage.textContent = '';
-        reservationMessage.className   = 'message';
-        show(reservationStep1); hide(reservationStep2); hide(reservationStep3);
-        reservationModal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-        await loadCalendar(hotelId);
+        const ni = $('#reservation-name'), ei = $('#reservation-email');
+        ni.readOnly = ei.readOnly = !!user;
+        if (user) { ni.value = user.nome || ''; ei.value = user.email || ''; }
+
+        /* herda período e quartos escolhidos na busca */
+        const ci = $('#reservation-checkin'), co = $('#reservation-checkout');
+        ci.min = todayISO(); co.min = todayISO();
+        ci.value = $('#checkin').value; co.value = $('#checkout').value;
+        $('#reservation-quartos').value = $('#quartos').value || 1;
+
+        reservationMessage.textContent = ''; reservationMessage.className = 'message';
+        show(step1); hide(step2); hide(step3);
+        openModal(reservationModal);
+        await loadCalendar(h.id);
     }
 
     function closeReservationModal() {
-        reservationModal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
+        closeModal(reservationModal);
         reservationForm.reset();
-        currentHotel = null; currentReservation = null;
+        currentHotel = currentReservation = null;
         reservationMessage.textContent = '';
         datasOcupadas = [];
     }
 
     document.body.addEventListener('click', e => {
-        if (e.target.matches('.cta-button')) {
-            document.querySelector('a[href="#reservas"]')?.click();
-            return;
-        }
-        const btn = e.target.matches('[data-hotel-id]') ? e.target : e.target.closest('[data-hotel-id]');
+        const btn = e.target.closest('button[data-hotel-id]');
         if (!btn) return;
-        const hotelId = Number(btn.dataset.hotelId);
-        if (!hotelId) return;
-        const card = btn.closest('.carrossel-item, .hotel-card');
-        openReservationModal(
-            hotelId,
-            btn.dataset.hotelName  || card?.querySelector('h3')?.textContent?.trim() || 'Hotel',
-            btn.dataset.hotelCity  || '',
-            btn.dataset.hotelPrice ? Number(btn.dataset.hotelPrice) : 0,
-            btn.dataset.hotelStars || 'N/A',
-            btn.dataset.hotelImagem|| ''
-        );
+        const d = btn.dataset;
+        openReservationModal({ id: Number(d.hotelId), nome: d.hotelName || 'Hotel', cidade: d.hotelCity, preco: d.hotelPrice, estrelas: d.hotelStars, imagem: d.hotelImagem });
     });
 
-    reservationCloseBtn.addEventListener('click', closeReservationModal);
-    window.addEventListener('click', e => { if (e.target === reservationModal) closeReservationModal(); });
+    reservationModal.querySelector('.close').addEventListener('click', closeReservationModal);
+    reservationModal.addEventListener('click', e => { if (e.target === reservationModal) closeReservationModal(); });
+    $('#reservation-checkin').addEventListener('change', e => {
+        const co = $('#reservation-checkout');
+        co.min = e.target.value || todayISO();
+        if (co.value && co.value <= e.target.value) co.value = '';
+    });
 
-    reservationForm.addEventListener('submit', e => {
-        e.preventDefault();
-        if (!currentHotel) { showReservationMessage('Selecione um hotel.', 'error'); return; }
-        const checkin  = document.getElementById('reservation-checkin').value;
-        const checkout = document.getElementById('reservation-checkout').value;
-        const quartos  = document.getElementById('reservation-quartos').value || '1';
-        const nome     = document.getElementById('reservation-name').value || '';
-        const email    = document.getElementById('reservation-email').value || '';
-        const telefone = document.getElementById('reservation-phone').value || '';
-        if (!checkin || !checkout) { showReservationMessage('Selecione as datas.', 'error'); return; }
-        if (checkout <= checkin)   { showReservationMessage('Check-out deve ser depois do check-in.', 'error'); return; }
-        if (dateRangeOccupied(checkin, checkout, datasOcupadas)) {
-            showReservationMessage('⚠️ Período com datas ocupadas. Escolha outro período.', 'error');
-            return;
-        }
-        currentReservation = { hotel: currentHotel, checkin, checkout, quartos, nome, email, telefone };
-        const noites = Math.round((new Date(checkout) - new Date(checkin)) / 86400000);
-        reservationSummary.innerHTML = `
-            <div class="summary-block">
-                <h3>Hotel</h3>
-                <p><strong>Nome:</strong> ${currentHotel.nome}</p>
-                <p><strong>Cidade:</strong> ${currentHotel.cidade}</p>
-                <p><strong>Preço/noite:</strong> R$ ${currentHotel.preco.toFixed(2)}</p>
-            </div>
-            <div class="summary-block">
-                <h3>Hóspede</h3>
-                <p><strong>Nome:</strong> ${nome}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Telefone:</strong> ${telefone||'—'}</p>
-            </div>
-            <div class="summary-block">
-                <h3>Reserva</h3>
-                <p><strong>Check-in:</strong> ${new Date(checkin+'T12:00:00').toLocaleDateString('pt-BR')}</p>
-                <p><strong>Check-out:</strong> ${new Date(checkout+'T12:00:00').toLocaleDateString('pt-BR')}</p>
-                <p><strong>Noites:</strong> ${noites}</p>
-                <p><strong>Total est.:</strong> R$ ${(noites * currentHotel.preco).toFixed(2)}</p>
-            </div>`;
-        hide(reservationStep1); show(reservationStep2); hide(reservationStep3);
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape') return;
+        if (reservationModal.classList.contains('open')) closeReservationModal();
+        else if (authModal.classList.contains('open')) closeAuthModal();
     });
 
     function showReservationMessage(msg, type) {
@@ -922,153 +824,166 @@
         reservationMessage.className = `message ${type}`;
     }
 
-    reservationConfirmBtn.addEventListener('click', async () => {
+    reservationForm.addEventListener('submit', e => {
+        e.preventDefault();
+        if (!currentHotel) { showReservationMessage('Selecione um hotel.', 'error'); return; }
+        const checkin  = $('#reservation-checkin').value;
+        const checkout = $('#reservation-checkout').value;
+        const quartos  = $('#reservation-quartos').value || '1';
+        const nome     = $('#reservation-name').value.trim();
+        const email    = $('#reservation-email').value.trim();
+        const telefone = $('#reservation-phone').value.trim();
+        if (!checkin || !checkout) { showReservationMessage('Selecione as datas de check-in e check-out.', 'error'); return; }
+        if (checkout <= checkin)   { showReservationMessage('O check-out deve ser depois do check-in.', 'error'); return; }
+        if (!nome || !email)       { showReservationMessage('Informe seu nome e e-mail.', 'error'); return; }
+        if (dateRangeOccupied(checkin, checkout, datasOcupadas)) {
+            showReservationMessage('Há datas ocupadas nesse período. Escolha outro intervalo.', 'error');
+            return;
+        }
+        currentReservation = { hotel: currentHotel, checkin, checkout, quartos, nome, email, telefone };
+        const noites = Math.round((new Date(checkout) - new Date(checkin)) / 86400000);
+        const total = noites * currentHotel.preco * Math.max(1, Number(quartos));
+        $('#reservation-summary').innerHTML = `
+            <div class="summary-block">
+                <h3>Hotel</h3>
+                <p><strong>${esc(currentHotel.nome)}</strong></p>
+                <p>${esc(currentHotel.cidade)}</p>
+                <p>${brl(currentHotel.preco)} / noite</p>
+            </div>
+            <div class="summary-block">
+                <h3>Hóspede</h3>
+                <p><strong>${esc(nome)}</strong></p>
+                <p>${esc(email)}</p>
+                <p>${esc(telefone || '—')}</p>
+            </div>
+            <div class="summary-block">
+                <h3>Estadia</h3>
+                <p>${fmtDate(checkin)} → ${fmtDate(checkout)}</p>
+                <p>${noites} noite${noites > 1 ? 's' : ''} · ${esc(quartos)} quarto${quartos > 1 ? 's' : ''}</p>
+            </div>`;
+        $('#reservation-total').innerHTML = `<div class="summary-total"><span>Total estimado</span><b>${brl(total)}</b></div>`;
+        hide(step1); show(step2); hide(step3);
+    });
+
+    confirmBtn.addEventListener('click', async () => {
         if (!currentReservation) return;
         const token = getToken();
         if (!token) {
-            hide(reservationStep2); show(reservationStep1);
+            hide(step2); show(step1);
             showReservationMessage('Faça login para confirmar a reserva.', 'error');
-            setTimeout(openAuthModal, 800);
+            setTimeout(openAuthModal, 600);
             return;
         }
-        reservationConfirmBtn.disabled = true;
-        reservationConfirmBtn.textContent = 'Confirmando...';
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Confirmando…';
         try {
             const res = await fetch(`${API_BASE}/reservas`, {
                 method: 'POST',
-                headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({
                     hotel_id: currentReservation.hotel.id,
-                    checkin:  currentReservation.checkin,
-                    checkout: currentReservation.checkout
+                    checkin: currentReservation.checkin,
+                    checkout: currentReservation.checkout,
+                    quartos: Number(currentReservation.quartos)
                 })
             });
             const data = await res.json();
             if (res.status === 401 || res.status === 403) {
-                localStorage.removeItem('token'); localStorage.removeItem('user');
-                hide(reservationStep2); show(reservationStep1);
+                clearSession();
+                hide(step2); show(step1);
                 showReservationMessage('Sessão expirada. Faça login novamente.', 'error');
-                setTimeout(openAuthModal, 1000);
+                setTimeout(openAuthModal, 800);
                 return;
             }
             if (!res.ok) throw new Error(data.message || 'Erro ao salvar reserva.');
-            hide(reservationStep1); hide(reservationStep2); show(reservationStep3);
-            document.getElementById('reservation-confirmation-text').textContent =
-                `Reserva confirmada! Código: #${data.reservaId}`;
+            hide(step1); hide(step2); show(step3);
+            $('#reservation-confirmation-text').textContent = `Tudo certo! Código da reserva: #${data.reservaId}`;
             loadUserReservations();
         } catch (err) {
-            hide(reservationStep2); show(reservationStep1);
+            hide(step2); show(step1);
             showReservationMessage(err.message, 'error');
         } finally {
-            reservationConfirmBtn.disabled = false;
-            reservationConfirmBtn.textContent = 'Confirmar Reserva';
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = 'Confirmar reserva';
         }
     });
 
-    reservationEditBtn.addEventListener('click', () => { hide(reservationStep2); show(reservationStep1); });
-    reservationCloseBtnFinal.addEventListener('click', closeReservationModal);
+    $('#reservation-edit-btn').addEventListener('click', () => { hide(step2); show(step1); });
+    $('#reservation-close-btn').addEventListener('click', closeReservationModal);
 
     /* =========================================================
        MINHAS RESERVAS
        ========================================================= */
     async function loadUserReservations() {
-        const token = getToken();
-        const user  = getUser();
-        const loginRequired   = document.getElementById('login-required');
-        const reservasList    = document.getElementById('reservas-list');
-        const loadingReservas = document.getElementById('loading-reservas');
-        const noReservas      = document.getElementById('no-reservas');
-        const reservasContent = document.getElementById('reservas-content');
+        const token = getToken(), user = getUser();
+        const loginRequired = $('#login-required'), reservasList = $('#reservas-list');
+        const loading = $('#loading-reservas'), noReservas = $('#no-reservas'), content = $('#reservas-content');
 
-        if (!token || !user) {
-            show(loginRequired); hide(reservasList);
-            return;
-        }
+        if (!token || !user) { show(loginRequired); hide(reservasList); return; }
 
         hide(loginRequired); show(reservasList);
-        show(loadingReservas); hide(noReservas); hide(reservasContent);
+        show(loading); hide(noReservas); hide(content);
 
         try {
-            const res = await fetch(`${API_BASE}/reservas`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            hide(loadingReservas);
-
+            const res = await fetch(`${API_BASE}/reservas`, { headers: { 'Authorization': `Bearer ${token}` } });
+            hide(loading);
             if (res.status === 401 || res.status === 403) {
-                localStorage.removeItem('token'); localStorage.removeItem('user');
-                show(loginRequired); hide(reservasList);
-                return;
+                clearSession(); show(loginRequired); hide(reservasList); return;
             }
-
             const reservas = await res.json();
+            if (!Array.isArray(reservas) || !reservas.length) { show(noReservas); return; }
 
-            if (!Array.isArray(reservas) || reservas.length === 0) {
-                hide(reservasContent);
-                show(noReservas); return;
-            }
-
-            reservasContent.innerHTML = reservas.map(r => {
-                const ci = r.checkin  ? new Date(r.checkin.substring(0,10)  + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
-                const co = r.checkout ? new Date(r.checkout.substring(0,10) + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
-                const imgSrc = r.hotel_imagem
-                    ? (r.hotel_imagem.startsWith('http') ? r.hotel_imagem : `http://localhost:3000/${r.hotel_imagem}`)
-                    : 'assets/hotel1.jpg';
-                return `
-                <div class="reserva-card">
+            content.innerHTML = reservas.map(r => `
+                <article class="reserva-card">
                     <div class="reserva-card-content">
                         <div class="reserva-image-container">
-                            <img src="${imgSrc}" alt="${r.hotel_nome || 'Hotel'}" onerror="this.src='assets/hotel1.jpg'">
+                            <img src="${esc(imgUrl(r.hotel_imagem))}" alt="${esc(r.hotel_nome || 'Hotel')}" loading="lazy">
                         </div>
                         <div class="reserva-info">
                             <div class="reserva-header">
-                                <h3>${r.hotel_nome || 'Hotel'}</h3>
+                                <h3>${esc(r.hotel_nome || 'Hotel')}</h3>
                                 <span class="reserva-status status-confirmada">Confirmada</span>
                             </div>
                             <div class="reserva-details">
-                                <p><strong>Cidade:</strong> ${r.hotel_cidade || '—'}</p>
-                                <p><strong>Check-in:</strong> ${ci}</p>
-                                <p><strong>Check-out:</strong> ${co}</p>
-                                <p><strong>Preço/noite:</strong> R$ ${Number(r.hotel_preco || 0).toFixed(2)}</p>
+                                <p><strong>Cidade</strong>${esc(r.hotel_cidade || '—')}</p>
+                                <p><strong>Diária</strong>${brl(r.hotel_preco)}</p>
+                                <p><strong>Check-in</strong>${fmtDate(r.checkin)}</p>
+                                <p><strong>Check-out</strong>${fmtDate(r.checkout)}</p>
                             </div>
                             <div class="reserva-actions">
-                                <button class="btn-cancelar-reserva" data-reserva-id="${r.id}">Cancelar Reserva</button>
+                                <button class="btn btn-danger btn-cancelar-reserva" type="button" data-reserva-id="${esc(r.id)}">Cancelar reserva</button>
                             </div>
                         </div>
                     </div>
-                </div>`;
-            }).join('');
+                </article>`).join('');
 
-            reservasContent.querySelectorAll('.btn-cancelar-reserva').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    if (!confirm('Cancelar esta reserva?')) return;
-                    const delRes = await fetch(`${API_BASE}/reservas/${btn.dataset.reservaId}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${getToken()}` }
-                    }).catch(() => null);
-                    if (delRes && delRes.ok) loadUserReservations();
-                    else alert('Erro ao cancelar. Tente novamente.');
-                });
-            });
-
-            show(reservasContent);
-
+            $$('.btn-cancelar-reserva', content).forEach(btn => btn.addEventListener('click', async () => {
+                if (!confirm('Cancelar esta reserva?')) return;
+                const del = await fetch(`${API_BASE}/reservas/${btn.dataset.reservaId}`, {
+                    method: 'DELETE', headers: { 'Authorization': `Bearer ${getToken()}` }
+                }).catch(() => null);
+                if (del && del.ok) { toast('Reserva cancelada.'); loadUserReservations(); }
+                else toast('Erro ao cancelar. Tente novamente.', 'error');
+            }));
+            show(content);
         } catch (err) {
             console.error('Erro em loadUserReservations:', err);
-            hide(loadingReservas);
-            show(noReservas);
+            hide(loading); show(noReservas);
         }
     }
 
-    // carregar sempre que entrar na página
-    window.addEventListener('load', () => {
-        const user = getUser();
-        if (user) {
-            updateUIAfterLogin(user);
-            loadUserReservations(); // 🔥 força carregamento
-        }
-        searchHotels();
+    /* Contato (demonstrativo) */
+    $('#contato-form').addEventListener('submit', e => {
+        e.preventDefault();
+        e.target.reset();
+        toast('Mensagem enviada! Retornaremos em breve.');
     });
 
+    window.addEventListener('load', () => {
+        const user = getUser();
+        if (user) { updateUIAfterLogin(user); loadUserReservations(); }
+        searchHotels();
+    });
     </script>
 </body>
 </html>

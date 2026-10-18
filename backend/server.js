@@ -126,6 +126,7 @@ app.get('/api/reservas', auth, async (req, res) => {
 app.post('/api/reservas', auth, async (req, res) => {
   try {
     const { hotel_id, checkin, checkout } = req.body;
+    const quartos = Math.max(1, parseInt(req.body.quartos, 10) || 1);
     if (!hotel_id || !checkin || !checkout) return res.status(400).json({ message: 'hotel_id, checkin e checkout são obrigatórios' });
     if (checkout <= checkin) return res.status(400).json({ message: 'Check-out deve ser depois do check-in' });
     const [hotel] = await pool.execute('SELECT id FROM hoteis WHERE id = ?', [hotel_id]);
@@ -136,8 +137,8 @@ app.post('/api/reservas', auth, async (req, res) => {
     );
     if (conflito.length) return res.status(400).json({ message: 'Hotel já reservado para esse período' });
     const [result] = await pool.execute(
-      'INSERT INTO reservas (usuario_id, hotel_id, checkin, checkout) VALUES (?, ?, ?, ?)',
-      [req.user.userId, hotel_id, checkin, checkout]
+      'INSERT INTO reservas (usuario_id, hotel_id, checkin, checkout, quartos) VALUES (?, ?, ?, ?, ?)',
+      [req.user.userId, hotel_id, checkin, checkout, quartos]
     );
     res.status(201).json({ message: 'Reserva criada com sucesso', reservaId: result.insertId });
   } catch (err) {
